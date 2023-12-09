@@ -6,7 +6,7 @@ import testrenderings from './TestRenderings';
 
 // for local dev
 const DV_IMG_SIZE = 5;
-const DV_IMG_SIZE_RACING = 20;
+const DV_IMG_SIZE_RACING = 11;
 const NUMBER_OF_DAVINCIS = 9;
 const DV_IMG_WIDTH_VW = DV_IMG_SIZE.toString() + 'vw';
 const DV_IMG_HEIGHT_VH = DV_IMG_SIZE.toString() + 'vh';
@@ -210,15 +210,11 @@ function BotDetection() {
   };
 
   const mappingDVs = (dvContainers: number[]) => {
-    let vwOrVH: string;
-    let size: number;
-    if (theme.startsWith('racing')) {
-      vwOrVH = 'vh';
-      size = DV_IMG_SIZE_RACING;
-    } else {
-      vwOrVH = 'vw';
-      size = DV_IMG_SIZE;
-    }
+    // stackSize is either the height of the image if moving horizontally, or
+    // it's the width of the image if moving vertically. "stack" size meaning
+    // the size in the direction of the image stacking to fit in the play area
+    const stackSize = Math.floor(100 / dvContainers.length);
+    const movementSize = (stackSize * 16) / 9;
 
     return (
       <>
@@ -233,8 +229,9 @@ function BotDetection() {
             bgImageContainerHeight: number;
             bgImageContainerWidth: number;
             theme: string;
-            imgSize: number;
-            vwOrVH: string;
+            imgStackSize: number;
+            movementSize: number;
+            moveDir: string;
           } = {
             idNumber: i,
             duration: dur,
@@ -245,31 +242,37 @@ function BotDetection() {
             bgImageContainerHeight: bgImageContainerHeight,
             bgImageContainerWidth: bgImageContainerWidth,
             theme: theme,
-            imgSize: size,
-            vwOrVH: vwOrVH,
+            imgStackSize: stackSize,
+            movementSize: movementSize,
           };
 
           let style;
           let rowOrClass;
           if (theme.startsWith('racing')) {
+            props.moveDir = 'x';
             style = {
               top: renderings[i].pos.toString() + '%',
-              height: size + '%',
+              height: stackSize + '%',
             };
-            rowOrClass = 'dv-row';
+            rowOrClass = 'rows';
           } else {
             style = {
               left: renderings[i].pos.toString() + '%',
-              width: size + '%',
+              width: stackSize + '%',
             };
-            rowOrClass = 'dv-col';
+            rowOrClass = 'cols';
           }
           return (
             <div
               id={'imgCol' + i}
               key={'imgCol' + i}
               className={rowOrClass}
-              style={style}
+              data-idNumber={i}
+              data-duration={dur}
+              data-imgsLoaded={imgsLoaded}
+              data-bgImageContainerHeight={bgImageContainerHeight}
+              data-bgImageContainerWidth={bgImageContainerWidth}
+              data-imgsize={stackSize}
             >
               {MotionContainer(props)}
             </div>
@@ -281,7 +284,7 @@ function BotDetection() {
 
   const calcFlexDirection = () => {
     if (theme.startsWith('racing')) {
-      return 'flex-child muscle-container dv-rows full-child';
+      return 'horizontal-scene';
     } else {
       return 'flex-child muscle-container dv-cols full-child';
     }
@@ -291,14 +294,14 @@ function BotDetection() {
     <div
       id="mainContainer"
       ref={mainContainerRef}
-      className="main-container muscle-container sceneImg"
+      className="main-container sceneImg"
       style={bgImgLoaded ? { backgroundImage: 'url(' + bgImg + ')' } : {}}
     >
       <h1 style={bgImgLoaded ? { display: 'none' } : {}}>Loading...</h1>
       <div id="dvsContainer" className={calcFlexDirection()}>
         <form
           id="captcha-dv-form"
-          className="flex-form full-child"
+          className="form"
           onSubmit={updateValueAndAdvanceFlow}
         >
           {mappingDVs(dvContainers)}
