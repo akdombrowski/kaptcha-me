@@ -27,8 +27,19 @@ export default function Page() {
                       </div>
 
                       {item.description ? (
-                        <div className="line-clamp-3 text-sm text-gray-400 group-hover:text-gray-300">
-                          {item.description}
+                        <div className="line-clamp-4 text-sm text-gray-400 group-hover:text-gray-300">
+                          {item.slug === 'kaptchame' ? (
+                            <ul>
+                              <li>Are you a bot&#63;</li>
+                              <li>I sure hope not.</li>
+                              <li>
+                                But&#44; if confidence you&#39;ve got&#44;
+                              </li>
+                              <li>Prove it and give it your best shot.</li>
+                            </ul>
+                          ) : (
+                            <p>{item.description}</p>
+                          )}
                         </div>
                       ) : null}
                     </Link>

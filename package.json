@@ -25,6 +25,7 @@
     "clsx": "1.2.1",
     "date-fns": "2.29.3",
     "dinero.js": "2.0.0-alpha.8",
+    "framer-motion": "10.16.16",
     "ms": "3.0.0-canary.1",
     "next": "14.0.3-canary.7",
     "react": "18.2.0",

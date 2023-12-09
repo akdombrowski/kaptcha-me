@@ -1,0 +1,180 @@
+body {
+  background-color: black;
+}
+
+input {
+  cursor: crosshair;
+}
+
+#mainRoot {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  cursor: inherit;
+}
+
+#reactRoot {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  cursor: crosshair;
+}
+
+.hidden {
+  display: none;
+}
+
+.backgroundImg {
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: contain;
+  background-clip: content-box;
+  min-width: 100vw;
+  max-width: 100vw;
+  height: auto;
+}
+
+.sceneImg {
+  aspect-ratio: 16 / 9;
+  background-attachment: fixed;
+  background-clip: padding-box;
+  background-color: #1a1d2a;
+  background-repeat: no-repeat;
+  background-size: 100vw;
+}
+
+.content {
+  position: absolute;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin: 0;
+  max-width: 100vw;
+  min-width: 100vw;
+  max-height: 100vh;
+  overflow: hidden;
+  padding: 0;
+  border: none !important;
+  text-decoration: none;
+}
+
+.skbutton-next {
+  border: none !important;
+  min-width: 100%;
+  max-width: 100%;
+  min-height: 100%;
+  max-height: 100%;
+  text-decoration: none;
+  font-size: 0;
+}
+
+.skbutton-next-x {
+  border: none !important;
+  object-fit: contain;
+  text-decoration: none;
+  font-size: 0;
+}
+
+.dv-motion-div button {
+  text-decoration: none;
+  border: none !important;
+  font-size: 0;
+  min-width: 100%;
+  max-width: 100%;
+  min-height: 100%;
+  max-height: 100%;
+}
+
+.dv-motion-div-x {
+  text-decoration: none;
+  border: none !important;
+  font-size: 0;
+  min-height: 100%;
+  max-height: 100%;
+}
+
+.imgEl {
+  width: 100%;
+  max-width: 100%;
+  max-height: 100vh;
+  object-fit: cover;
+}
+
+.imgElX {
+  max-height: 100%;
+  object-fit: cover;
+}
+
+.muscle-container {
+  position: absolute;
+  display: flex;
+  overflow: hidden;
+  justify-content: flex-start;
+  align-items: stretch;
+  align-content: stretch;
+  flex-wrap: nowrap;
+}
+
+.dv-cols {
+  flex-direction: row;
+}
+
+.dv-rows {
+  flex-direction: column;
+}
+
+.full-child {
+  width: 100%;
+  height: 100%;
+}
+
+.flex-child {
+  position: absolute;
+  overflow: hidden;
+}
+
+.flex-form {
+  position: absolute;
+  overflow: hidden;
+}
+
+.dv-col {
+  position: absolute;
+  display: flex;
+  flex: 10 1 auto;
+  justify-content: flex-start;
+  align-items: stretch;
+  align-content: stretch;
+  flex-wrap: nowrap;
+  height: 100%;
+}
+
+.dv-row {
+  position: absolute;
+  display: flex;
+  flex: 10 1 auto;
+  justify-content: flex-start;
+  align-items: stretch;
+  align-content: stretch;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.dv-motion-div {
+  height: auto;
+  flex: 1 1;
+  overflow: visible;
+  top: 0px;
+  cursor: crosshair;
+}
+
+.form-btn-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+#dv-form {
+  min-width: 100%;
+  min-height: 100%;
+}

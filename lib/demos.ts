@@ -6,6 +6,16 @@ export type Item = {
 
 export const demos: { name: string; items: Item[] }[] = [
   {
+    name: 'Kaptcha Me',
+    items: [
+      {
+        name: 'Kaptcha Me',
+        slug: 'kaptchame',
+        description: 'Are you a bot? Prove it.',
+      },
+    ],
+  },
+  {
     name: 'Layouts',
     items: [
       {
