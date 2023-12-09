@@ -291,7 +291,7 @@ function BotDetection() {
     <div
       id="mainContainer"
       ref={mainContainerRef}
-      className="content muscle-container sceneImg"
+      className="main-container muscle-container sceneImg"
       style={bgImgLoaded ? { backgroundImage: 'url(' + bgImg + ')' } : {}}
     >
       <h1 style={bgImgLoaded ? { display: 'none' } : {}}>Loading...</h1>
@@ -303,13 +303,6 @@ function BotDetection() {
         >
           {mappingDVs(dvContainers)}
         </form>
-        {/* need to show the following error as a popup or something
-        <p
-          className="text-danger mdi mdi-alert-circle"
-          data-id="feedback"
-          data-skcomponent="skerror"
-        ></p>
-        */}
       </div>
     </div>
   );

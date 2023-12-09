@@ -59,6 +59,10 @@ input {
   text-decoration: none;
 }
 
+.main-container {
+  min-width: 100%;
+}
+
 .skbutton-next {
   border: none !important;
   min-width: 100%;
