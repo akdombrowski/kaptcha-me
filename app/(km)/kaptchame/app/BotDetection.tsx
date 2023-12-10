@@ -27,6 +27,21 @@ const bgImg = 'https://i.postimg.cc/DzjCwcwW/race-Track.webp';
 // const theme = "{{global.variables.theme}}";
 // const bgImg = "{{global.variables.themeSrc}}";
 
+type motioncontainerprops = {
+  idNumber: number;
+  duration: number;
+  challenge: string;
+  img: string;
+  handleClick: Function;
+  imgsLoaded: boolean;
+  bgImageContainerHeight: number;
+  bgImageContainerWidth: number;
+  theme: string;
+  imgStackSize: number;
+  movementSize: number;
+  moveDir: string;
+};
+
 /**
  * It generates an array of random numbers between MIN_DURATION and
  * MIN_DURATION + 4 for the duration of img moving through its range
@@ -225,20 +240,27 @@ function BotDetection() {
     return (
       <>
         {dvContainers.map((dur, i) => {
-          const props: {
-            idNumber: number;
-            duration: number;
-            challenge: string;
-            img: string;
-            handleClick: Function;
-            imgsLoaded: boolean;
-            bgImageContainerHeight: number;
-            bgImageContainerWidth: number;
-            theme: string;
-            imgStackSize: number;
-            movementSize: number;
-            moveDir: string;
-          } = {
+          let style;
+          let rowOrClass;
+          let moveDir;
+
+          if (theme.startsWith('racing')) {
+            moveDir = 'x';
+            style = {
+              top: renderings[i].pos.toString() + '%',
+              height: stackSize + '%',
+            };
+            rowOrClass = 'rows';
+          } else {
+            moveDir = 'y';
+            style = {
+              left: renderings[i].pos.toString() + '%',
+              width: stackSize + '%',
+            };
+            rowOrClass = 'cols';
+          }
+
+          const props: motioncontainerprops = {
             idNumber: i,
             duration: dur,
             challenge: renderings[i].value,
@@ -250,24 +272,9 @@ function BotDetection() {
             theme: theme,
             imgStackSize: stackSize,
             movementSize: movementSize,
+            moveDir: moveDir,
           };
 
-          let style;
-          let rowOrClass;
-          if (theme.startsWith('racing')) {
-            props.moveDir = 'x';
-            style = {
-              top: renderings[i].pos.toString() + '%',
-              height: stackSize + '%',
-            };
-            rowOrClass = 'rows';
-          } else {
-            style = {
-              left: renderings[i].pos.toString() + '%',
-              width: stackSize + '%',
-            };
-            rowOrClass = 'cols';
-          }
           return (
             <div
               id={'imgCol' + i}
