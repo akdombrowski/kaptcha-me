@@ -212,6 +212,10 @@ function BotDetection() {
 
   const updateValueAndAdvanceFlow = (e: SyntheticEvent) => {
     e.preventDefault();
+    const choice = e.currentTarget as HTMLInputElement;
+    console.log('choice.value:', choice.value);
+    // console.log('choice:', choice);
+
     const advFlowValue = document.getElementById(
       'advFlowValue',
     ) as HTMLInputElement;
