@@ -7,12 +7,15 @@ import 'server-only';
 
 type CheckChallengeReqBody = {
   challenge: string;
+
 };
 
 export async function POST(request: NextRequest): Promise<Response> {
-  const body = request.body as unknown as CheckChallengeReqBody;
+  const body = request.body as any;
   const challenge = body.challenge;
   let isChallengeCorrect = false;
+
+  console.log('body:', body);
 
   if (!challenge) {
     return NextResponse.error();

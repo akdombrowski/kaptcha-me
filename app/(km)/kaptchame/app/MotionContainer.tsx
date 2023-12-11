@@ -1,4 +1,5 @@
 'use client';
+import 'client-only';
 
 import {
   motion,
@@ -114,7 +115,7 @@ const MotionContainer = (props: {
           <motion.div
             ref={dvMotionDiv}
             className="motion-div"
-            id={'motionDVRight' + props.idNumber}
+            id={'motionRight' + props.idNumber}
             data-left-edge={leftEdge}
             data-right-edge={rightEdge}
             data-img-movement-size-px={imgMovementSizePX}
@@ -136,13 +137,11 @@ const MotionContainer = (props: {
             exit={{ scale: 1000, transition: { duration: 0.1 } }}
           >
             <input
-              id={'dvBtn' + props.idNumber}
-              name={'dvBtn' + props.idNumber}
+              id={'meImg' + props.idNumber}
+              name={'meImg' + props.idNumber}
               alt={'kaptcha answer option'}
               className="image-btn-x"
               type="image"
-              onClick={handleClick}
-              value={props.challenge}
               src={props.img[0]}
               style={{ width: '100%' }}
             ></input>
@@ -150,7 +149,7 @@ const MotionContainer = (props: {
           <motion.div
             ref={dvMotionDiv}
             className="motion-div"
-            id={'motionDVLeft' + props.idNumber}
+            id={'motionLeft' + props.idNumber}
             data-left-edge={leftEdge}
             data-right-edge={rightEdge}
             data-img-movement-size-perc={imgMovementSizePerc}
@@ -171,13 +170,11 @@ const MotionContainer = (props: {
             exit={{ scale: 1000, transition: { duration: 0.1 } }}
           >
             <input
-              id={'dvBtn' + props.idNumber}
-              name={'dvBtn' + props.idNumber}
+              id={'meImg' + props.idNumber}
+              name={'meImg' + props.idNumber}
               alt={'kaptcha answer option'}
               className="image-btn-x"
               type="image"
-              onClick={handleClick}
-              value={props.challenge}
               src={props.img[1]}
               style={{ width: '100%' }}
             ></input>
@@ -189,7 +186,7 @@ const MotionContainer = (props: {
         <motion.div
           ref={dvMotionDiv}
           className="motion-div"
-          id={'motionDV' + props.idNumber}
+          id={'motion' + props.idNumber}
           style={{ y }}
           // initial={{ y: yInitial }}
           animate={{
@@ -216,13 +213,11 @@ const MotionContainer = (props: {
           exit={{ scale: 100, transition: { duration: 0.01 } }}
         >
           <input
-            id={'dvBtn' + props.idNumber}
-            name={'dvBtn' + props.idNumber}
+            id={'meImg' + props.idNumber}
+            name={'meImg' + props.idNumber}
             alt={'captcha image option'}
-            className="skbutton-next backgroundImg"
+            className="backgroundImg"
             type="image"
-            onClick={handleClick}
-            value={props.challenge}
             src={props.img}
           ></input>
         </motion.div>

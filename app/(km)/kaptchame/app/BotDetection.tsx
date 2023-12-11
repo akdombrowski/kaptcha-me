@@ -1,4 +1,5 @@
 'use client';
+import 'client-only';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { SyntheticEvent, useEffect, useRef, useState } from 'react';
@@ -247,6 +248,8 @@ function BotDetection() {
           let style;
           let rowOrClass;
           let moveDir;
+          const challenge = renderings[i].value;
+          const img = renderings[i].img;
 
           if (theme.startsWith('racing')) {
             moveDir = 'x';
@@ -267,8 +270,8 @@ function BotDetection() {
           const props: motioncontainerprops = {
             idNumber: i,
             duration: dur,
-            challenge: renderings[i].value,
-            img: renderings[i].img,
+            challenge: challenge,
+            img: img,
             handleClick: updateValueAndAdvanceFlow,
             imgsLoaded: imgsLoaded,
             bgImageContainerHeight: bgImageContainerHeight,
@@ -284,14 +287,30 @@ function BotDetection() {
               id={'imgCol' + i}
               key={'imgCol' + i}
               className={rowOrClass}
-              data-idNumber={i}
+              data-id-number={i}
               data-duration={dur}
-              data-imgsLoaded={imgsLoaded}
-              data-bgImageContainerHeight={bgImageContainerHeight}
-              data-bgImageContainerWidth={bgImageContainerWidth}
-              data-imgsize={stackSize}
+              data-imgs-loaded={imgsLoaded}
+              data-bg-image-container-height={bgImageContainerHeight}
+              data-bg-image-container-width={bgImageContainerWidth}
+              data-img-size={stackSize}
             >
-              {MotionContainer(props)}
+              <form
+                id={'kaptcha-dv-form' + i}
+                key={'kaptcha-dv-form' + i}
+                className="form"
+                method="POST"
+                action="checkChallenge"
+                noValidate
+                // onSubmit={updateValueAndAdvanceFlow}
+              >
+                <input
+                  type="hidden"
+                  id={'chall' + i}
+                  name={'challenge'}
+                  value={challenge}
+                />
+                {MotionContainer(props)}
+              </form>
             </div>
           );
         })}
@@ -303,7 +322,7 @@ function BotDetection() {
     if (theme.startsWith('racing')) {
       return 'horizontal-scene';
     } else {
-      return 'flex-child muscle-container dv-cols full-child';
+      return 'vertical-scene';
     }
   };
 
@@ -316,13 +335,7 @@ function BotDetection() {
     >
       <h1 style={bgImgLoaded ? { display: 'none' } : {}}>Loading...</h1>
       <div id="dvsContainer" className={calcFlexDirection()}>
-        <form
-          id="captcha-dv-form"
-          className="form"
-          onSubmit={updateValueAndAdvanceFlow}
-        >
-          {mappingDVs(dvContainers)}
-        </form>
+        {mappingDVs(dvContainers)}
       </div>
     </div>
   );
