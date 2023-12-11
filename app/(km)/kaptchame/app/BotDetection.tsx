@@ -301,7 +301,6 @@ function BotDetection() {
                 method="POST"
                 action="checkChallenge"
                 noValidate
-                // onSubmit={updateValueAndAdvanceFlow}
               >
                 <input
                   type="hidden"
