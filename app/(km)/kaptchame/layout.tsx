@@ -12,8 +12,8 @@ export const metadata = {
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="[color-scheme:dark]">
-      <body className="h-screen w-screen bg-[url('/grid.svg')]">
-        <div id="main" className="h-screen w-screen">
+      <body className="h-screen w-screen m-0" style={{ "margin": 0 }} >
+        <div id="main" className="h-full w-full">
           {children}
         </div>
       </body>

@@ -4,7 +4,7 @@ import { demos, type Item } from '#/lib/demos';
 import { NextLogo } from '#/ui/next-logo';
 import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
-import { MenuAlt2Icon, XIcon } from '@heroicons/react/solid';
+import { Bars2Icon, XMarkIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 import { useState } from 'react';
 import Byline from './byline';
@@ -14,8 +14,8 @@ export function GlobalNav() {
   const close = () => setIsOpen(false);
 
   return (
-    <div className="fixed top-0 z-10 flex w-full flex-col border-b border-gray-800 bg-black lg:bottom-0 lg:z-auto lg:w-72 lg:border-b-0 lg:border-r lg:border-gray-800">
-      <div className="flex h-14 items-center px-4 py-4 lg:h-auto">
+    <div id="globalNav" className="top-0 z-10 flex w-full flex-col border-b border-gray-800 bg-black">
+      <div className="flex h-14 items-center px-4 py-4">
         <Link
           href="/"
           className="group flex w-full items-center gap-x-2.5"
@@ -32,21 +32,21 @@ export function GlobalNav() {
       </div>
       <button
         type="button"
-        className="group absolute right-0 top-0 flex h-14 items-center gap-x-2 px-4 lg:hidden"
+        className="group absolute right-0 top-0 flex h-14 items-center gap-x-2 px-4"
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="font-medium text-gray-100 group-hover:text-gray-400">
           Menu
         </div>
         {isOpen ? (
-          <XIcon className="block w-6 text-gray-400" />
+          <XMarkIcon className="block w-6 text-gray-400" />
         ) : (
-          <MenuAlt2Icon className="block w-6 text-gray-400" />
+          <Bars2Icon className="block w-6 text-gray-400" />
         )}
       </button>
 
       <div
-        className={clsx('overflow-y-auto lg:static lg:block', {
+        className={clsx('overflow-y-auto', {
           'fixed inset-x-0 bottom-0 top-14 mt-px bg-black': isOpen,
           hidden: !isOpen,
         })}
@@ -68,7 +68,7 @@ export function GlobalNav() {
             );
           })}
         </nav>
-        <Byline className="absolute hidden sm:block" />
+        <Byline className="absolute hidden" />
       </div>
     </div>
   );
