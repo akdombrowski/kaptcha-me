@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@heroicons/react": "2.0.18",
+    "@supabase/supabase-js": "2.39.0",
     "clsx": "2.0.0",
     "date-fns": "2.30.0",
     "dinero.js": "2.0.0-alpha.8",
@@ -42,8 +43,8 @@
     "lint-staged": "15.2.0",
     "postcss": "8.4.32",
     "prettier": "3.1.1",
-    "prettier-plugin-tailwindcss": "0.5.9",
     "server-only": "0.0.1",
+    "supabase": "1.123.4",
     "tailwindcss": "3.3.6",
     "typescript": "5.3.3"
   }

@@ -1,19 +1,20 @@
-'use client';
+"use client";
 
-import 'client-only';
+import "client-only";
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { SyntheticEvent, useEffect, useRef, useState } from 'react';
-import './App.css';
-import MotionContainer from './MotionContainer';
-import testrenderings from './TestRenderings';
+import { SyntheticEvent, useEffect, useRef, useState } from "react";
+import "./App.css";
+import MotionContainer from "./MotionContainer";
+import testrenderings from "./TestRenderings";
+import { checkChall } from "./actions";
 
 // for local dev
 const DV_IMG_SIZE = 5;
 const DV_IMG_SIZE_RACING = 11;
 const NUMBER_OF_DAVINCIS = 9;
-const DV_IMG_WIDTH_VW = DV_IMG_SIZE.toString() + 'vw';
-const DV_IMG_HEIGHT_VH = DV_IMG_SIZE.toString() + 'vh';
+const DV_IMG_WIDTH_VW = DV_IMG_SIZE.toString() + "vw";
+const DV_IMG_HEIGHT_VH = DV_IMG_SIZE.toString() + "vh";
 // const DV_IMG_SIZE = Number("{{global.variables.DV_IMG_SIZE}}");
 // const DV_IMG_SIZE_RACING = Number("{{global.variables.DV_IMG_SIZE_RACING}}");
 // const NUMBER_OF_DAVINCIS = Number("{{global.variables.difficulty}}");
@@ -23,9 +24,9 @@ const MIN_DUR = 4;
 const MAX_DUR = 8;
 
 // for local dev
-const theme = 'racing';
+const theme = "racing";
 // const bgImg = "https://i.ibb.co/yWrB3tt/anthony-double-trouble.png";
-const bgImg = 'https://i.postimg.cc/DzjCwcwW/race-Track.webp';
+const bgImg = "https://i.postimg.cc/DzjCwcwW/race-Track.webp";
 // const theme = "{{global.variables.theme}}";
 // const bgImg = "{{global.variables.themeSrc}}";
 
@@ -53,7 +54,7 @@ const generateDurations = (): number[] => {
   const dvs: number[] = [];
   let min = MIN_DUR;
   let max = MAX_DUR;
-  if (theme.startsWith('racing')) {
+  if (theme.startsWith("racing")) {
     min = 5;
     max = 25;
   }
@@ -69,7 +70,7 @@ const generateDurations = (): number[] => {
 
 const convertRenderingsToObj = () => {
   if (RENDERINGS) {
-    if (typeof RENDERINGS === 'string') {
+    if (typeof RENDERINGS === "string") {
       try {
         return JSON.parse(RENDERINGS);
       } catch (e) {
@@ -85,7 +86,7 @@ const convertRenderingsToObj = () => {
       }
     }
   } else {
-    console.error('missing renderings');
+    console.error("missing renderings");
   }
 
   return null;
@@ -105,18 +106,18 @@ const precacheImage = (
   proms.push(
     new Promise<string>((resolve, reject) => {
       img.onload = () => {
-        console.log(imgSrc, 'loaded');
-        resolve('loaded: ' + imgSrc);
+        console.log(imgSrc, "loaded");
+        resolve("loaded: " + imgSrc);
       };
       img.onerror = () => {
-        console.log(imgSrc, 'loading failed');
-        reject('loading failed for image: ' + imgSrc);
+        console.log(imgSrc, "loading failed");
+        reject("loading failed for image: " + imgSrc);
       };
     }),
   );
 
   img.src = imgSrc;
-  img.loading = 'eager';
+  img.loading = "eager";
   return { imgsSet, proms };
 };
 
@@ -138,7 +139,7 @@ const precacheAllImagesNeeded = () => {
   let imgsSet = new Set<string>();
 
   for (const r of Object.values(renderings)) {
-    if (theme.startsWith('racing')) {
+    if (theme.startsWith("racing")) {
       const img0 = r.img[0];
       const img1 = r.img[1];
 
@@ -165,6 +166,21 @@ function BotDetection() {
   const [bgImageContainerWidth, setBgImageContainerWidth] = useState(0);
   const mainContainerRef = useRef<HTMLDivElement | null>(null);
   const dvContainers = generateDurations();
+
+  // const checkChallenge = async (formData: FormData) => {
+  //   // e.preventDefault()
+  //   const body = new FormData()
+  //   console.log("formData");
+  //   console.log(formData);
+  //   body.append("challenge", formData.get("challenge") as string)
+
+  //   console.log();
+  //   console.log("body");
+  //   console.log(body);
+
+  //   await fetch("kaptchapi/checkChallenge", {
+  //     cache: 'no-store', method: "POST", body })
+  // }
 
   const waitForBGImage = async () => {
     await Promise.all(precacheBGImage(bgImg));
@@ -207,7 +223,7 @@ function BotDetection() {
           resizeObserver.unobserve(curr);
         };
       } else {
-        console.error('main bg img container not found');
+        console.error("main bg img container not found");
       }
     }
   }, [imgsLoaded]);
@@ -215,14 +231,14 @@ function BotDetection() {
   const updateValueAndAdvanceFlow = (e: SyntheticEvent) => {
     e.preventDefault();
     const choice = e.currentTarget as HTMLInputElement;
-    console.log('choice.value:', choice.value);
+    console.log("choice.value:", choice.value);
     // console.log('choice:', choice);
 
     const advFlowValue = document.getElementById(
-      'advFlowValue',
+      "advFlowValue",
     ) as HTMLInputElement;
     const advFlowSubmitBtn = document.getElementById(
-      'advFlowSubmitBtn',
+      "advFlowSubmitBtn",
     ) as HTMLInputElement;
 
     if (advFlowValue as HTMLInputElement) {
@@ -252,20 +268,20 @@ function BotDetection() {
           const challenge = renderings[i].value;
           const img = renderings[i].img;
 
-          if (theme.startsWith('racing')) {
-            moveDir = 'x';
+          if (theme.startsWith("racing")) {
+            moveDir = "x";
             style = {
-              top: renderings[i].pos.toString() + '%',
-              height: stackSize + '%',
+              top: renderings[i].pos.toString() + "%",
+              height: stackSize + "%",
             };
-            rowOrClass = 'rows';
+            rowOrClass = "rows";
           } else {
-            moveDir = 'y';
+            moveDir = "y";
             style = {
-              left: renderings[i].pos.toString() + '%',
-              width: stackSize + '%',
+              left: renderings[i].pos.toString() + "%",
+              width: stackSize + "%",
             };
-            rowOrClass = 'cols';
+            rowOrClass = "cols";
           }
 
           const props: motioncontainerprops = {
@@ -285,8 +301,8 @@ function BotDetection() {
 
           return (
             <div
-              id={'imgCol' + i}
-              key={'imgCol' + i}
+              id={"imgCol" + i}
+              key={"imgCol" + i}
               className={rowOrClass}
               data-id-number={i}
               data-duration={dur}
@@ -296,17 +312,17 @@ function BotDetection() {
               data-img-size={stackSize}
             >
               <form
-                id={'kaptcha-dv-form' + i}
-                key={'kaptcha-dv-form' + i}
+                id={"kaptcha-dv-form" + i}
+                key={"kaptcha-dv-form" + i}
                 className="form"
                 method="POST"
-                action="checkChallenge"
+                action={checkChall}
                 noValidate
               >
                 <input
                   type="hidden"
-                  id={'chall' + i}
-                  name={'challenge'}
+                  id={"chall" + i}
+                  name={"challenge"}
                   value={challenge}
                 />
                 {MotionContainer(props)}
@@ -319,10 +335,10 @@ function BotDetection() {
   };
 
   const calcFlexDirection = () => {
-    if (theme.startsWith('racing')) {
-      return 'horizontal-scene';
+    if (theme.startsWith("racing")) {
+      return "horizontal-scene";
     } else {
-      return 'vertical-scene';
+      return "vertical-scene";
     }
   };
 
@@ -331,9 +347,9 @@ function BotDetection() {
       id="mainContainer"
       ref={mainContainerRef}
       className="main-container sceneImg"
-      style={bgImgLoaded ? { backgroundImage: 'url(' + bgImg + ')' } : {}}
+      style={bgImgLoaded ? { backgroundImage: "url(" + bgImg + ")" } : {}}
     >
-      <h1 style={bgImgLoaded ? { display: 'none' } : {}}>Loading...</h1>
+      <h1 style={bgImgLoaded ? { display: "none" } : {}}>Loading...</h1>
       <div id="dvsContainer" className={calcFlexDirection()}>
         {mappingDVs(dvContainers)}
       </div>

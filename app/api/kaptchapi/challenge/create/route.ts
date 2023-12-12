@@ -1,15 +1,17 @@
-import 'server-only';
+import "server-only";
 
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
 // `server-only` guarantees any modules that import code in file
 // will never run on the client. Even though this particular api
 // doesn't currently use sensitive environment variables, it's
 // good practise to add `server-only` preemptively.
 
-const NUMBER_OF_DAVINCIS = Number('{{global.variables.difficulty}}');
-const DV_IMG_WIDTH = Number('{{global.variables.DV_IMG_WIDTH}}');
-const DV_IMG_WIDTH_VW = DV_IMG_WIDTH.toString() + 'vw';
-const CHALLENGES = document.getElementById('ids');
+// const NUMBER_OF_DAVINCIS = Number('{{global.variables.difficulty}}');
+const NUMBER_OF_DAVINCIS = 10;
+// const DV_IMG_WIDTH = Number('{{global.variables.DV_IMG_WIDTH}}');
+const DV_IMG_WIDTH = 10;
+const DV_IMG_WIDTH_VW = DV_IMG_WIDTH.toString() + "vw";
+// const CHALLENGES = document.getElementById('ids');
 const DV_COL_POSITIONS = new Set();
 
 // calculates a random number to place the col contanining an img
@@ -50,22 +52,21 @@ const rndPosFromLeftEdgeNumber = () => {
 
 // convert rnd number to percentage
 const rndPosPercFromLeftEdge = () =>
-  rndPosFromLeftEdgeNumber().toString() + '%';
+  rndPosFromLeftEdgeNumber().toString() + "%";
 
-const getChlls = () => {
-  const chs = CHALLENGES?.firstChild;
-  let chsStr;
-  let chsArr;
-  let chlls;
-  if (chs) {
-    chsStr = chs.textContent;
-    chsStr = chsStr?.slice(1, -1) as string;
-    chlls = JSON.parse(chsStr);
-  }
+// const getChlls = () => {
+//   const chs = CHALLENGES?.firstChild;
+//   let chsStr;
+//   let chsArr;
+//   let chlls;
+//   if (chs) {
+//     chsStr = chs.textContent;
+//     chsStr = chsStr?.slice(1, -1) as string;
+//     chlls = JSON.parse(chsStr);
+//   }
 
-  return chlls;
-};
-
+//   return chlls;
+// };
 
 export async function GET(request: NextRequest): Promise<Response> {
   const challenge = "get challenge to put here";

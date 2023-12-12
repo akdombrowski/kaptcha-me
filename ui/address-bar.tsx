@@ -36,7 +36,10 @@ function Params() {
 }
 
 export function AddressBar() {
+  'use client';
+
   const pathname = usePathname();
+
 
   return (
     <div className="flex items-center gap-x-2 p-3.5 lg:px-5 lg:py-3">
@@ -56,7 +59,7 @@ export function AddressBar() {
       </div>
       <div className="flex gap-x-1 text-sm font-medium">
         <div>
-          <span className="px-2 text-gray-400">acme.com</span>
+          <span className="px-2 text-gray-400">kaptchame {window.location.href}</span>
         </div>
         {pathname ? (
           <>
