@@ -10,13 +10,13 @@ import testrenderings from "./TestRenderings";
 import { checkChall } from "./actions";
 
 // for local dev
-const DV_IMG_SIZE = 5;
-const DV_IMG_SIZE_RACING = 11;
+const IMG_SIZE = 5;
+const IMG_SIZE_RACING = 11;
 const NUMBER_OF_DAVINCIS = 9;
-const DV_IMG_WIDTH_VW = DV_IMG_SIZE.toString() + "vw";
-const DV_IMG_HEIGHT_VH = DV_IMG_SIZE.toString() + "vh";
-// const DV_IMG_SIZE = Number("{{global.variables.DV_IMG_SIZE}}");
-// const DV_IMG_SIZE_RACING = Number("{{global.variables.DV_IMG_SIZE_RACING}}");
+const IMG_WIDTH_VW = IMG_SIZE.toString() + "vw";
+const IMG_HEIGHT_VH = IMG_SIZE.toString() + "vh";
+// const IMG_SIZE = Number("{{global.variables.IMG_SIZE}}");
+// const IMG_SIZE_RACING = Number("{{global.variables.IMG_SIZE_RACING}}");
 // const NUMBER_OF_DAVINCIS = Number("{{global.variables.difficulty}}");
 // const RENDERINGS = document.getElementById('renderings')?.innerText;
 const RENDERINGS = testrenderings;
@@ -252,7 +252,7 @@ function BotDetection() {
     advFlowSubmitBtn?.click();
   };
 
-  const mappingDVs = (dvContainers: number[]) => {
+  const mappings = (dvContainers: number[]) => {
     // stackSize is either the height of the image if moving horizontally, or
     // it's the width of the image if moving vertically. "stack" size meaning
     // the size in the direction of the image stacking to fit in the play area
@@ -312,11 +312,13 @@ function BotDetection() {
               data-img-size={stackSize}
             >
               <form
-                id={"kaptcha-dv-form" + i}
-                key={"kaptcha-dv-form" + i}
+                id={"kaptcha-form" + i}
+                key={"kaptcha-form" + i}
                 className="form"
+                // action={checkChall}
+                action="/api/kaptchapi/challenge/check"
+                autocomplete="off"
                 method="POST"
-                action={checkChall}
                 noValidate
               >
                 <input
@@ -351,7 +353,7 @@ function BotDetection() {
     >
       <h1 style={bgImgLoaded ? { display: "none" } : {}}>Loading...</h1>
       <div id="dvsContainer" className={calcFlexDirection()}>
-        {mappingDVs(dvContainers)}
+        {mappings(dvContainers)}
       </div>
     </div>
   );

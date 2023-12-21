@@ -216,7 +216,7 @@ const MotionContainer = (props: {
           <input
             id={'meImg' + props.idNumber}
             name={'meImg' + props.idNumber}
-            alt={'captcha image option'}
+            alt={'kaptcha image option'}
             className="backgroundImg"
             type="image"
             src={props.img}

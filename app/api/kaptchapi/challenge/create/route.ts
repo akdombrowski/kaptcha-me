@@ -8,17 +8,17 @@ import { NextRequest, NextResponse } from "next/server";
 
 // const NUMBER_OF_DAVINCIS = Number('{{global.variables.difficulty}}');
 const NUMBER_OF_DAVINCIS = 10;
-// const DV_IMG_WIDTH = Number('{{global.variables.DV_IMG_WIDTH}}');
-const DV_IMG_WIDTH = 10;
-const DV_IMG_WIDTH_VW = DV_IMG_WIDTH.toString() + "vw";
+// const IMG_WIDTH = Number('{{global.variables.IMG_WIDTH}}');
+const IMG_WIDTH = 10;
+const IMG_WIDTH_VW = IMG_WIDTH.toString() + "vw";
 // const CHALLENGES = document.getElementById('ids');
-const DV_COL_POSITIONS = new Set();
+const COL_POSITIONS = new Set();
 
 // calculates a random number to place the col contanining an img
 // min value is 0 to keep from going off screen to the left
 // max value is 99 since I'm converting this to a percentage
 const rndPositionFromLeftForImg = () => {
-  return Math.max(0, Math.floor(Math.random() * 99 - DV_IMG_WIDTH));
+  return Math.max(0, Math.floor(Math.random() * 99 - IMG_WIDTH));
 };
 
 /**
@@ -37,7 +37,7 @@ const rndPosFromLeftEdgeNumber = () => {
   for (let i = 0; i < iterationsToFindLeftPos; i++) {
     // if we already have this position try again, else break out and use that
     // value
-    if (DV_COL_POSITIONS.has(rndLeft)) {
+    if (COL_POSITIONS.has(rndLeft)) {
       rndLeft = rndPositionFromLeftForImg();
     } else {
       break;
@@ -45,7 +45,7 @@ const rndPosFromLeftEdgeNumber = () => {
   }
 
   // save value to avoid overlap
-  DV_COL_POSITIONS.add(rndLeft);
+  COL_POSITIONS.add(rndLeft);
 
   return rndLeft;
 };
