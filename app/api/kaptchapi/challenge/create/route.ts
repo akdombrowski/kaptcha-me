@@ -1,10 +1,11 @@
 import "server-only";
 
-import { NextRequest, NextResponse } from "next/server";
 // `server-only` guarantees any modules that import code in file
 // will never run on the client. Even though this particular api
 // doesn't currently use sensitive environment variables, it's
 // good practise to add `server-only` preemptively.
+import { NextRequest, NextResponse } from "next/server";
+import createChallenges from "./customFunction";
 
 // const NUMBER_OF_DAVINCIS = Number('{{global.variables.difficulty}}');
 const NUMBER_OF_DAVINCIS = 10;
@@ -68,9 +69,31 @@ const rndPosPercFromLeftEdge = () =>
 //   return chlls;
 // };
 
+// GENERATE LIST OF CHALLENGES AND POSITIONS AND IMAGES
 export async function GET(request: NextRequest): Promise<Response> {
+  const challenges = await createChallenges({
+    difficulty: 9,
+    imgSize: 5,
+    imgSizeRacing: 20,
+    theme: "racing",
+  });
+
+  console.log("");
+  console.log("==================");
+  console.log("==================");
+  console.log("==================");
+  console.log("");
+  console.log("      IN GET");
+  console.log("");
+  console.log("==================");
+  console.log("==================");
+  console.log("==================");
+
+  console.log("");
+  console.log("JSON.stringify(challenges)");
+  console.log(JSON.stringify(challenges));
+
   const challenge = "get challenge to put here";
-  let isChallengeCorrect = false;
 
   if (!challenge) {
     return NextResponse.error();

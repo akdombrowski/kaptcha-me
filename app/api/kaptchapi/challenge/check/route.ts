@@ -6,7 +6,7 @@ import "server-only";
 
 import { NextRequest, NextResponse } from "next/server";
 import { redirect } from "next/navigation";
-import GetChallenges from "../get/route";
+import GetChallenges from "../readChallenges/route";
 
 type CheckChallengeReqBody = {
   challenge: string;
@@ -47,9 +47,21 @@ export async function POST(request: NextRequest) {
   let isChallengeCorrect = false;
 
   console.log("");
+  console.log("==================");
+  console.log("==================");
+  console.log("==================");
+  console.log("");
+  console.log("      IN POST");
+  console.log("");
+  console.log("==================");
+  console.log("==================");
+  console.log("==================");
   console.log("in POST function capture in kaptchapi/challenge/check");
 
   console.log("");
+  for (const datum of submittedFormData) {
+    console.log(datum);
+  }
   console.log("submittedFormData:");
   console.log(submittedFormData);
 
@@ -62,6 +74,8 @@ export async function POST(request: NextRequest) {
   const challenge = submittedFormData.get("challenge");
   console.log("");
   console.log("challenge");
+  console.log(challenge);
+  console.log("");
 
   // TODO: Check challenge
   // if (challenge === true) {

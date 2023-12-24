@@ -317,7 +317,7 @@ function BotDetection() {
                 className="form"
                 // action={checkChall}
                 action="/api/kaptchapi/challenge/check"
-                autocomplete="off"
+                autoComplete="off"
                 method="POST"
                 noValidate
               >
