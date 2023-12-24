@@ -908,8 +908,11 @@ const getImgOptions = (theme) => {
 
   // shuffle
   let ohs;
+  let ohhs;
   let ones;
+  let oness;
   let twos;
+  let twoss;
   if (theme === "seeingDouble") {
     ohs = shuffleArray(mes);
     ones = shuffleArray(as);

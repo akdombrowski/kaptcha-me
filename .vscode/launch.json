@@ -5,6 +5,19 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Launch via NPM",
+      "request": "launch",
+      "runtimeArgs": [
+        "run-script",
+        "debug"
+      ],
+      "runtimeExecutable": "npm",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "node"
+    },
+    {
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
@@ -13,8 +26,8 @@
       "outFiles": ["${workspaceFolder}/**/*.js"]
     },
     {
-      "command": "pnpm run dev",
-      "name": "Run pnpm run dev",
+      "command": "npm run dev",
+      "name": "Run npm run dev",
       "request": "launch",
       "type": "node-terminal"
     }

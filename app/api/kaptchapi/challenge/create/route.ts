@@ -79,16 +79,16 @@ export async function GET(request: NextRequest) {
   });
 
   console.log("");
-  console.log("==================");
-  console.log("==================");
-  console.log("==================");
+  console.log("====================================");
+  console.log("====================================");
+  console.log("====================================");
   console.log("");
-  console.log("      IN GET");
+  console.log("   GET kaptchapi/challenge/create   ");
   console.log("");
-  console.log("==================");
-  console.log("==================");
-  console.log("==================");
-
+  console.log("====================================");
+  console.log("====================================");
+  console.log("====================================");
+  
   console.log("");
   console.log("JSON.stringify(challenges)");
   console.log(JSON.stringify(challenges));
