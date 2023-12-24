@@ -7,6 +7,7 @@ import "server-only";
 import { NextRequest, NextResponse } from "next/server";
 import { redirect } from "next/navigation";
 import GetChallenges from "../readChallenges/route";
+import createChallenges from "../create/customFunction";
 
 type CheckChallengeReqBody = {
   challenge: string;
@@ -64,6 +65,17 @@ export async function POST(request: NextRequest) {
   }
   console.log("submittedFormData:");
   console.log(submittedFormData);
+
+  console.log("");
+  console.log("request.url:");
+  console.log(request.url);
+  console.log('new URL("/kaptchame/challenge/create", request.url)');
+  console.log(new URL("/kaptchame/challenge/create", request.url));
+  // for testing creating data
+  console.log("fetch start");
+  await fetch(new URL("/api/kaptchapi/challenge/create", request.url));
+  console.log("fetch over");
+  console.log("");
 
   // make sure a challenge was sent
   const wasChallengeSubmitted = submittedFormData.has("challenge");

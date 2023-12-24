@@ -70,7 +70,7 @@ const rndPosPercFromLeftEdge = () =>
 // };
 
 // GENERATE LIST OF CHALLENGES AND POSITIONS AND IMAGES
-export async function GET(request: NextRequest): Promise<Response> {
+export async function GET(request: NextRequest) {
   const challenges = await createChallenges({
     difficulty: 9,
     imgSize: 5,
