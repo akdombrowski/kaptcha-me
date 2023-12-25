@@ -1,8 +1,6 @@
-'use client';
+import dynamic from "next/dynamic";
 
-import dynamic from 'next/dynamic';
-
-const DynamicBotDetection = dynamic(() => import('./bd/BotDetection'), {
+const DynamicBotDetection = dynamic(() => import("./bd/BotDetection"), {
   ssr: false,
 });
 

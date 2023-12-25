@@ -167,20 +167,9 @@ function BotDetection() {
   const mainContainerRef = useRef<HTMLDivElement | null>(null);
   const dvContainers = generateDurations();
 
-  // const checkChallenge = async (formData: FormData) => {
-  //   // e.preventDefault()
-  //   const body = new FormData()
-  //   console.log("formData");
-  //   console.log(formData);
-  //   body.append("challenge", formData.get("challenge") as string)
+  // useEffectus`eEffect(() => {
 
-  //   console.log();
-  //   console.log("body");
-  //   console.log(body);
-
-  //   await fetch("kaptchapi/checkChallenge", {
-  //     cache: 'no-store', method: "POST", body })
-  // }
+  // }, []);`
 
   const waitForBGImage = async () => {
     await Promise.all(precacheBGImage(bgImg));
