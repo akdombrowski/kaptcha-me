@@ -159,7 +159,7 @@ const precacheAllImagesNeeded = () => {
   return proms;
 };
 
-function BotDetection() {
+export default function BotDetection() {
   const [bgImgLoaded, setBGImgLoaded] = useState(false);
   const [imgsLoaded, setImgsLoaded] = useState(false);
   const [bgImageContainerHeight, setBgImageContainerHeight] = useState(0);
@@ -347,5 +347,3 @@ function BotDetection() {
     </div>
   );
 }
-
-export default BotDetection;
