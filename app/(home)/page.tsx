@@ -55,7 +55,7 @@ export default function Page() {
             backgroundImage:
               "url(https://source.unsplash.com/random?wallpapers)",
             backgroundRepeat: "no-repeat",
-            backgroundColor: DefaultTheme.palette.secondary.main,
+            backgroundColor: "secondary.main",
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
