@@ -1,11 +1,14 @@
-import "server-only";
+`server-only`;
 // `server-only` guarantees any modules that import code in file
 // will never run on the client. Even though this particular api
 // doesn't currently use sensitive environment variables, it's
+
+import "server-only";
 // good practise to add `server-only` preemptively.
 
 import { NextRequest, NextResponse } from "next/server";
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import GetChallenges from "../readChallenges/route";
 import createChallenges from "../create/customFunction";
 
@@ -14,8 +17,6 @@ type CheckChallengeReqBody = {
 };
 
 export const checkChallenge = async (formData: FormData) => {
-  "use server";
-
   const challenge = formData.get("challenge");
   const challenges = await GetChallenges();
 
@@ -60,21 +61,34 @@ export async function POST(request: NextRequest) {
   console.log("in POST function capture in kaptchapi/challenge/check");
 
   console.log("");
-  for (const datum of submittedFormData) {
-    console.log(datum);
-  }
-  console.log("submittedFormData:");
-  console.log(submittedFormData);
+  // for (const datum of submittedFormData) {
+  //   console.log(datum);
+  // }
+  console.log("");
+  // console.log("submittedFormData:");
+  // console.log(submittedFormData);
+  console.log("");
 
   console.log("");
-  console.log("request.url:");
-  console.log(request.url);
-  console.log('new URL("/kaptchame/challenge/create", request.url)');
-  console.log(new URL("/kaptchame/challenge/create", request.url));
+  // console.log("request.url:");
+  // console.log(request.url);
   // for testing creating data
+  console.log("");
   console.log("fetch start");
-  await fetch(new URL("/api/kaptchapi/challenge/create", request.url));
+  const createRes = await fetch(
+    new URL("/api/kaptchapi/challenge/create", request.url),
+  );
   console.log("fetch over");
+  console.log("");
+  console.log("");
+  console.log("");
+  const createResJSON = await createRes.json();
+  // console.log("createResJSON");
+  // console.log(createResJSON);
+
+  console.log("");
+  console.log("");
+  console.log("");
   console.log("");
 
   // make sure a challenge was sent
@@ -85,8 +99,8 @@ export async function POST(request: NextRequest) {
   }
   const challenge = submittedFormData.get("challenge");
   console.log("");
-  console.log("challenge");
-  console.log(challenge);
+  // console.log("challenge");
+  // console.log(challenge);
   console.log("");
 
   // TODO: Check challenge
@@ -94,7 +108,23 @@ export async function POST(request: NextRequest) {
   //   redirect('https://nextjs.org/')
   // }
 
+  const kaptchameURL = new URL("/kaptchame", request.url);
+  console.log('new URL("/kaptchame", request.url)');
+  console.log(kaptchameURL);
+  console.log("");
+  console.log("");
+  console.log("");
+  console.log("request.cookies.getAll()");
+  console.log(request.cookies.getAll());
+  console.log("");
+  console.log("new Headers(request.headers).values()");
+  console.log(new Headers(request.headers).values());
+  console.log("");
+  const headersList = headers();
+  console.log("headersList");
+  console.log(headersList);
+  console.log("");
   // TODO: redirect to the page being protected by the katpchame bot detection
-  return NextResponse.redirect(new URL("/kaptchame", request.url));
+  return NextResponse.redirect(kaptchameURL);
   // return NextResponse.json("good", { status: 200 });
 }
