@@ -106,7 +106,7 @@ const precacheImage = (
   proms.push(
     new Promise<string>((resolve, reject) => {
       img.onload = () => {
-        console.log(imgSrc, "loaded");
+        // console.log(imgSrc, "loaded");
         resolve("loaded: " + imgSrc);
       };
       img.onerror = () => {
@@ -166,10 +166,6 @@ export default function BotDetection() {
   const [bgImageContainerWidth, setBgImageContainerWidth] = useState(0);
   const mainContainerRef = useRef<HTMLDivElement | null>(null);
   const dvContainers = generateDurations();
-
-  // useEffectus`eEffect(() => {
-
-  // }, []);`
 
   const waitForBGImage = async () => {
     await Promise.all(precacheBGImage(bgImg));

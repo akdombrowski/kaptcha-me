@@ -5,14 +5,13 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import DefaultTheme from "#/styles/theme";
-import { ThemeProvider } from "@mui/material/styles";
-import Link from "#/ui/link";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 function Copyright(props: any) {
   return (
@@ -32,7 +31,10 @@ function Copyright(props: any) {
   );
 }
 
-export default function Page() {
+// TODO remove, this demo shouldn't need to reset the theme.
+const defaultTheme = createTheme();
+
+export default function SignInSide() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -43,7 +45,7 @@ export default function Page() {
   };
 
   return (
-    <ThemeProvider theme={DefaultTheme}>
+    <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
@@ -55,7 +57,10 @@ export default function Page() {
             backgroundImage:
               "url(https://source.unsplash.com/random?wallpapers)",
             backgroundRepeat: "no-repeat",
-            backgroundColor: DefaultTheme.palette.secondary.main,
+            backgroundColor: (t) =>
+              t.palette.mode === "light"
+                ? t.palette.grey[50]
+                : t.palette.grey[900],
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}

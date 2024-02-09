@@ -38,6 +38,8 @@ function Params() {
 }
 
 export function AddressBar() {
+  "use client";
+
   const pathname = usePathname();
 
   return (

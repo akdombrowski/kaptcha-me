@@ -112,18 +112,7 @@ export async function POST(request: NextRequest) {
   console.log('new URL("/kaptchame", request.url)');
   console.log(kaptchameURL);
   console.log("");
-  console.log("");
-  console.log("");
-  console.log("request.cookies.getAll()");
-  console.log(request.cookies.getAll());
-  console.log("");
-  console.log("new Headers(request.headers).values()");
-  console.log(new Headers(request.headers).values());
-  console.log("");
-  const headersList = headers();
-  console.log("headersList");
-  console.log(headersList);
-  console.log("");
+  
   // TODO: redirect to the page being protected by the katpchame bot detection
   return NextResponse.redirect(kaptchameURL);
   // return NextResponse.json("good", { status: 200 });
