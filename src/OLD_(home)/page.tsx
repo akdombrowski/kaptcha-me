@@ -9,7 +9,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import SignInBtn from "#/ui/sign-in-btn";
 
-export const SignInPage = () => {
+export default function Page() {
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
       <CssBaseline />
@@ -47,6 +47,4 @@ export const SignInPage = () => {
       </Grid>
     </Grid>
   );
-};
-
-export default SignInPage;
+}

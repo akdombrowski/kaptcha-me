@@ -4,6 +4,7 @@ import "client-only";
 
 import React, { Suspense } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
+import { useIsClient } from "./ClientCtxProvider";
 
 function Params() {
   const searchParams = useSearchParams()!;
@@ -38,7 +39,7 @@ function Params() {
 }
 
 export function AddressBar() {
-  "use client";
+  const isClient = useIsClient();
 
   const pathname = usePathname();
 
@@ -61,7 +62,7 @@ export function AddressBar() {
       <div className="flex gap-x-1 text-sm font-medium">
         <div>
           <span className="px-2 text-gray-400">
-            kaptchame {window.location.href}
+            kaptchame {isClient && window.location.href}
           </span>
         </div>
         {pathname ? (
