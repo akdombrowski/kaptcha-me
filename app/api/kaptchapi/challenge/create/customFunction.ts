@@ -19,6 +19,7 @@ export type imgs = {
   pointGG: string[];
   pointI: string[];
   pointJ: string[];
+  pointBW: string[];
 };
 
 const images: imgs = {
@@ -177,6 +178,16 @@ const images: imgs = {
     "https://i.postimg.cc/rsqTS2tZ/katpcha-me-cc761a94-1feb-4c31-b4f3-6373f5fdaf58.webp",
     "https://i.postimg.cc/7Z5k1Vf4/katpcha-me-dc81c394-a48e-4ba1-9c16-9ab5d25f223c.webp",
     "https://i.postimg.cc/5N7JFG9p/katpcha-me-e2e1008d-9b8e-4ac6-917a-d9685f3152d7.webp",
+  ],
+  pointBW: [
+    "https://i.postimg.cc/VNHktRw7/kaptcha-me-14ed13c2-9420-4e52-b9fc-5618ea9590bc.webp",
+    "https://i.postimg.cc/RFkCsZNK/kaptcha-me-188e3561-6700-487b-a52e-5867904034b4.webp",
+    "https://i.postimg.cc/wBBB3rCy/kaptcha-me-91568605-2253-4882-9af6-f6052e3fc801.webp",
+    "https://i.postimg.cc/JnD45k4R/kaptcha-me-97528219-1872-48f3-8995-e2845d07cb3a.webp",
+    "https://i.postimg.cc/Vkg6fwVP/kaptcha-me-9f93f269-9de7-4e7f-904a-cfa1733e96a6.webp",
+    "https://i.postimg.cc/Z54nznjL/kaptcha-me-b29bb59b-7525-44cd-9682-f3896aecf3e1.webp",
+    "https://i.postimg.cc/RVchYK1F/kaptcha-me-ba918840-cb20-4623-88e6-7a876528baf7.webp",
+    "https://i.postimg.cc/9F3z1J7K/kaptcha-me-d704ce9a-fba6-49b0-917c-b2afb3954a0d.webp",
   ],
 };
 
