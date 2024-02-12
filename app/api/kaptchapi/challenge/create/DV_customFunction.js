@@ -930,14 +930,10 @@ const getImgOptions = (theme) => {
     ohs = shuffleArray(mees);
     ones = shuffleArray(cs);
     twos = shuffleArray(ds);
-  } else if (theme === "ping") {
-    ohs = shuffleArray(pings);
-    ones = shuffleArray(js);
-    twos = shuffleArray(is);
   } else if (theme === "bitwarden") {
     ohs = shuffleArray(bw);
-    ones = shuffleArray(bw_r);
-    twos = shuffleArray(bw_l);
+    ones = shuffleArray(bw_l);
+    twos = shuffleArray(bw_r);
   } else if (theme === "racing") {
     ohs = shuffleArray(meees);
     ohhs = shuffleArray(meeees);
@@ -978,7 +974,7 @@ const combineCodesAndPosArrayAndImgs = (
 
   // inverse of percentage chance (percentage chance will be equal to 1 over
   // this number) for having another "oh" image show up
-  let chanceForOh = 5;
+  let chanceForOh = 10;
 
   // img options
   const imgOptions = getImgOptions(theme);
