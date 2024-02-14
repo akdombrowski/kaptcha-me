@@ -1,0 +1,34 @@
+{
+  "theme": "bitwarden",
+  "bg": "https://i.postimg.cc/cCKzR6p2/black-BG-bitwarden.webp",
+  "pointBW": [
+    "https://i.postimg.cc/VNHktRw7/kaptcha-me-14ed13c2-9420-4e52-b9fc-5618ea9590bc.webp",
+    "https://i.postimg.cc/RFkCsZNK/kaptcha-me-188e3561-6700-487b-a52e-5867904034b4.webp",
+    "https://i.postimg.cc/wBBB3rCy/kaptcha-me-91568605-2253-4882-9af6-f6052e3fc801.webp",
+    "https://i.postimg.cc/JnD45k4R/kaptcha-me-97528219-1872-48f3-8995-e2845d07cb3a.webp",
+    "https://i.postimg.cc/Vkg6fwVP/kaptcha-me-9f93f269-9de7-4e7f-904a-cfa1733e96a6.webp",
+    "https://i.postimg.cc/Z54nznjL/kaptcha-me-b29bb59b-7525-44cd-9682-f3896aecf3e1.webp",
+    "https://i.postimg.cc/RVchYK1F/kaptcha-me-ba918840-cb20-4623-88e6-7a876528baf7.webp",
+    "https://i.postimg.cc/9F3z1J7K/kaptcha-me-d704ce9a-fba6-49b0-917c-b2afb3954a0d.webp"
+  ],
+  "pointBW_R": [
+    "https://i.postimg.cc/RCTPGCJ3/katpcha-me-48f944b0-2d77-42a1-b315-78ce3606cff5.webp",
+    "https://i.postimg.cc/Qt3bkvXk/katpcha-me-6091c655-6716-470d-9fe2-e992aa90a5c5.webp",
+    "https://i.postimg.cc/y8DvVFQ9/katpcha-me-c9539867-a2b3-49cf-98df-d5cad45db5c6.webp",
+    "https://i.postimg.cc/pL3kyp4S/katpcha-me-d6d390b0-0329-459c-b1e7-b061279c5259.webp",
+    "https://i.postimg.cc/7YsK8BVw/katpcha-me-d7f7b035-cba4-4531-8b93-48220c011a44.webp",
+    "https://i.postimg.cc/9MYBx103/katpcha-me-d8f31b88-9469-410e-b245-465a8499bc39.webp",
+    "https://i.postimg.cc/Hss6NGb6/katpcha-me-f334199b-abbe-43aa-95c9-d0bb722e552a.webp",
+    "https://i.postimg.cc/hGxsmKqt/katpcha-me-f8ee87e5-ac90-4824-b02f-90399cd285d7.webp"
+  ],
+  "pointBW_L": [
+    "https://i.postimg.cc/RFTZNJsQ/katpcha-me-20e5be1e-7cdc-4989-bb57-027101bd1c8d.webp",
+    "https://i.postimg.cc/9XJf2Tqc/katpcha-me-409735a2-883d-452d-a31c-9db592a1887b.webp",
+    "https://i.postimg.cc/HxmLY92k/katpcha-me-42a586d3-57b0-4c8d-a969-321dcbab300c.webp",
+    "https://i.postimg.cc/15d5nQHT/katpcha-me-48c107b7-2b83-4e9c-a1e4-da0ee0db93f4.webp",
+    "https://i.postimg.cc/GthhY360/katpcha-me-517eaa2f-2b9c-4001-a43f-2f0d5bdc996d.webp",
+    "https://i.postimg.cc/cC91cyNv/katpcha-me-8641555e-b7a8-4fc1-b9b3-f815c8d0b9a7.webp",
+    "https://i.postimg.cc/y8S60bpN/katpcha-me-d1fb76d7-9929-4cf7-a0e2-9e7b173de651.webp",
+    "https://i.postimg.cc/4NyxxdzV/katpcha-me-e9bb8599-cad7-4039-a17b-4ae0ffa5e65e.webp"
+  ]
+}
