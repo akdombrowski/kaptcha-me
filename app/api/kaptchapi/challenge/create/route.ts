@@ -73,9 +73,9 @@ const rndPosPercFromLeftEdge = () => {
 export async function GET(request: NextRequest) {
   const challenges = await createChallenges({
     difficulty: 9,
-    imgSize: 5,
+    imgSize: 6,
     imgSizeRacing: 20,
-    theme: "racing",
+    theme: "seeingDouble",
   });
 
   console.log("");
