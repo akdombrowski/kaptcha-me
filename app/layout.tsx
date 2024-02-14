@@ -21,7 +21,7 @@ export default function Layout({ children }: Props) {
   return (
     <html lang="en">
       <ThemeProvider theme={theme}>
-        <body className="h-screen w-screen m-0">
+        <body className="h-screen w-screen">
           <IsClientCtxProvider>
             <div id="main" className="h-full w-full">
               {children}

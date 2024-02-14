@@ -12,10 +12,8 @@ import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
 import Link from "#/ui/link";
 import Copyright from "#/ui/copyright";
-import { useTheme } from "@mui/material/styles";
 
 const SignInBtn = (props) => {
-  const theme = useTheme();
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);

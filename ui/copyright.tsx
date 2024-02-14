@@ -9,7 +9,7 @@ export const Copyright = (...props: any[]) => {
       align="center"
       {...props}
     >
-      {"Copyright © "}
+      {"Copyright  "}
       <Link color="inherit" href="https://kaptchame.com/">
         Anthony Dombrowski
       </Link>{" "}

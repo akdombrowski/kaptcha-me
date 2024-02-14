@@ -6,7 +6,7 @@ export function middleware(request: NextRequest) {
   console.log("request.url");
   console.log(request.url);
   
-  return NextResponse.redirect(new URL("/home", request.url));
+  return NextResponse.redirect(new URL("/", request.url));
 }
 
 // See "Matching Paths" below to learn more
