@@ -6,7 +6,6 @@ import Grid from "@mui/material/Unstable_Grid2";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import SignInBtn from "#/src/ui/sign-in-btn";
-import Copyright from "#/src/ui/copyright";
 
 export const SignInPage = () => {
   return (
