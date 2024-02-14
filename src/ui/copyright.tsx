@@ -1,5 +1,5 @@
 import Typography from "@mui/material/Typography";
-import Link from "#/ui/link";
+import Link from "#/src/ui/link";
 
 export const Copyright = (...props: any[]) => {
   return (
@@ -13,8 +13,7 @@ export const Copyright = (...props: any[]) => {
       <Link color="inherit" href="https://kaptchame.com/">
         Anthony Dombrowski
       </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
+      {"" + new Date().getFullYear() + "."}
     </Typography>
   );
 };

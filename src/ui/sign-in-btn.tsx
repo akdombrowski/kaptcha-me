@@ -10,8 +10,7 @@ import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
-import Link from "#/ui/link";
-import Copyright from "#/ui/copyright";
+import Link from "#/src/ui/link";
 
 const SignInBtn = (props) => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -69,7 +68,6 @@ const SignInBtn = (props) => {
           </Link>
         </Grid>
       </Grid>
-      <Copyright sx={{ mt: 5 }} />
     </Box>
   );
 };

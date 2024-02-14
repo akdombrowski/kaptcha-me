@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
-import { IsClientCtxProvider } from "#/ui/ClientCtxProvider";
+import { IsClientCtxProvider } from "#/src/ui/ClientCtxProvider";
 import { ThemeProvider } from "@mui/material/styles";
-import theme from "#/styles/theme";
+import theme from "#/src/styles/theme";
 
 interface Props {
   children?: ReactNode;
@@ -21,7 +21,7 @@ export default function Layout({ children }: Props) {
   return (
     <html lang="en">
       <ThemeProvider theme={theme}>
-        <body className="h-screen w-screen">
+        <body className="h-screen w-screen m-0" style={{ margin: 0 }}>
           <IsClientCtxProvider>
             <div id="main" className="h-full w-full">
               {children}
