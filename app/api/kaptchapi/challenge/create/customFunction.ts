@@ -8,7 +8,6 @@ export type imgs = {
   mee: string[];
   meee: string[];
   meeee: string[];
-  ping: string[];
   pointA: string[];
   pointB: string[];
   pointC: string[];
@@ -17,9 +16,6 @@ export type imgs = {
   pointFF: string[];
   pointG: string[];
   pointGG: string[];
-  pointI: string[];
-  pointJ: string[];
-  pointBW: string[];
 };
 
 const images: imgs = {
@@ -27,7 +23,6 @@ const images: imgs = {
     seeingDouble: "https://i.postimg.cc/HxhXYXj2/double-Trouble.webp",
     ahhhhhh: "https://i.postimg.cc/Gm1Ppjgq/ahhBG.webp",
     racing: "https://i.postimg.cc/DzjCwcwW/race-Track.webp",
-    ping: "https://i.postimg.cc/QNckCGmG/jewel-BG-16by9.webp",
   },
   me: [
     "https://i.postimg.cc/g2TM7XHv/katpcha-me-1885d2d7-2f3c-4c6b-9e5e-66d6f2930fd9.webp",
@@ -68,16 +63,6 @@ const images: imgs = {
     "https://i.postimg.cc/vZYQfQbJ/katpcha-me-ae261cd4-b1ec-4ee7-8a9e-2021d6f3bf37.webp",
     "https://i.postimg.cc/FK1NCDfG/katpcha-me-aea2b5c9-18fa-4c5b-a800-ecec5b4110ab.webp",
     "https://i.postimg.cc/J4W77Ng4/katpcha-me-f238a6ef-71c9-4a3c-b82d-9ef8248d3cb6.webp",
-  ],
-  ping: [
-    "https://i.postimg.cc/xCC82YcD/katpcha-me-05539794-4152-4d0d-8b44-f49fff4cfe69.webp",
-    "https://i.postimg.cc/NGn9Qy6N/katpcha-me-1b795ca0-9ce4-4634-a18e-e2913aa8e74b.webp",
-    "https://i.postimg.cc/wMn72PxK/katpcha-me-86c63577-dc26-4c06-b537-7c4e2d1457db.webp",
-    "https://i.postimg.cc/vmGD05ym/katpcha-me-b7bfd0c3-ac17-4d66-939b-4af51cd498e1.webp",
-    "https://i.postimg.cc/4xkYhrFV/katpcha-me-bc859376-f6c9-4153-945a-d131387e5d13.webp",
-    "https://i.postimg.cc/zXRLvJpq/katpcha-me-cc761a94-1feb-4c31-b4f3-6373f5fdaf58.webp",
-    "https://i.postimg.cc/Kj11nF2r/katpcha-me-dc81c394-a48e-4ba1-9c16-9ab5d25f223c.webp",
-    "https://i.postimg.cc/8zRjdtq3/katpcha-me-e2e1008d-9b8e-4ac6-917a-d9685f3152d7.webp",
   ],
   pointA: [
     "https://i.postimg.cc/ydXy7kcp/katpcha-me-21e486e9-dda0-4071-b22a-bd16b48f714f.webp",
@@ -158,36 +143,6 @@ const images: imgs = {
     "https://i.postimg.cc/Z5v2g2bf/katpcha-me-bef29e05-53e7-4ade-b2ce-4743c8745f41.webp",
     "https://i.postimg.cc/fygqqj6n/katpcha-me-ec071831-fef6-4915-8e00-7354a7929ef6.webp",
     "https://i.postimg.cc/0jNHCHX0/katpcha-me-f1682e3e-053a-4366-9353-80945c638ad5.webp",
-  ],
-  pointI: [
-    "https://i.postimg.cc/JnfDmnvD/katpcha-me-1574f467-2d70-4be8-bb92-288cd07c6978.webp",
-    "https://i.postimg.cc/8PBJQTHc/katpcha-me-2696df4b-42ec-48ce-8e95-26fcd1d905f5.webp",
-    "https://i.postimg.cc/KjtKYbh9/katpcha-me-3e4cb2d0-673d-4e4b-894e-214a402499cf.webp",
-    "https://i.postimg.cc/6pW7BFj0/katpcha-me-428086fd-5b88-4145-bfe2-07eaab47609d.webp",
-    "https://i.postimg.cc/mZ91jY1Q/katpcha-me-7b146194-f659-4e94-82ee-f34e065bd644.webp",
-    "https://i.postimg.cc/PrkpRC10/katpcha-me-9bbc5edb-7873-4017-90b3-ebca9834fbee.webp",
-    "https://i.postimg.cc/XvXpCd0B/katpcha-me-bbc4e208-8335-40d3-a553-1533c1110ba9.webp",
-    "https://i.postimg.cc/t4BsJD8H/katpcha-me-f752200c-fa24-4ea8-b012-72ff40feca7a.webp",
-  ],
-  pointJ: [
-    "https://i.postimg.cc/9QsjL777/katpcha-me-05539794-4152-4d0d-8b44-f49fff4cfe69.webp",
-    "https://i.postimg.cc/rFFcscTK/katpcha-me-1b795ca0-9ce4-4634-a18e-e2913aa8e74b.webp",
-    "https://i.postimg.cc/1z6123GY/katpcha-me-86c63577-dc26-4c06-b537-7c4e2d1457db.webp",
-    "https://i.postimg.cc/tRzp9JLK/katpcha-me-b7bfd0c3-ac17-4d66-939b-4af51cd498e1.webp",
-    "https://i.postimg.cc/Vv48gZqf/katpcha-me-bc859376-f6c9-4153-945a-d131387e5d13.webp",
-    "https://i.postimg.cc/rsqTS2tZ/katpcha-me-cc761a94-1feb-4c31-b4f3-6373f5fdaf58.webp",
-    "https://i.postimg.cc/7Z5k1Vf4/katpcha-me-dc81c394-a48e-4ba1-9c16-9ab5d25f223c.webp",
-    "https://i.postimg.cc/5N7JFG9p/katpcha-me-e2e1008d-9b8e-4ac6-917a-d9685f3152d7.webp",
-  ],
-  pointBW: [
-    "https://i.postimg.cc/VNHktRw7/kaptcha-me-14ed13c2-9420-4e52-b9fc-5618ea9590bc.webp",
-    "https://i.postimg.cc/RFkCsZNK/kaptcha-me-188e3561-6700-487b-a52e-5867904034b4.webp",
-    "https://i.postimg.cc/wBBB3rCy/kaptcha-me-91568605-2253-4882-9af6-f6052e3fc801.webp",
-    "https://i.postimg.cc/JnD45k4R/kaptcha-me-97528219-1872-48f3-8995-e2845d07cb3a.webp",
-    "https://i.postimg.cc/Vkg6fwVP/kaptcha-me-9f93f269-9de7-4e7f-904a-cfa1733e96a6.webp",
-    "https://i.postimg.cc/Z54nznjL/kaptcha-me-b29bb59b-7525-44cd-9682-f3896aecf3e1.webp",
-    "https://i.postimg.cc/RVchYK1F/kaptcha-me-ba918840-cb20-4623-88e6-7a876528baf7.webp",
-    "https://i.postimg.cc/9F3z1J7K/kaptcha-me-d704ce9a-fba6-49b0-917c-b2afb3954a0d.webp",
   ],
 };
 
