@@ -58,27 +58,27 @@ theme = createTheme(theme, {
   palette: {
     mode: "dark",
     primary: {
-      main: "#0033b5",
+      main: "#00bfff",
       // light: will be calculated from palette.primary.main,
       // dark: will be calculated from palette.primary.main,
       // contrastText: will be calculated to contrast with palette.primary.main
     },
     secondary: {
-      main: "#27004f",
-      light: "#5b00b5",
+      main: "#95ff00",
+      // light: "#5b00b5",
       // dark: will be calculated from palette.secondary.main,
-      contrastText: "#ff00d9",
+      // contrastText calculated
     },
-    divider: "#002a10",
+    divider: "#ffd781",
     background: {
       default: "#001445",
       paper: "#001c63",
       dark: "#00113e",
     },
     text: {
-      primary: "#320000",
-      secondary: "#00ddff",
-      dark: "#002a31",
+      primary: "#000000",
+      // secondary: "#320000",
+      // dark: "#002a31",
     },
     salmon: theme.palette.augmentColor({
       color: {
