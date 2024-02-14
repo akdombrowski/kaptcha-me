@@ -7,8 +7,7 @@ import "server-only";
 import { NextRequest, NextResponse } from "next/server";
 import createChallenges from "./customFunction";
 
-// const NUMBER_OF_DAVINCIS = Number('{{global.variables.difficulty}}');
-const NUMBER_OF_DAVINCIS = 10;
+const DIFFICULTY = 10;
 // const IMG_WIDTH = Number('{{global.variables.IMG_WIDTH}}');
 const IMG_WIDTH = 10;
 const IMG_WIDTH_VW = IMG_WIDTH.toString() + "vw";
@@ -52,8 +51,9 @@ const rndPosFromLeftEdgeNumber = () => {
 };
 
 // convert rnd number to percentage
-const rndPosPercFromLeftEdge = () =>
+const rndPosPercFromLeftEdge = () => {
   rndPosFromLeftEdgeNumber().toString() + "%";
+};
 
 // const getChlls = () => {
 //   const chs = CHALLENGES?.firstChild;

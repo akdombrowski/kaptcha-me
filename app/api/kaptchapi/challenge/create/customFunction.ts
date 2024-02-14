@@ -18,6 +18,25 @@ export type imgs = {
   pointGG: string[];
 };
 
+export type Challenges = {
+  themeSrc: string;
+  code: string;
+  renderings: Object;
+  posArray: Array<Number>;
+  positions: Array<Number>;
+  positionsSorted: Array<Number>;
+  posArrayLength: number;
+  noLuck: number;
+  posOverlapping: {
+    withoutOverlap: number;
+    withPartialOverlap: number;
+    withOverlap: number;
+    withRandom: number;
+  };
+  maxNumPosWOOverlap: number;
+  numDirectOverlaps: number;
+};
+
 const images: imgs = {
   bg: {
     seeingDouble: "https://i.postimg.cc/HxhXYXj2/double-Trouble.webp",
@@ -242,7 +261,7 @@ const noLuckFallback = (
 
   const numUnclaimedPos = unclaimedPosSet.size;
   if (unclaimedPosSet && numUnclaimedPos > 0) {
-    unclaimedPosSet.delete(i);
+    unclaimedPosSet.delete(rnd);
   }
   noLuck++;
 
@@ -595,7 +614,6 @@ const generateDVColPosArrays = (numOfDVs, imgSize) => {
       claimedPosArr,
       unclaimedPosSet,
       noLuck,
-      numPosClaimed,
     } = fillPosWOOverlap(
       claimedPosSet,
       claimedPosVizArr,
@@ -623,7 +641,7 @@ const generateDVColPosArrays = (numOfDVs, imgSize) => {
  * @returns An array of codes.
  */
 const generateCodes = (numOfCodes) => {
-  const codes = [];
+  const codes: Array<String> = [];
   for (let i = 0; i < numOfCodes; i++) {
     const code = crypto.randomBytes(64).toString("base64url");
     codes.push(code);
@@ -860,7 +878,6 @@ const getImgOptions = (theme) => {
   const mees = images.mee;
   const meees = images.meee;
   const meeees = images.meeee;
-  const pings = images.ping;
   const as = images.pointA;
   const bs = images.pointB;
   const cs = images.pointC;
@@ -869,8 +886,6 @@ const getImgOptions = (theme) => {
   const ffs = images.pointFF;
   const gs = images.pointG;
   const ggs = images.pointGG;
-  const is = images.pointI;
-  const js = images.pointJ;
 
   // shuffle
   let ohs;
@@ -887,10 +902,6 @@ const getImgOptions = (theme) => {
     ohs = shuffleArray(mees);
     ones = shuffleArray(cs);
     twos = shuffleArray(ds);
-  } else if (theme === "ping") {
-    ohs = shuffleArray(pings);
-    ones = shuffleArray(js);
-    twos = shuffleArray(is);
   } else if (theme === "racing") {
     ohs = shuffleArray(meees);
     ohhs = shuffleArray(meeees);
@@ -1002,7 +1013,9 @@ export type GenerateChallengesRequest = {
   theme: string;
 };
 
-export const createChallenges = async (params: GenerateChallengesRequest) => {
+export const createChallenges = async (
+  params: GenerateChallengesRequest,
+): Promise<Challenges> => {
   const difficulty = Number(params.difficulty);
   const imgSize = Number(params.imgSize);
   const imgSizeRacing = Number(params.imgSizeRacing);
@@ -1044,7 +1057,7 @@ export const createChallenges = async (params: GenerateChallengesRequest) => {
     }
   });
 
-  const output = {
+  const output: Challenges = {
     themeSrc: bgImgSrc,
     code: code,
     renderings: renderings,
