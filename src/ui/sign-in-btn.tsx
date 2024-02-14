@@ -51,18 +51,18 @@ const SignInBtn = (props) => {
         href="/kaptchame"
         fullWidth
         variant="contained"
-        color="salmon"
+        color="primary"
         sx={{ mt: 3, mb: 2 }}
       >
         Sign In
       </Button>
       <Grid container>
-        <Grid item xs>
+        <Grid xs>
           <Link href="#" variant="body2">
             Forgot password?
           </Link>
         </Grid>
-        <Grid item>
+        <Grid>
           <Link href="#" variant="body2">
             {"Don't have an account? Sign Up"}
           </Link>

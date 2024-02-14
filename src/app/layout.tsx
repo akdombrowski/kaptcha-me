@@ -1,7 +1,9 @@
 import { ReactNode } from "react";
 import { IsClientCtxProvider } from "#/src/ui/ClientCtxProvider";
-import { ThemeProvider } from "@mui/material/styles";
 import theme from "#/src/styles/theme";
+import Grid from "@mui/material/Unstable_Grid2";
+import ThemeProvider from "@mui/material/styles/ThemeProvider";
+import CssBaseline from "@mui/material/CssBaseline";
 
 interface Props {
   children?: ReactNode;
@@ -21,11 +23,18 @@ export default function Layout({ children }: Props) {
   return (
     <html lang="en">
       <ThemeProvider theme={theme}>
-        <body className="h-screen w-screen">
+        <body style={{ height: "100vh", width: "100vw" }}>
           <IsClientCtxProvider>
-            <div id="main" className="h-full w-full">
+            <CssBaseline />
+            <Grid
+              container
+              id="main"
+              width="100%"
+              height="100%"
+              sx={{ backgroundColor: "background" }}
+            >
               {children}
-            </div>
+            </Grid>
           </IsClientCtxProvider>
         </body>
       </ThemeProvider>

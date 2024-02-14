@@ -1,10 +1,8 @@
-import "server-only";
-
 import Avatar from "@mui/material/Avatar";
 import CssBaseline from "@mui/material/CssBaseline";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Unstable_Grid2";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import SignInBtn from "#/src/ui/sign-in-btn";
@@ -12,22 +10,31 @@ import Copyright from "#/src/ui/copyright";
 
 export const SignInPage = () => {
   return (
-    <Grid container component="main" sx={{ height: "100vh" }}>
+    <Grid container xs={12} padding={"1vw 1vh"} height="100%" width="100%">
       <CssBaseline />
       <Grid
-        item
         xs={false}
         sm={4}
-        md={7}
+        md={5}
         sx={{
-          backgroundImage: "url(https://source.unsplash.com/random?wallpapers)",
+          backgroundImage:
+            "url(https://i.postimg.cc/Xq7JXNYH/recaptcha-katpchame.webp)",
           backgroundRepeat: "no-repeat",
-          backgroundColor: "secondary.main",
-          backgroundSize: "cover",
+          backgroundColor: "background",
+          backgroundSize: "contain",
           backgroundPosition: "center",
         }}
       />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+      <Grid
+        xs={12}
+        sm={8}
+        md={7}
+        component={Paper}
+        elevation={6}
+        sx={{
+          backgroundColor: "background",
+        }}
+      >
         <Box
           sx={{
             my: 8,
@@ -43,8 +50,8 @@ export const SignInPage = () => {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <SignInBtn></SignInBtn>
-          {/* <Copyright sx={{ mt: 5 }} /> */}
+
+          <SignInBtn />
         </Box>
       </Grid>
     </Grid>
