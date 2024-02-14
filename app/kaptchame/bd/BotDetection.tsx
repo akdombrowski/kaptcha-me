@@ -7,18 +7,13 @@ import { SyntheticEvent, useEffect, useRef, useState } from "react";
 import "./App.css";
 import MotionContainer from "./MotionContainer";
 import testrenderings from "./TestRenderings";
-import { checkChall } from "./actions";
 
 // for local dev
-const IMG_SIZE = 5;
-const IMG_SIZE_RACING = 11;
+const IMG_SIZE = 6;
+const IMG_SIZE_RACING = 20;
 const NUMBER_OF_DAVINCIS = 9;
 const IMG_WIDTH_VW = IMG_SIZE.toString() + "vw";
 const IMG_HEIGHT_VH = IMG_SIZE.toString() + "vh";
-// const IMG_SIZE = Number("{{global.variables.IMG_SIZE}}");
-// const IMG_SIZE_RACING = Number("{{global.variables.IMG_SIZE_RACING}}");
-// const NUMBER_OF_DAVINCIS = Number("{{global.variables.difficulty}}");
-// const RENDERINGS = document.getElementById('renderings')?.innerText;
 const RENDERINGS = testrenderings;
 const MIN_DUR = 4;
 const MAX_DUR = 8;
@@ -27,8 +22,6 @@ const MAX_DUR = 8;
 const theme = "racing";
 // const bgImg = "https://i.ibb.co/yWrB3tt/anthony-double-trouble.png";
 const bgImg = "https://i.postimg.cc/DzjCwcwW/race-Track.webp";
-// const theme = "{{global.variables.theme}}";
-// const bgImg = "{{global.variables.themeSrc}}";
 
 type motioncontainerprops = {
   idNumber: number;
