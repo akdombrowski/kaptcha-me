@@ -1,0 +1,43 @@
+{
+  "author": {
+    "name": "Anthony Dombrowski"
+  },
+  "private": true,
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev",
+    "prettier": "prettier --write --ignore-unknown .",
+    "prettier:check": "prettier --check --ignore-unknown .",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@heroicons/react": "2.1.1",
+    "@mui/icons-material": "^5.15.10",
+    "@mui/material": "^5.15.10",
+    "@supabase/supabase-js": "2.39.6",
+    "clsx": "2.1.0",
+    "framer-motion": "11.0.5",
+    "next": "^14.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "20.11.17",
+    "@types/react": "18.2.55",
+    "@types/react-dom": "18.2.19",
+    "@typescript-eslint/eslint-plugin": "7.0.1",
+    "@typescript-eslint/parser": "7.0.1",
+    "autoprefixer": "10.4.17",
+    "client-only": "0.0.1",
+    "eslint": "8.56.0",
+    "eslint-config-next": "14.1.0",
+    "prettier": "3.2.5",
+    "server-only": "0.0.1",
+    "supabase": "1.142.2",
+    "typescript": "5.3.3",
+    "vercel": "^33.7.0"
+  },
+  "packageManager": "yarn@4.1.1"
+}
