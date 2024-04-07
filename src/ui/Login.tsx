@@ -13,15 +13,7 @@ import Container from "@mui/material/Container";
 import { useRef, useEffect, useState } from "react";
 
 export const SignInPage = () => {
-  const ref = useRef<typeof Image>(null);
-  const [imgH, setImgH] = useState<string | number>("50vh");
   const theme = useTheme();
-
-  const imageHeight = (id: string) => {
-    const a = 0;
-  };
-
-  useEffect(() => {}, []);
 
   return (
     <Container
