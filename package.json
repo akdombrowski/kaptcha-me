@@ -33,6 +33,7 @@
     "@types/react": "18.2.74",
     "@types/react-dom": "18.2.24",
     "client-only": "0.0.1",
+    "prettier": "^3.2.5",
     "server-only": "0.0.1",
     "supabase": "1.153.4",
     "typescript": "^5.4.4",
