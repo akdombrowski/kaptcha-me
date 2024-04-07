@@ -19,6 +19,8 @@ import Avatar from "@mui/material/Avatar";
 import { useTheme } from "@mui/material/styles";
 import { FormControl, Input } from "@mui/material";
 
+import loginFormSubmit from "@/actions/loginFormSubmit"
+
 const DEBUG = true;
 
 export default function SignInBtn(props) {
@@ -43,7 +45,8 @@ export default function SignInBtn(props) {
       alignItems="stretch"
       component="form"
       noValidate
-      onSubmit={handleSubmit}
+      action={loginFormSubmit}
+      // onSubmit={}
     >
       <Stack
         spacing={5}
@@ -87,8 +90,8 @@ export default function SignInBtn(props) {
         />
       </Stack>
       <Button
-        href="/kaptchame"
         fullWidth
+        type="submit"
         variant="contained"
         color="primary"
         sx={{ mt: 2, mb: 2 }}
