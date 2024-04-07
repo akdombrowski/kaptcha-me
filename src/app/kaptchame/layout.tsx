@@ -1,28 +1,26 @@
 import { ReactNode } from "react";
-import { IsClientCtxProvider } from "#/src/ui/ClientCtxProvider";
 import { ThemeProvider } from "@mui/material/styles";
+import Box from "@mui/material/Box";
 import theme from "#/src/styles/theme";
+import type { Metadata } from "next";
 
-interface Props {
-  children?: ReactNode;
-}
 
-const title = "Kaptcha Me";
+const title = "kaptcha-me";
 
-export const metadata = {
-  title,
-  openGraph: {
-    title,
-    images: [`/api/og?title=${title}`],
-  },
+export const metadata: Metadata = {
+  title: "kaptcha-me",
+  // openGraph: {
+  //   title,
+  //   images: [`/api/og?title=${title}`],
+  // },
 };
 
-export default function Layout({ children }: Props) {
+export default function Layout({ children }: {children: ReactNode}) {
   return (
-    <div id="kaptcha-me-layout-container" className="h-full w-full">
+    <Box id="kaptchame-layoutBoxWrapper" height="100vh" width="100vw">
       {children}
-    </div>
+    </Box>
   );
 }
 
-export const runtime = "edge"; // 'nodejs' (default) | 'edge'
+// export const runtime = "edge"; // 'nodejs' (default) | 'edge'

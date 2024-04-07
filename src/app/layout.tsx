@@ -32,14 +32,12 @@ export default function RootLayout({children}: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/favicon/favicon.ico" sizes="any" />
       </head>
       <body>
-        {/* <AppRouterCacheProvider options={{ enableCssLayer: true }}> */}
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             {children}
             <SpeedInsights />
             <Analytics />
