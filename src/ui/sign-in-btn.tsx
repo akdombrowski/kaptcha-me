@@ -9,8 +9,9 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Unstable_Grid2";
 import Link from "next/link";
+import { Typography } from "@mui/material";
 
 const SignInBtn = (props) => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -58,13 +59,15 @@ const SignInBtn = (props) => {
       </Button>
       <Grid container>
         <Grid xs>
-          <Link href="#" variant="body2">
-            Forgot password?
+          <Link href="#">
+            <Typography variant="body2">Forgot password?</Typography>
           </Link>
         </Grid>
         <Grid>
-          <Link href="#" variant="body2">
-            {"Don't have an account? Sign Up"}
+          <Link href="#">
+            <Typography variant="body2">
+              "Don't have an account? Sign Up"
+            </Typography>
           </Link>
         </Grid>
       </Grid>

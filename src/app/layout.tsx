@@ -1,43 +1,51 @@
-import { ReactNode } from "react";
-import { IsClientCtxProvider } from "#/src/ui/ClientCtxProvider";
-import theme from "#/src/styles/theme";
-import Grid from "@mui/material/Unstable_Grid2";
-import ThemeProvider from "@mui/material/styles/ThemeProvider";
+import type { Metadata } from "next";
+import type { ReactNode } from "react";
+
+// import styles for fonts
+import "@fontsource/roboto/100.css";
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
+import "@fontsource/roboto/900.css";
+
+/**
+ *  Styling for MUI components using theme
+ */
+import theme from "@/styles/theme";
+import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+// nextjs optimization
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 
-interface Props {
-  children?: ReactNode;
-}
 
-const title = "Kaptcha Me";
+// vercel site performance and analytics
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react";
 
-export const metadata = {
-  title,
-  openGraph: {
-    title,
-    images: [`/api/og?title=${title}`],
-  },
+export const metadata: Metadata = {
+  title: "kaptcha-me",
+  description: "Anthony Dombrowski's kaptcha-me, a secure alternative to reCAPTCHA's image grid bot detection protection.",
 };
 
-export default function Layout({ children }: Props) {
+export default function RootLayout({children}: { children: ReactNode }) {
   return (
     <html lang="en">
-      <ThemeProvider theme={theme}>
-        <body style={{ height: "100vh", width: "100vw" }}>
-          <IsClientCtxProvider>
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+      </head>
+      <body>
+        {/* <AppRouterCacheProvider options={{ enableCssLayer: true }}> */}
+        <AppRouterCacheProvider>
+          <ThemeProvider theme={theme}>
             <CssBaseline />
-            <Grid
-              container
-              id="main"
-              width="100%"
-              height="100%"
-              sx={{ backgroundColor: "background" }}
-            >
-              {children}
-            </Grid>
-          </IsClientCtxProvider>
-        </body>
-      </ThemeProvider>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            {children}
+            <SpeedInsights />
+            <Analytics />
+          </ThemeProvider>
+        </AppRouterCacheProvider>
+      </body>
     </html>
   );
 }

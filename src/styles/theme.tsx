@@ -71,12 +71,12 @@ theme = createTheme(theme, {
     },
     divider: "#ffd781",
     background: {
-      default: "#001445",
-      paper: "#001c63",
+      default: "#232E2E",
+      paper: "#7B2D26",
       dark: "#00113e",
     },
     text: {
-      primary: "#000000",
+      primary: "#7871AA",
       // secondary: "#320000",
       // dark: "#002a31",
     },

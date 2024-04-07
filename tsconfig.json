@@ -19,8 +19,10 @@
     "paths": {
       "#/*": ["./*"],
       "@/*": ["src/*"],
+      "@/ui/*": ["src/ui/*"],
       "@/api/*": ["src/app/api/*"],
       "@/kaptchame/*": ["src/app/kaptchame/*"],
+      "@/styles/*": ["src/styles/*"],
     },
     "plugins": [
       {

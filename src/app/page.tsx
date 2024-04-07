@@ -1,10 +1,5 @@
-"use server";
+import Login from "@/ui/sign-in";
 
-// should this be server?
-import "server-only";
-
-import { SignInPage } from "#/src/ui/sign-in";
-
-export default async function Page() {
-  return <SignInPage />;
+export default function Page() {
+  return <Login />;
 }
