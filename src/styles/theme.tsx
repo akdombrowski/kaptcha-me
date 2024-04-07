@@ -12,12 +12,12 @@ interface CustomColor {
 declare module "@mui/material/styles" {
   interface Palette {
     custom?: Palette["primary"];
-    salmon: PaletteColor;
+    salmon?: PaletteColor;
   }
 
   interface PaletteOptions {
     custom?: PaletteOptions["primary"];
-    salmon: PaletteColor;
+    salmon?: PaletteColor;
   }
 
   interface PaletteColor {
@@ -29,7 +29,7 @@ declare module "@mui/material/styles" {
   }
 
   interface Theme {
-    status: {
+    status?: {
       danger: string;
     };
   }
@@ -42,23 +42,18 @@ declare module "@mui/material/styles" {
   }
 }
 
-declare module "@mui/material/Button" {
-  interface ButtonPropsColorOverrides {
-    salmon: true;
-    dark: true;
-  }
-}
+// declare module "@mui/material/Button" {
+//   interface ButtonPropsColorOverrides {
+//     salmon: true;
+//     dark: true;
+//   }
+// }
 
-let theme = createTheme({
-  // Theme customization goes here as usual, including tonalOffset and/or
-  // contrastThreshold as the augmentColor() function relies on these
-});
-
-theme = createTheme(theme, {
+const theme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: "#00bfff",
+      main: "#CEBACF",
       // light: will be calculated from palette.primary.main,
       // dark: will be calculated from palette.primary.main,
       // contrastText: will be calculated to contrast with palette.primary.main
@@ -73,19 +68,12 @@ theme = createTheme(theme, {
     background: {
       default: "#232E2E",
       paper: "#7B2D26",
-      dark: "#00113e",
     },
     text: {
-      primary: "#7871AA",
+      primary: "#E2E8C0",
       // secondary: "#320000",
       // dark: "#002a31",
     },
-    salmon: theme.palette.augmentColor({
-      color: {
-        main: "#FF5733",
-      },
-      name: "salmon",
-    }),
   },
 });
 

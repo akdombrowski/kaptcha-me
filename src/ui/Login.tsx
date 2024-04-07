@@ -51,7 +51,6 @@ export const SignInPage = () => {
           xs={6}
           component={Paper}
           elevation={6}
-          height="100%"
           sx={{
             backgroundColor: alpha(theme.palette.background.paper, 0.5),
           }}
