@@ -10,7 +10,7 @@ import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
-import Link from "#/src/ui/link";
+import Link from "next/link";
 
 const SignInBtn = (props) => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {

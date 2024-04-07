@@ -35,7 +35,7 @@
     "prettier": "3.2.5",
     "server-only": "0.0.1",
     "supabase": "1.142.2",
-    "typescript": "5.3.3",
+    "typescript": "^5.4.4",
     "vercel": "^33.7.0"
   },
   "packageManager": "yarn@4.1.1"

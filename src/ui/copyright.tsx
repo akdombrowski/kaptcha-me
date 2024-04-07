@@ -1,5 +1,5 @@
 import Typography from "@mui/material/Typography";
-import Link from "#/src/ui/link";
+import Link from "next/link";
 
 export const Copyright = (...props: any[]) => {
   return (
