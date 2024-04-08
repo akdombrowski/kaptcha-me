@@ -1,16 +1,12 @@
 "use client";
 import "client-only";
 
-import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
-import Stack from "@mui/material/Stack";
 import SignInBtn from "@/ui/sign-in-btn";
 import { alpha, useTheme } from "@mui/material/styles";
 import Image from "next/image";
 import Container from "@mui/material/Container";
-
-import { useRef, useEffect, useState } from "react";
 
 export const SignInPage = () => {
   const theme = useTheme();
@@ -34,6 +30,7 @@ export const SignInPage = () => {
               id="kaptcha-me-design-image"
               src="/recaptcha-katpchame.webp"
               fill
+              priority
               style={{ objectFit: "contain", overflow: "hidden" }}
               alt="katpcha-me design"
             />

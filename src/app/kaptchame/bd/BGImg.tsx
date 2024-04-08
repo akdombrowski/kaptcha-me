@@ -1,3 +1,6 @@
+"use client";
+import "client-only";
+
 import Box from "@mui/material/Box";
 import { getImageProps } from "next/image";
 import { ReactNode } from "react";
@@ -21,6 +24,7 @@ export default function BGImg({ children }: { children: ReactNode }) {
     width: 1920,
     height: 1080,
     src: "https://i.postimg.cc/DzjCwcwW/race-Track.webp",
+    priority: true,
   });
   const backgroundImage = getBackgroundImage(srcSet);
   const style = { height: "100vh", width: "100vw", backgroundImage };
@@ -31,6 +35,8 @@ export default function BGImg({ children }: { children: ReactNode }) {
       className="main-container sceneImg"
       // style={bgImgLoaded ? { backgroundImage: "url(" + bgImg + ")" } : {}}
       style={style}
-    >{children}</Box>
+    >
+      {children}
+    </Box>
   );
 }

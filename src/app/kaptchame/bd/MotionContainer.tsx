@@ -1,61 +1,66 @@
-'use client';
+"use client";
 
-import 'client-only';
+import "client-only";
 
 import {
   motion,
   useMotionValue,
   useMotionValueEvent,
   useAnimationControls,
-} from 'framer-motion';
+} from "framer-motion";
 import {
   SyntheticEvent,
   useEffect,
   useLayoutEffect,
   useRef,
   useState,
-} from 'react';
+  type ReactElement,
+} from "react";
+import Button from "@mui/material/Button"
+import Box from "@mui/material/Box"
 
 const convert5WToPx = () => {
   const windowW = window.innerWidth;
   return (windowW / 100) * 5;
 };
 
-const MotionContainer = (props: {
+export type MeInMotion = {
   idNumber: number;
   duration: number;
   challenge: string;
   img: string;
   handleClick: Function;
-  imgsLoaded: boolean;
+  charImg: ReactElement;
   bgImageContainerHeight: number;
   bgImageContainerWidth: number;
   theme: string;
   imgStackSize: number;
   movementSize: number;
   moveDir: string;
-}) => {
+}
+
+const MotionContainer = (me: MeInMotion) => {
   const dvMotionDiv = useRef<HTMLDivElement>(null);
-  const bgImageContainerHeight = props.bgImageContainerHeight;
+  const bgImageContainerHeight = me.bgImageContainerHeight;
   const y = useMotionValue(0);
-  const xRight = useMotionValue('-100vw');
-  const xLeft = useMotionValue('100vw');
+  const xRight = useMotionValue("-100vw");
+  const xLeft = useMotionValue("100vw");
   const [yFinal, setYFinal] = useState(0);
   const xRightControls = useAnimationControls();
   const xLeftControls = useAnimationControls();
   const imgStackSizePX =
-    props.bgImageContainerHeight * props.imgStackSize * 0.01;
-  const imgStackSizePerc = props.imgStackSize + '%';
+    me.bgImageContainerHeight * me.imgStackSize * 0.01;
+  const imgStackSizePerc = me.imgStackSize + "%";
   const imgMovementSizePX = (imgStackSizePX * 16) / 9;
   const imgMovementSizePerc =
-    (imgMovementSizePX / props.bgImageContainerWidth) * 100 + '%';
-  const rightEdge = props.bgImageContainerWidth + imgMovementSizePX;
-  const leftEdge = props.bgImageContainerWidth - rightEdge - imgMovementSizePX;
+    (imgMovementSizePX / me.bgImageContainerWidth) * 100 + "%";
+  const rightEdge = me.bgImageContainerWidth + imgMovementSizePX;
+  const leftEdge = me.bgImageContainerWidth - rightEdge - imgMovementSizePX;
   const racingThemeTransition = {
-    type: 'tween',
-    duration: props.duration + 2,
+    type: "tween",
+    duration: me.duration + 2,
     repeat: 0,
-    ease: 'linear',
+    ease: "linear",
   };
 
   const startMovingRightAnimation: (start: number) => Promise<any> = (
@@ -82,15 +87,15 @@ const MotionContainer = (props: {
   };
 
   useEffect(() => {
-    if (props.theme === 'racing') {
+    if (me.theme === "racing") {
       startMovingRightAnimation(0);
     }
   });
 
-  useMotionValueEvent(xRight, 'animationComplete', () => {
+  useMotionValueEvent(xRight, "animationComplete", () => {
     startMovingLeftAnimation(rightEdge);
   });
-  useMotionValueEvent(xLeft, 'animationComplete', () => {
+  useMotionValueEvent(xLeft, "animationComplete", () => {
     startMovingRightAnimation(leftEdge);
   });
 
@@ -110,13 +115,13 @@ const MotionContainer = (props: {
   };
 
   const createMotionDivBasedOnTheme = () => {
-    if (props.theme === 'racing') {
+    if (me.theme === "racing") {
       return (
-        <>
+        <Box component="form">
           <motion.div
             ref={dvMotionDiv}
             className="motion-div"
-            id={'motionRight' + props.idNumber}
+            id={"motionRight" + me.idNumber}
             data-left-edge={leftEdge}
             data-right-edge={rightEdge}
             data-img-movement-size-px={imgMovementSizePX}
@@ -137,20 +142,17 @@ const MotionContainer = (props: {
             }}
             exit={{ scale: 1000, transition: { duration: 0.1 } }}
           >
-            <input
-              id={'meImg' + props.idNumber}
-              name={'meImg' + props.idNumber}
-              alt={'kaptcha answer option'}
+            <Button
+              id={"meImg" + me.idNumber}
+              name={"meImg" + me.idNumber}
               className="image-btn-x"
-              type="image"
-              src={props.img[0]}
-              style={{ width: '100%' }}
-            ></input>
+              sx={{ width: "100%" }}
+            >{me.charImg}</Button>
           </motion.div>
           <motion.div
             ref={dvMotionDiv}
             className="motion-div"
-            id={'motionLeft' + props.idNumber}
+            id={"motionLeft" + me.idNumber}
             data-left-edge={leftEdge}
             data-right-edge={rightEdge}
             data-img-movement-size-perc={imgMovementSizePerc}
@@ -171,23 +173,23 @@ const MotionContainer = (props: {
             exit={{ scale: 1000, transition: { duration: 0.1 } }}
           >
             <input
-              id={'meImg' + props.idNumber}
-              name={'meImg' + props.idNumber}
-              alt={'kaptcha answer option'}
+              id={"meImg" + me.idNumber}
+              name={"meImg" + me.idNumber}
+              alt={"kaptcha answer option"}
               className="image-btn-x"
               type="image"
-              src={props.img[1]}
-              style={{ width: '100%' }}
+              src={me.img[1]}
+              style={{ width: "100%" }}
             ></input>
           </motion.div>
-        </>
+        </Box>
       );
     } else {
       return (
         <motion.div
           ref={dvMotionDiv}
           className="motion-div"
-          id={'motion' + props.idNumber}
+          id={"motion" + me.idNumber}
           style={{ y }}
           // initial={{ y: yInitial }}
           animate={{
@@ -196,9 +198,9 @@ const MotionContainer = (props: {
           transition={{
             y: {
               repeat: Infinity,
-              duration: props.duration,
-              repeatType: 'reverse',
-              type: 'tween',
+              duration: me.duration,
+              repeatType: "reverse",
+              type: "tween",
             },
           }}
           whileHover={{
@@ -214,12 +216,12 @@ const MotionContainer = (props: {
           exit={{ scale: 100, transition: { duration: 0.01 } }}
         >
           <input
-            id={'meImg' + props.idNumber}
-            name={'meImg' + props.idNumber}
-            alt={'kaptcha image option'}
+            id={"meImg" + me.idNumber}
+            name={"meImg" + me.idNumber}
+            alt={"kaptcha image option"}
             className="backgroundImg"
             type="image"
-            src={props.img}
+            src={me.img}
           ></input>
         </motion.div>
       );
@@ -228,14 +230,10 @@ const MotionContainer = (props: {
 
   const handleClick = (e: SyntheticEvent) => {
     e.preventDefault();
-    props.handleClick(e);
+    me.handleClick(e);
   };
 
-  return props.imgsLoaded ? (
-    createMotionDivBasedOnTheme()
-  ) : (
-    <div>Loading...</div>
-  );
+  return createMotionDivBasedOnTheme();
 };
 
 export default MotionContainer;
