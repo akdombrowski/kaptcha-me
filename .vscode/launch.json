@@ -5,31 +5,84 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch via NPM",
+      "name": "Attach to Chrome",
+      "port": 9222,
+      "request": "attach",
+      "type": "chrome",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
+      "name": "server-chrome",
+      "type": "node-terminal",
       "request": "launch",
-      "runtimeArgs": [
-        "run-script",
-        "debug"
-      ],
-      "runtimeExecutable": "npm",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "command": "yarn run --inspect next dev",
+      "presentation": {
+        "hidden": false,
+        "group": "chrome",
+        "order": 2
+      }
+    },
+    {
+      "name": "client-chrome",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3000",
+      "presentation": {
+        "hidden": false,
+        "group": "chrome",
+        "order": 2
+      }
+    },
+    {
+      "name": "server-vscode",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "yarn dev"
+    },
+    {
+      "name": "both-split",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "yarn dev",
+      "serverReadyAction": {
+        "pattern": "- Local:.+(https?://.+)",
+        "uriFormat": "%s",
+        "action": "debugWithChrome"
+      }
+    },
+    {
+      "name": "Launch via yarn",
+      "request": "launch",
+      "runtimeArgs": ["debug"],
+      "runtimeExecutable": "yarn",
+      "skipFiles": ["<node_internals>/**"],
       "type": "node"
     },
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Program",
+      "name": "kaptchapi/challenge/check/route.ts",
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/app/api/kaptchapi/challenge/check/route.ts",
       "outFiles": ["${workspaceFolder}/**/*.js"]
     },
     {
-      "command": "npm run dev",
-      "name": "Run npm run dev",
+      "command": "yarn dev",
+      "name": "Run yarn dev",
       "request": "launch",
       "type": "node-terminal"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "both-chrome",
+      "configurations": ["client-chrome", "server-chrome"],
+      "stopAll": true,
+      "presentation": {
+        "hidden": false,
+        "group": "chrome",
+        "order": 1
+      }
     }
   ]
 }

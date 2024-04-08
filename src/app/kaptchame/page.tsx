@@ -1,9 +1,10 @@
 import dynamic from "next/dynamic";
 
-const DynamicBotDetection = dynamic(() => import("./bd/BotDetection"), {
+const DynamicBotDetection = dynamic(() => import("@/kaptchame/bd/BotDetection"), {
   ssr: false,
 });
 
-export default function Page() {
+export default function KaptchaMe() {
+  console.log("in kaptchme page")
   return <DynamicBotDetection />;
 }

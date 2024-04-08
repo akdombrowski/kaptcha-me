@@ -5,8 +5,9 @@ import "client-only";
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { SyntheticEvent, useEffect, useRef, useState } from "react";
 import "./App.css";
-import MotionContainer from "./MotionContainer";
-import testrenderings from "./TestRenderings";
+import MotionContainer from "@/kaptchame/bd/MotionContainer";
+import testrenderings from "@/kaptchame/bd/TestRenderings";
+import BGImg from "#/src/app/kaptchame/bd/BGImg";
 
 // for local dev
 const IMG_SIZE = 6;
@@ -153,30 +154,38 @@ const precacheAllImagesNeeded = () => {
 };
 
 export default function BotDetection() {
-  const [bgImgLoaded, setBGImgLoaded] = useState(false);
+  // const [bgImgLoaded, setBGImgLoaded] = useState(false);
   const [imgsLoaded, setImgsLoaded] = useState(false);
   const [bgImageContainerHeight, setBgImageContainerHeight] = useState(0);
   const [bgImageContainerWidth, setBgImageContainerWidth] = useState(0);
   const mainContainerRef = useRef<HTMLDivElement | null>(null);
   const dvContainers = generateDurations();
 
-  const waitForBGImage = async () => {
-    await Promise.all(precacheBGImage(bgImg));
-    setBGImgLoaded(true);
-  };
+  // const waitForBGImage = async () => {
+  //   await Promise.all(precacheBGImage(bgImg));
+  //   setBGImgLoaded(true);
+  // };
 
   const waitForImages = async () => {
     await Promise.all(precacheAllImagesNeeded());
     setImgsLoaded(true);
   };
 
+  // useEffect(() => {
+  //   waitForBGImage();
+  // }, []);
   useEffect(() => {
-    waitForBGImage();
+    if (window) {
+      const height = window.innerHeight;
+      const width = window.innerWidth;
+      setBgImageContainerHeight(height);
+      setBgImageContainerWidth(width);
+    }
   }, []);
 
   useEffect(() => {
     waitForImages();
-  }, [bgImgLoaded]);
+  }, []);
 
   const resizeObserver = new ResizeObserver((entries) => {
     // entry is a ResizeObserverEntry
@@ -323,16 +332,19 @@ export default function BotDetection() {
   };
 
   return (
-    <div
-      id="mainContainer"
-      ref={mainContainerRef}
-      className="main-container sceneImg"
-      style={bgImgLoaded ? { backgroundImage: "url(" + bgImg + ")" } : {}}
-    >
-      <h1 style={bgImgLoaded ? { display: "none" } : {}}>Loading...</h1>
+    // <div
+    //   id="mainContainer"
+    //   ref={mainContainerRef}
+    //   className="main-container sceneImg"
+    //   // style={bgImgLoaded ? { backgroundImage: "url(" + bgImg + ")" } : {}}
+    //   style={{ backgroundImage: "url(" + bgImg + ")" }}
+    // >
+    // {/**<h1 style={bgImgLoaded ? { display: "none" } : {}}>Loading...</h1>*/ }
+    <BGImg>
       <div id="dvsContainer" className={calcFlexDirection()}>
         {mappings(dvContainers)}
       </div>
-    </div>
+    </BGImg>
+    // </div>
   );
 }
