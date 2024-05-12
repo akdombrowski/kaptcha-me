@@ -21,7 +21,6 @@ export default function BGImg({ children }: { children?: ReactNode }) {
   const {
     props: { srcSet },
   } = getImageProps({
-    alt: "kaptcha-me race track background image",
     width: 1920,
     height: 1080,
     src: "https://i.postimg.cc/DzjCwcwW/race-Track.webp",
@@ -31,11 +30,7 @@ export default function BGImg({ children }: { children?: ReactNode }) {
   const style = { height: "100vh", width: "100vw", backgroundImage };
 
   return (
-    <Container
-      id="mainContainer"
-      maxWidth={false}
-      style={style}
-    >
+    <Container id="mainContainer" maxWidth={false} style={style}>
       {children ?? <></>}
     </Container>
   );

@@ -19,6 +19,7 @@ import CharImg from "@/kaptchame/bd/CharImg";
 import type { Challenges } from "@/kaptchapi/challenge/create/customFunction";
 import MotionDiv from "@/components/motion/MotionDiv";
 import { motion } from "framer-motion";
+import ImgBtn from "@/components/motion/ImgBtn";
 
 // // for local dev
 const IMG_SIZE = 6;
@@ -49,7 +50,13 @@ export default function BotDetection({
 }) {
   return (
     <BGImg>
-      <motion.div animate={{ x: 100 }} />
+      <motion.div
+        initial={{ x: 0 }}
+        animate={{ x: "80vw" }}
+        transition={{ duration: 5 }}
+      >
+        <ImgBtn id="option1" src={kmGoKartR} />
+      </motion.div>
     </BGImg>
   );
 }

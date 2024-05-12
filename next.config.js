@@ -6,6 +6,13 @@ const nextConfig = {
         protocol: "https",
         hostname: "i.postimg.cc",
         pathname: "/DzjCwcwW/race-Track.webp",
+        port: "",
+      },
+      {
+        protocol: "https",
+        hostname: "i.ibb.co",
+        pathname: "/zm6cRTt/gokart-R.png",
+        port: "",
       },
     ],
   },

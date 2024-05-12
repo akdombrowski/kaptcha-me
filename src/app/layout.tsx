@@ -32,7 +32,11 @@ export default function RootLayout({children}: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/favicon/favicon.ico" sizes="any" />
+        <link
+          rel="icon"
+          href="/favicon/gokart_favicon/favicon.ico"
+          sizes="any"
+        />
       </head>
       <body>
         <AppRouterCacheProvider>

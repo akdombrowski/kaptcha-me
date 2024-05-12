@@ -24,7 +24,7 @@ import loginFormSubmit from "@/actions/loginFormSubmit";
 
 const DEBUG = true;
 
-export default function SignInBtn(props) {
+export default function LoginForm(props) {
   const theme = useTheme();
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {

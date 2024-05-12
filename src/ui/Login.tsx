@@ -1,16 +1,9 @@
-"use client";
-import "client-only";
-
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
-import SignInBtn from "@/ui/sign-in-btn";
-import { alpha, useTheme } from "@mui/material/styles";
+import LoginForm from "@/ui/LoginForm";
 import Image from "next/image";
 import Container from "@mui/material/Container";
-
-export const SignInPage = () => {
-  const theme = useTheme();
-
+export default function Login() {
   return (
     <Container
       maxWidth={false}
@@ -36,14 +29,10 @@ export const SignInPage = () => {
             />
           </Box>
         </Grid>
-        <Grid
-          xs={6}
-        >
-            <SignInBtn />
+        <Grid xs={6}>
+          <LoginForm />
         </Grid>
       </Grid>
     </Container>
   );
-};
-
-export default SignInPage;
+}

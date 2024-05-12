@@ -64,8 +64,8 @@ const ImageMarked = styled("span")(({ theme }) => ({
 
 export interface KaptchaMeImgBtnProps extends ButtonProps {
   id: string;
-  width?: string;
   src: string;
+  width?: string;
 }
 
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
@@ -122,7 +122,7 @@ const kaptchaMeImgBtn = styled(ButtonBase, {
   }),
 }));
 
-export default function ImgBtn(props: KaptchaMeImgBtnProps, img: typeof Image) {
+export default function ImgBtn(props: KaptchaMeImgBtnProps) {
   return (
     <Box
       sx={{ display: "flex", flexWrap: "wrap", minWidth: 300, width: "100%" }}
@@ -138,7 +138,7 @@ export default function ImgBtn(props: KaptchaMeImgBtnProps, img: typeof Image) {
         <Image
           src={props.src}
           alt="kaptcha-me option"
-          sizes="100vw"
+          sizes="10vw"
           style={{
             width: "100%",
             height: "auto",
