@@ -325,16 +325,16 @@ export default function MotionContainer() {
   const [yFinal, setYFinal] = useState(0);
   const xRightControls = useAnimationControls();
   const xLeftControls = useAnimationControls();
-  const imgStackSizePX = bgImageContainerHeight * stackSize * 0.01;
-  const imgStackSizePerc = stackSize + "%";
+  const imgStackSizePX = bgImageContainerHeight * me.imgStackSize * 0.01;
+  const imgStackSizePerc = me.imgStackSize + "%";
   const imgMovementSizePX = (imgStackSizePX * 16) / 9;
   const imgMovementSizePerc =
-    (imgMovementSizePX / bgImageContainerWidth) * 100 + "%";
-  const rightEdge = bgImageContainerWidth + imgMovementSizePX;
-  const leftEdge = bgImageContainerWidth - rightEdge - imgMovementSizePX;
+    (imgMovementSizePX / me.bgImageContainerWidth) * 100 + "%";
+  const rightEdge = me.bgImageContainerWidth + imgMovementSizePX;
+  const leftEdge = me.bgImageContainerWidth - rightEdge - imgMovementSizePX;
   const racingThemeTransition = {
     type: "tween",
-    duration: duration + 2,
+    duration: me.duration + 2,
     repeat: 0,
     ease: "linear",
   };
@@ -484,7 +484,7 @@ export default function MotionContainer() {
   };
 
   useEffect(() => {
-    if (theme === "racing") {
+    if (me.theme === "racing") {
       startMovingRightAnimation(0);
     }
   });
@@ -496,7 +496,7 @@ export default function MotionContainer() {
           <motion.div
             ref={dvMotionDiv}
             className="motion-div"
-            id={"motionRight" + idNumber}
+            id={"motionRight" + me.idNumber}
             data-left-edge={leftEdge}
             data-right-edge={rightEdge}
             data-img-movement-size-px={imgMovementSizePX}
@@ -518,18 +518,18 @@ export default function MotionContainer() {
             exit={{ scale: 1000, transition: { duration: 0.1 } }}
           >
             <Button
-              id={"meImg" + idNumber}
-              name={"meImg" + idNumber}
+              id={"meImg" + me.idNumber}
+              name={"meImg" + me.idNumber}
               className="image-btn-x"
               sx={{ width: "100%" }}
             >
-              {charImg}
+              {me.charImg}
             </Button>
           </motion.div>
           <motion.div
             ref={dvMotionDiv}
             className="motion-div"
-            id={"motionLeft" + idNumber}
+            id={"motionLeft" + me.idNumber}
             data-left-edge={leftEdge}
             data-right-edge={rightEdge}
             data-img-movement-size-perc={imgMovementSizePerc}
@@ -550,12 +550,12 @@ export default function MotionContainer() {
             exit={{ scale: 1000, transition: { duration: 0.1 } }}
           >
             <input
-              id={"meImg" + idNumber}
-              name={"meImg" + idNumber}
+              id={"meImg" + me.idNumber}
+              name={"meImg" + me.idNumber}
               alt={"kaptcha answer option"}
               className="image-btn-x"
               type="image"
-              src={img[1]}
+              src={me.img[1]}
               style={{ width: "100%" }}
             ></input>
           </motion.div>
@@ -566,7 +566,7 @@ export default function MotionContainer() {
         <motion.div
           ref={dvMotionDiv}
           className="motion-div"
-          id={"motion" + idNumber}
+          id={"motion" + me.idNumber}
           style={{ y }}
           // initial={{ y: yInitial }}
           animate={{
@@ -575,7 +575,7 @@ export default function MotionContainer() {
           transition={{
             y: {
               repeat: Infinity,
-              duration: duration,
+              duration: me.duration,
               repeatType: "reverse",
               type: "tween",
             },
@@ -593,12 +593,12 @@ export default function MotionContainer() {
           exit={{ scale: 100, transition: { duration: 0.01 } }}
         >
           <input
-            id={"meImg" + idNumber}
-            name={"meImg" + idNumber}
+            id={"meImg" + me.idNumber}
+            name={"meImg" + me.idNumber}
             alt={"kaptcha image option"}
             className="backgroundImg"
             type="image"
-            src={img}
+            src={me.img}
           ></input>
         </motion.div>
       );

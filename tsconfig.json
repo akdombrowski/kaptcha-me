@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "es2022",
-    "lib": ["dom", "dom.iterable", "ES2022"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "ES2022"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -17,11 +21,30 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "#/*": ["./*"],
-      "@/*": ["src/*"],
-      "@/api/*": ["src/app/api/*"],
-      "@/kaptchame/*": ["src/app/kaptchame/*"],
-      "@/styles/*": ["src/styles/*"]
+      "#/*": [
+        "./*"
+      ],
+      "@/*": [
+        "src/*"
+      ],
+      "@/api/*": [
+        "src/app/api/*"
+      ],
+      "@/kaptchapi/*": [
+        "src/app/api/kaptchapi/*"
+      ],
+      "@/kaptchame/*": [
+        "src/app/kaptchame/*"
+      ],
+      "@/styles/*": [
+        "src/styles/*"
+      ],
+      "@/ui/*": [
+        "src/ui/*"
+      ],
+      "@/components/*": [
+        "src/ui/components/*"
+      ],
     },
     "plugins": [
       {
@@ -29,6 +52,13 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

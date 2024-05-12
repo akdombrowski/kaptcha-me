@@ -1,6 +1,7 @@
 "use client";
 import "client-only";
 
+import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { getImageProps } from "next/image";
 import { ReactNode } from "react";
@@ -16,7 +17,7 @@ function getBackgroundImage(srcSet = "") {
   return `image-set(${imageSet})`;
 }
 
-export default function BGImg({ children }: { children: ReactNode }) {
+export default function BGImg({ children }: { children?: ReactNode }) {
   const {
     props: { srcSet },
   } = getImageProps({
@@ -30,13 +31,12 @@ export default function BGImg({ children }: { children: ReactNode }) {
   const style = { height: "100vh", width: "100vw", backgroundImage };
 
   return (
-    <Box
+    <Container
       id="mainContainer"
-      className="main-container sceneImg"
-      // style={bgImgLoaded ? { backgroundImage: "url(" + bgImg + ")" } : {}}
+      maxWidth={false}
       style={style}
     >
-      {children}
-    </Box>
+      {children ?? <></>}
+    </Container>
   );
 }
