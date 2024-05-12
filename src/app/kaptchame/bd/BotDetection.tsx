@@ -50,13 +50,7 @@ export default function BotDetection({
 }) {
   return (
     <BGImg>
-      <motion.div
-        initial={{ x: 0 }}
-        animate={{ x: "80vw" }}
-        transition={{ duration: 5 }}
-      >
-        <ImgBtn id="option1" src={kmGoKartR} />
-      </motion.div>
+      <MotionDiv id="option1" src={kmGoKartR}/>
     </BGImg>
   );
 }
