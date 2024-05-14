@@ -18,7 +18,7 @@ import BGImg from "@/kaptchame/bd/BGImg";
 import CharImg from "@/kaptchame/bd/CharImg";
 import type { Challenges } from "@/kaptchapi/challenge/create/customFunction";
 import MotionDiv from "@/components/motion/MotionDiv";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useTransform } from "framer-motion";
 import ImgBtn from "@/components/motion/ImgBtn";
 
 // // for local dev
@@ -47,17 +47,51 @@ export interface BotDetectionProps {
 export default function BotDetection({
   ...BotDetectionProps
 }: {
-BotDetectionProps
+  BotDetectionProps;
 }) {
-  return (
-    <BGImg>
+  const x = useMotionValue(0);
+  const variants = {
+    parent: {
+      transition: {
+        when: "staggerChildren",
+      },
+    },
+    right: {
+      x: "100%",
+    },
+    left: { x: 0 },
+  };
+
+  const children = () => {
+    let chil = new Array(5);
+    chil.fill(
       <MotionDiv
         id="option1"
         src={kmGoKartR}
-        initial={false}
+        // initial={{ x: 0 }}
+        style={{ x }}
+        direction="right"
         animate={{ x: "90vw" }}
-        transition={{ duration: 7 }}
-      />
+        transition={{ ease: "easeOut", duration: 10 }}
+      />,
+    );
+    return chil;
+  };
+
+  return (
+    <BGImg>
+      <motion.div initial="parent" variants={variants}>
+        {/* <MotionDiv
+          id="option1"
+          src={kmGoKartR}
+          // initial={{ x: 0 }}
+          style={{ x }}
+          direction="right"
+          animate={{ x: "90vw" }}
+          transition={{ ease: "easeOut", duration: 7 }}
+        /> */}
+        {children()}
+      </motion.div>
     </BGImg>
   );
 }

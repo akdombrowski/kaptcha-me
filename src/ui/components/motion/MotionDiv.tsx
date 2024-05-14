@@ -13,10 +13,13 @@ import {
 import { Button, type ButtonProps } from "@mui/material";
 import { forwardRef, useRef } from "react";
 import ImgBtn from "@/components/motion/ImgBtn";
+import type { CSSProperties } from "react";
+import type { MotionStyle } from "framer-motion";
 
 export interface MotionDivProps {
   id: string;
   src: string;
+  style?: MotionStyle;
   horizontal?: boolean;
   vertical?: boolean;
   startPos?: { [key: string]: string | number };
@@ -34,19 +37,24 @@ export interface MotionDivProps {
 const MotionDiv = forwardRef((props: MotionDivProps) => {
   const ref = useRef(null);
   const initial = () => {
-    const init = props.init ?? {};
+    const init = props.initial ?? {};
 
     // if startPos was given, add it
     // !! this will override the start pos if given in the initial prop
     if (props.startPos) {
       const key = Object.keys(props.startPos)[0];
-      const pos = startPos[key];
+      const pos = props.startPos[key];
       init[key] = pos;
     }
   };
 
   // !!TODO: Do the same as initial above for animate & transition or switch to not being
   // able to supply both properties
+
+  const variants = {
+    left: { x: 0 },
+    right: { x: "80%" },
+  };
 
   return (
     // <motion.div
@@ -73,11 +81,14 @@ const MotionDiv = forwardRef((props: MotionDivProps) => {
     //   exit={{ scale: 1000, transition: { duration: 0.1 } }}
     // >
     <motion.div
-      initial={props.initial ?? { x: 0 }}
-      animate={props.animate ?? { x: "85vw" }}
+      // initial={props.initial}
+      initial="left"
+      // style={props.style}
+      animate={props.direction}
       transition={props.transition ?? { duration: 5 }}
+      variants={variants}
     >
-      <ImgBtn id={props.id} src={props.src} />
+      <ImgBtn id={props.id} width="500" src={props.src} />
     </motion.div>
   );
 });

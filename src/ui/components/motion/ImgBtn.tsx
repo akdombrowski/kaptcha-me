@@ -125,7 +125,12 @@ const kaptchaMeImgBtn = styled(ButtonBase, {
 export default function ImgBtn(props: KaptchaMeImgBtnProps) {
   return (
     <Box
-      sx={{ display: "flex", flexWrap: "wrap", minWidth: 300, width: "100%" }}
+      sx={{
+        display: "flex",
+        flexWrap: "wrap",
+        minWidth: 100,
+        width: props.width,
+      }}
     >
       <ImageButton
         id={props.id}
@@ -138,17 +143,17 @@ export default function ImgBtn(props: KaptchaMeImgBtnProps) {
         <Image
           src={props.src}
           alt="kaptcha-me option"
-          sizes="10vw"
+          sizes="100px"
           style={{
             width: "100%",
             height: "auto",
           }}
-          width={500}
-          height={300}
+          width={100}
+          height={68}
         />
         {/* <ImageSrc style={{ backgroundImage: `url(${props.src})` }} /> */}
-        <ImageBackdrop className="MuiImageBackdrop-root" />
-        <ImageMarked className="MuiImageMarked-root" />
+        {/* <ImageBackdrop className="MuiImageBackdrop-root" /> */}
+        {/* <ImageMarked className="MuiImageMarked-root" /> */}
       </ImageButton>
     </Box>
   );
