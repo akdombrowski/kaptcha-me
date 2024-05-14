@@ -41,16 +41,23 @@ export interface BotDetectionProps {
   imgs: string[];
   dur: string | number;
   numChoices: number;
+  challenges: Challenges;
 }
 
 export default function BotDetection({
-  challenges,
+  ...BotDetectionProps
 }: {
-  challenges: Challenges;
+BotDetectionProps
 }) {
   return (
     <BGImg>
-      <MotionDiv id="option1" src={kmGoKartR}/>
+      <MotionDiv
+        id="option1"
+        src={kmGoKartR}
+        initial={false}
+        animate={{ x: "90vw" }}
+        transition={{ duration: 7 }}
+      />
     </BGImg>
   );
 }

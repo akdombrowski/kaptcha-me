@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import theme from "#/src/styles/theme";
 import type { Metadata } from "next";
 
-
 const title = "kaptcha-me";
 
 export const metadata: Metadata = {
@@ -15,9 +14,14 @@ export const metadata: Metadata = {
   // },
 };
 
-export default function Layout({ children }: {children: ReactNode}) {
+export default function Layout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <Box id="kaptchame-layoutBoxWrapper" height="100vh" width="100vw">
+    <Box
+      id="kaptchame-layoutBoxWrapper"
+      height="100vh"
+      width="100vw"
+      style={{ overflow: "clip" }}
+    >
       {children}
     </Box>
   );

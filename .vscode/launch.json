@@ -15,7 +15,7 @@
       "name": "server-chrome",
       "type": "node-terminal",
       "request": "launch",
-      "command": "yarn run --inspect next dev",
+      "command": "yarn run --inspect next dev -H 127.0.0.1",
       "presentation": {
         "hidden": false,
         "group": "chrome",
@@ -26,7 +26,7 @@
       "name": "client-chrome",
       "type": "chrome",
       "request": "launch",
-      "url": "http://localhost:3000",
+      "url": "http://127.0.0.1:3000",
       "presentation": {
         "hidden": false,
         "group": "chrome",
@@ -37,13 +37,13 @@
       "name": "server-vscode",
       "type": "node-terminal",
       "request": "launch",
-      "command": "yarn dev"
+      "command": "yarn dev -H 127.0.0.1"
     },
     {
       "name": "both-split",
       "type": "node-terminal",
       "request": "launch",
-      "command": "yarn dev",
+      "command": "yarn dev -H 127.0.0.1",
       "serverReadyAction": {
         "pattern": "- Local:.+(https?://.+)",
         "uriFormat": "%s",
@@ -67,7 +67,7 @@
       "outFiles": ["${workspaceFolder}/**/*.js"]
     },
     {
-      "command": "yarn dev",
+      "command": "yarn dev -H 127.0.0.1",
       "name": "Run yarn dev",
       "request": "launch",
       "type": "node-terminal"

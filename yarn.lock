@@ -586,7 +586,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/env@npm:14.2.3":
+"@next/env@npm:14.2.3, @next/env@npm:^14.2.3":
   version: 14.2.3
   resolution: "@next/env@npm:14.2.3"
   checksum: 10c0/25ab3ac2739c8e5ce35e1f50373238c5c428ab6b01d448ba78a6068dcdef88978b64f9a92790c324b2926ccc41390a67107154a0b0fee32fe980a485f4ef20d8
@@ -3857,6 +3857,7 @@ __metadata:
     "@mui/icons-material": "npm:^5.15.17"
     "@mui/material": "npm:^5.15.17"
     "@mui/material-nextjs": "npm:^5.15.11"
+    "@next/env": "npm:^14.2.3"
     "@supabase/supabase-js": "npm:2.43.1"
     "@types/node": "npm:20.12.11"
     "@types/react": "npm:18.3.1"

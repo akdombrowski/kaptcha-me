@@ -17,6 +17,13 @@ import ImgBtn from "@/components/motion/ImgBtn";
 export interface MotionDivProps {
   id: string;
   src: string;
+  horizontal?: boolean;
+  vertical?: boolean;
+  startPos?: { [key: string]: string | number };
+  endPos?: { [key: string]: string | number };
+  initial?: { [key: string]: string | number } | boolean;
+  animate?: { [key: string]: string | number };
+  transition?: { [key: string]: string | number };
   direction?: string;
   motionControls?: AnimationControls;
   motionValue?: MotionValue<string>;
@@ -25,6 +32,22 @@ export interface MotionDivProps {
 }
 
 const MotionDiv = forwardRef((props: MotionDivProps) => {
+  const ref = useRef(null);
+  const initial = () => {
+    const init = props.init ?? {};
+
+    // if startPos was given, add it
+    // !! this will override the start pos if given in the initial prop
+    if (props.startPos) {
+      const key = Object.keys(props.startPos)[0];
+      const pos = startPos[key];
+      init[key] = pos;
+    }
+  };
+
+  // !!TODO: Do the same as initial above for animate & transition or switch to not being
+  // able to supply both properties
+
   return (
     // <motion.div
     //   className="motion-div"
@@ -50,9 +73,9 @@ const MotionDiv = forwardRef((props: MotionDivProps) => {
     //   exit={{ scale: 1000, transition: { duration: 0.1 } }}
     // >
     <motion.div
-      initial={{ x: 0 }}
-      animate={{ x: "80vw" }}
-      transition={{ duration: 5 }}
+      initial={props.initial ?? { x: 0 }}
+      animate={props.animate ?? { x: "85vw" }}
+      transition={props.transition ?? { duration: 5 }}
     >
       <ImgBtn id={props.id} src={props.src} />
     </motion.div>
