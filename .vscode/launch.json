@@ -5,82 +5,57 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Attach to Chrome",
-      "port": 9222,
-      "request": "attach",
-      "type": "chrome",
-      "webRoot": "${workspaceFolder}"
-    },
-    {
-      "name": "server-chrome",
+      "name": "server",
       "type": "node-terminal",
       "request": "launch",
-      "command": "yarn run --inspect next dev -H 127.0.0.1",
+      "command": "yarn dev",
       "presentation": {
         "hidden": false,
-        "group": "chrome",
-        "order": 2
-      }
+        "group": "server",
+        "order": 1
+      },
+      "skipFiles": [
+        "${workspaceFolder}/node_modules/**/*.js",
+        "<node_internals>/**",
+      ],
+      "outFiles": [
+        "${workspaceFolder}/.next/server/app/**/page.js",
+        "${workspaceFolder}/.next/server/src/**/*.js",
+        "${workspaceFolder}/.next/static/chunks/app/**/*.js",
+        "${workspaceFolder}/.next/static/chunks/css/**/*.css",
+      ],
     },
     {
-      "name": "client-chrome",
+      "name": "launch chrome",
       "type": "chrome",
       "request": "launch",
       "url": "http://127.0.0.1:3000",
       "presentation": {
         "hidden": false,
-        "group": "chrome",
-        "order": 2
-      }
+        "group": "browser",
+        "order": 1
+      },
+      "skipFiles": [
+        "${workspaceFolder}/node_modules/**/*.js",
+        "<node_internals>/**",
+      ],
+      "outFiles": [
+        "${workspaceFolder}/.next/static/chunks/app/**/*.js",
+        "${workspaceFolder}/.next/static/chunks/css/**/*.css",
+      ],
     },
-    {
-      "name": "server-vscode",
-      "type": "node-terminal",
-      "request": "launch",
-      "command": "yarn dev -H 127.0.0.1"
-    },
-    {
-      "name": "both-split",
-      "type": "node-terminal",
-      "request": "launch",
-      "command": "yarn dev -H 127.0.0.1",
-      "serverReadyAction": {
-        "pattern": "- Local:.+(https?://.+)",
-        "uriFormat": "%s",
-        "action": "debugWithChrome"
-      }
-    },
-    {
-      "name": "Launch via yarn",
-      "request": "launch",
-      "runtimeArgs": ["debug"],
-      "runtimeExecutable": "yarn",
-      "skipFiles": ["<node_internals>/**"],
-      "type": "node"
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "kaptchapi/challenge/check/route.ts",
-      "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}/app/api/kaptchapi/challenge/check/route.ts",
-      "outFiles": ["${workspaceFolder}/**/*.js"]
-    },
-    {
-      "command": "yarn dev -H 127.0.0.1",
-      "name": "Run yarn dev",
-      "request": "launch",
-      "type": "node-terminal"
-    }
   ],
   "compounds": [
     {
-      "name": "both-chrome",
-      "configurations": ["client-chrome", "server-chrome"],
+      "name": "vscode+chrome",
+      "configurations": [
+        "launch chrome",
+        "server"
+      ],
       "stopAll": true,
       "presentation": {
         "hidden": false,
-        "group": "chrome",
+        "group": "server+client",
         "order": 1
       }
     }
