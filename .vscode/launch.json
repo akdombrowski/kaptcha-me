@@ -1,4 +1,7 @@
 {
+  /**
+  * Config for Debugging NextJS
+  */
   // Use IntelliSense to learn about possible attributes.
   // Hover to view descriptions of existing attributes.
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
@@ -18,18 +21,16 @@
         "${workspaceFolder}/node_modules/**/*.js",
         "<node_internals>/**",
       ],
-      "outFiles": [
-        "${workspaceFolder}/.next/server/app/**/page.js",
-        "${workspaceFolder}/.next/server/src/**/*.js",
-        "${workspaceFolder}/.next/static/chunks/app/**/*.js",
-        "${workspaceFolder}/.next/static/chunks/css/**/*.css",
-      ],
     },
     {
       "name": "launch chrome",
       "type": "chrome",
       "request": "launch",
       "url": "http://127.0.0.1:3000",
+      "userDataDir": false,
+      "runtimeArgs": [
+        "--profile-directory=Profile 8"
+      ],
       "presentation": {
         "hidden": false,
         "group": "browser",
@@ -38,10 +39,6 @@
       "skipFiles": [
         "${workspaceFolder}/node_modules/**/*.js",
         "<node_internals>/**",
-      ],
-      "outFiles": [
-        "${workspaceFolder}/.next/static/chunks/app/**/*.js",
-        "${workspaceFolder}/.next/static/chunks/css/**/*.css",
       ],
     },
   ],
@@ -57,7 +54,7 @@
         "hidden": false,
         "group": "server+client",
         "order": 1
-      }
+      },
     }
   ]
 }

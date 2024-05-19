@@ -2,59 +2,105 @@
 
 import "client-only";
 
+import { Button, type ButtonProps } from "@mui/material";
+import { forwardRef, useRef, useEffect } from "react";
+import MotionImgBtn from "@/components/motion/ImgBtn";
 import {
   motion,
   useMotionValue,
+  useTransform,
+  useAnimate,
+  AnimatePresence,
+  stagger,
   useMotionValueEvent,
   useAnimationControls,
-  type AnimationControls,
-  type MotionValue,
+  useIsPresent,
 } from "framer-motion";
-import { Button, type ButtonProps } from "@mui/material";
-import { forwardRef, useRef } from "react";
-import ImgBtn from "@/components/motion/ImgBtn";
-import type { CSSProperties } from "react";
-import type { MotionStyle } from "framer-motion";
 
-export interface MotionDivProps {
+import type { CSSProperties } from "react";
+
+import type {
+  MotionStyle,
+  AnimationControls,
+  MotionValue,
+  Variants,
+  MotionProps,
+} from "framer-motion";
+
+export interface CharacterImgBtnProps extends MotionProps {
   id: string;
   src: string;
-  style?: MotionStyle;
   horizontal?: boolean;
   vertical?: boolean;
   startPos?: { [key: string]: string | number };
   endPos?: { [key: string]: string | number };
-  initial?: { [key: string]: string | number } | boolean;
-  animate?: { [key: string]: string | number };
-  transition?: { [key: string]: string | number };
   direction?: string;
-  motionControls?: AnimationControls;
-  motionValue?: MotionValue<string>;
   btn?: ButtonProps;
   width?: string;
 }
 
-const MotionDiv = forwardRef((props: MotionDivProps) => {
-  const ref = useRef(null);
-  const initial = () => {
-    const init = props.initial ?? {};
+/**
+ * NextJS Fast Refresh
+ *
+ * Directive telling NextJS to remount on every edit
+ * Do this to restart the motion animation from the beginning
+ *
+ * Start
+ */
+// @refresh reset
+/**
+ * End
+ *
+ * NextJS Fast Refresh
+ *
+ * Directive telling NextJS to remount on every edit
+ * Do this to restart the motion animation from the beginning
+ *
+ */
 
-    // if startPos was given, add it
-    // !! this will override the start pos if given in the initial prop
-    if (props.startPos) {
-      const key = Object.keys(props.startPos)[0];
-      const pos = props.startPos[key];
-      init[key] = pos;
-    }
-  };
+const variants: Variants = {
+  parent: {
+    transition: {
+      when: "staggerChildren",
+    },
+  },
+  right: {
+    x: window.innerWidth - 100,
+    transition: { ease: "easeOut", duration: 5 },
+  },
+  left: { x: 0 },
+};
 
-  // !!TODO: Do the same as initial above for animate & transition or switch to not being
-  // able to supply both properties
+export function CharacterImgBtn(props: CharacterImgBtnProps) {
+  const isPresent = useIsPresent();
+  const x = useMotionValue(0);
+  const [scope, animate] = useAnimate();
 
-  const variants = {
-    left: { x: 0 },
-    right: { x: "80%" },
-  };
+
+  useMotionValueEvent(x, "animationComplete", () => {
+    console.log("animation complete");
+    console.log(x.get());
+  });
+
+
+
+  useEffect(() => {
+    const controls = animate(x, window.innerWidth - 100, {
+      type: "linear",
+      // stiffness: Math.max(Math.random() * 100   - 60, 10),
+      duration: Math.random() * 10 + 2,
+      delay: 3,
+      onComplete: (v) => {
+        console.log("v:", v);
+      },
+    });
+
+    return () => controls.stop();
+  });
+
+  useEffect(() => {
+    !isPresent && console.log("I've been removed!");
+  }, [isPresent]);
 
   return (
     // <motion.div
@@ -80,17 +126,36 @@ const MotionDiv = forwardRef((props: MotionDivProps) => {
     //   }}
     //   exit={{ scale: 1000, transition: { duration: 0.1 } }}
     // >
-    <motion.div
+    /* <motion.div
       // initial={props.initial}
       initial="left"
       // style={props.style}
       animate={props.direction}
       transition={props.transition ?? { duration: 5 }}
       variants={variants}
-    >
-      <ImgBtn id={props.id} width="500" src={props.src} />
-    </motion.div>
+    >*/
+    // <motion.div
+    //   id={props.id}
+    //   initial="left"
+    //   // style={{ x }}
+    //   animate="right"
+    //   // transition={{ ease: "easeOut", duration: 10 }}
+    //   exit={{ opacity: 0 }}
+    //   variants={variants}
+    // >
+    //   <ImgBtn id={props.id} width="500" src={props.src} />
+    // </motion.div>
+    <MotionImgBtn
+      id={props.id}
+      ref={scope}
+      width="500"
+      src={props.src}
+      style={{ x }}
+      mv={x}
+      animate="right"
+      variants={variants}
+    />
   );
-});
+}
 
-export default MotionDiv;
+export default CharacterImgBtn;

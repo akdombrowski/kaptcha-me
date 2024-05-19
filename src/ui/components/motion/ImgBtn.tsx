@@ -4,6 +4,14 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { alpha, styled } from "@mui/material/styles";
 import Image from "next/image";
+import { forwardRef, type ForwardedRef } from "react";
+import { motion, useMotionValue } from "framer-motion";
+import type { ForwardRefComponent, MotionProps } from "framer-motion";
+
+import type {
+  ButtonBaseOwnProps,
+  ButtonBaseProps,
+} from "@mui/material/ButtonBase";
 
 // TODO: Build Image Button Component
 /**
@@ -62,7 +70,7 @@ const ImageMarked = styled("span")(({ theme }) => ({
   transition: theme.transitions.create("opacity"),
 }));
 
-export interface KaptchaMeImgBtnProps extends ButtonProps {
+export interface KaptchaMeImgBtnProps {
   id: string;
   src: string;
   width?: string;
@@ -122,9 +130,11 @@ const kaptchaMeImgBtn = styled(ButtonBase, {
   }),
 }));
 
-export default function ImgBtn(props: KaptchaMeImgBtnProps) {
+export const ImgBtn = forwardRef((props: any, ref) => {
+
   return (
     <Box
+      ref={ref}
       sx={{
         display: "flex",
         flexWrap: "wrap",
@@ -135,7 +145,6 @@ export default function ImgBtn(props: KaptchaMeImgBtnProps) {
       <ImageButton
         id={props.id}
         focusRipple
-        key={props.title}
         style={{
           width: props.width,
         }}
@@ -157,4 +166,8 @@ export default function ImgBtn(props: KaptchaMeImgBtnProps) {
       </ImageButton>
     </Box>
   );
-}
+});
+
+const MotionImgBtn = motion(ImgBtn, { forwardMotionProps: true });
+
+export default MotionImgBtn;

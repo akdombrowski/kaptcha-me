@@ -17,7 +17,11 @@ function getBackgroundImage(srcSet = "") {
   return `image-set(${imageSet})`;
 }
 
-export default function BGImg({ children }: { children?: ReactNode }) {
+export default function ContainerWithThemedBGImg({
+  children,
+}: {
+  children?: ReactNode;
+}) {
   const {
     props: { srcSet },
   } = getImageProps({
@@ -25,12 +29,18 @@ export default function BGImg({ children }: { children?: ReactNode }) {
     height: 1080,
     src: "https://i.postimg.cc/DzjCwcwW/race-Track.webp",
     priority: true,
+    alt: "kaptcha-me-anthony",
   });
   const backgroundImage = getBackgroundImage(srcSet);
   const style = { height: "100vh", width: "100vw", backgroundImage };
 
   return (
-    <Container id="mainContainer" maxWidth={false} style={style}>
+    <Container
+      id="mainContainer"
+      maxWidth={false}
+      style={style}
+      sx={{ overflow: "hidden" }}
+    >
       {children ?? <></>}
     </Container>
   );
