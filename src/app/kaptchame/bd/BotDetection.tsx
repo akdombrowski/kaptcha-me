@@ -9,7 +9,7 @@ import MotionContainer, {
 } from "@/kaptchame/bd/MotionContainer.OLD";
 import ContainerWithThemedBGImg from "#/src/app/kaptchame/bd/ContainerWithThemedBGImg";
 import CharImg from "@/kaptchame/bd/CharImg";
-import MotionDiv from "@/components/motion/MotionDiv";
+import MotionDiv from "#/src/ui/components/motion/MotionCharacterImgBtn";
 import {
   motion,
   useMotionValue,
@@ -18,7 +18,7 @@ import {
   AnimatePresence,
   stagger,
 } from "framer-motion";
-import MotionCharacterImgBtn from "@/components/motion/ImgBtn";
+import MotionCharacterImgBtn from "#/src/ui/components/motion/MotionImgBtn";
 
 import type { Challenges } from "@/kaptchapi/challenge/create/customFunction";
 import type { MotionValue, Variants } from "framer-motion";
@@ -99,7 +99,7 @@ export default function BotDetection(
   const rotations = [0, 180];
   const translations = [0, -1];
 
-  const children = () => {
+  const imgBtnOptionsToKaptcha = () => {
     let chil = new Array(5);
     for (let i = 0; i < chil.length; i++) {
 
@@ -131,7 +131,7 @@ export default function BotDetection(
           animate={{ x: "90vw" }}
           transition={{ ease: "easeOut", duration: 7 }}
         /> */}
-          {children()}
+          {imgBtnOptionsToKaptcha()}
         </AnimatePresence>
       </motion.div>
     </ContainerWithThemedBGImg>

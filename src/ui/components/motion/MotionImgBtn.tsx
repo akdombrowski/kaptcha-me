@@ -72,7 +72,6 @@ const ImageMarked = styled("span")(({ theme }) => ({
 
 export interface KaptchaMeImgBtnProps {
   id: string;
-  src: string;
   width?: string;
 }
 
@@ -111,7 +110,7 @@ const NextImageSrc = styled(Image, {
   }),
 }));
 
-const kaptchaMeImgBtn = styled(ButtonBase, {
+const KaptchaMeImgBtn = styled(ButtonBase, {
   shouldForwardProp: (prop) => prop !== "width",
 })<KaptchaMeImgBtnProps>(({ width, theme }) => ({
   ...(width && {
@@ -137,14 +136,13 @@ export const ImgBtn = forwardRef((props: any, ref) => {
       ref={ref}
       sx={{
         display: "flex",
-        flexWrap: "wrap",
+        flexWrap: "nowrap",
         minWidth: 100,
         width: props.width,
       }}
     >
-      <ImageButton
+      <KaptchaMeImgBtn
         id={props.id}
-        focusRipple
         style={{
           width: props.width,
         }}
@@ -163,7 +161,7 @@ export const ImgBtn = forwardRef((props: any, ref) => {
         {/* <ImageSrc style={{ backgroundImage: `url(${props.src})` }} /> */}
         {/* <ImageBackdrop className="MuiImageBackdrop-root" /> */}
         {/* <ImageMarked className="MuiImageMarked-root" /> */}
-      </ImageButton>
+      </KaptchaMeImgBtn>
     </Box>
   );
 });

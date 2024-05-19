@@ -4,7 +4,7 @@ import "client-only";
 
 import { Button, type ButtonProps } from "@mui/material";
 import { forwardRef, useRef, useEffect } from "react";
-import MotionImgBtn from "@/components/motion/ImgBtn";
+import MotionImgBtn from "#/src/ui/components/motion/MotionImgBtn";
 import {
   motion,
   useMotionValue,
@@ -71,24 +71,31 @@ const variants: Variants = {
   left: { x: 0 },
 };
 
-export function CharacterImgBtn(props: CharacterImgBtnProps) {
+export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
   const isPresent = useIsPresent();
   const x = useMotionValue(0);
+  const screenRightEdge = window.innerWidth - 100;
   const [scope, animate] = useAnimate();
-
+  // This + the offset dur = the max dur for a character to move across the screen
+  const maxDurSecondsMotion = 950;
+  // This is the min. dur for a character to move across the screen
+  const maxDurSecondsMotionOffset = Math.ceil(screenRightEdge);
 
   useMotionValueEvent(x, "animationComplete", () => {
     console.log("animation complete");
     console.log(x.get());
   });
 
-
-
   useEffect(() => {
-    const controls = animate(x, window.innerWidth - 100, {
-      type: "linear",
-      // stiffness: Math.max(Math.random() * 100   - 60, 10),
-      duration: Math.random() * 10 + 2,
+    const controls = animate(x, screenRightEdge, {
+      type: "tween",
+      ease: "linear",
+      duration:
+        // Haven't tested, but hopefully using 2x rnd fn calls will create a
+        // little more variability
+        ((Math.random() * maxDurSecondsMotion) / 2 +
+        (Math.random() * maxDurSecondsMotion) / 2 +
+        +maxDurSecondsMotionOffset) / 99,
       delay: 3,
       onComplete: (v) => {
         console.log("v:", v);
@@ -158,4 +165,4 @@ export function CharacterImgBtn(props: CharacterImgBtnProps) {
   );
 }
 
-export default CharacterImgBtn;
+export default MotionCharacterImgBtn;
