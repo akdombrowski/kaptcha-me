@@ -95,7 +95,7 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
         // little more variability
         ((Math.random() * maxDurSecondsMotion) / 2 +
         (Math.random() * maxDurSecondsMotion) / 2 +
-        +maxDurSecondsMotionOffset) / 99,
+        +maxDurSecondsMotionOffset) / 199,
       delay: 3,
       onComplete: (v) => {
         console.log("v:", v);

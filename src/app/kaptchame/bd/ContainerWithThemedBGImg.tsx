@@ -32,7 +32,7 @@ export default function ContainerWithThemedBGImg({
     alt: "kaptcha-me-anthony",
   });
   const backgroundImage = getBackgroundImage(srcSet);
-  const style = { height: "100vh", width: "100vw", backgroundImage };
+  const style = { height: "100vh", width: "100vw", backgroundAttachment: "fixed", backgroundRepeat: "repeat no-repeat", backgroundSize:"auto 100%", backgroundImage };
 
   return (
     <Container
