@@ -39,10 +39,14 @@ export default function Countdown() {
     };
   }, [countdown]);
 
+  if (countdown < 0) {
+    return <></>;
+  }
+
   return (
     <Box
       position="absolute"
-      top="10vh"
+      top="0"
       left="35vw"
       overflow="hidden"
       height="100vh"
@@ -56,8 +60,7 @@ export default function Countdown() {
         textOverflow="hidden"
         sx={{ overflow: "hidden" }}
       >
-        {/* only show countdown if the number is 0 or greater */}
-        {countdown >= 0 ? countdown : false}
+        {countdown}
       </Typography>
     </Box>
   );

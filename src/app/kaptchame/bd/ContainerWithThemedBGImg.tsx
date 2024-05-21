@@ -29,14 +29,14 @@ export default function ContainerWithThemedBGImg({
     height: 1080,
     src: "https://i.postimg.cc/DzjCwcwW/race-Track.webp",
     priority: true,
-    alt: "kaptcha-me-anthony",
+    alt: "kaptcha-me background image: race track",
   });
   const backgroundImage = getBackgroundImage(srcSet);
   const style = { height: "100vh", width: "100vw", backgroundAttachment: "fixed", backgroundRepeat: "repeat no-repeat", backgroundSize:"auto 100%", backgroundImage };
 
   return (
     <Container
-      id="mainContainer"
+      id="mainContainerWithThemedBGImage"
       maxWidth={false}
       style={style}
       sx={{ overflow: "hidden" }}

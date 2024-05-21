@@ -1,0 +1,18 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "chrome-debug",
+      "type": "process",
+      "command": "/mnt/c/Program Files/Google/Chrome/Application/chrome.exe",
+      "args": [
+        "--remote-debugging-port=9222",
+        "--user-data-dir=remote-debug-profile",
+        "--profile-directory=Person 1",
+      ],
+      "detail": "uses chrome.exe to launch chrome debug window"
+    },
+  ]
+}

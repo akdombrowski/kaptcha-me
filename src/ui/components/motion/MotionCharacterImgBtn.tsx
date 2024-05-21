@@ -1,10 +1,8 @@
-"use client";
-
 import "client-only";
 
 import { Button, type ButtonProps } from "@mui/material";
 import { forwardRef, useRef, useEffect } from "react";
-import MotionImgBtn from "#/src/ui/components/motion/MotionImgBtn";
+import MotionImgBtn, {MotionKaptchaMeImgBtn} from "#/src/ui/components/motion/MotionImgBtn";
 import {
   motion,
   useMotionValue,
@@ -37,25 +35,24 @@ export interface CharacterImgBtnProps extends MotionProps {
   direction?: string;
   btn?: ButtonProps;
   width?: string;
+  height?: string;
 }
 
 /**
  * NextJS Fast Refresh
  *
  * Directive telling NextJS to remount on every edit
- * Do this to restart the motion animation from the beginning
- *
+ * Do this to restart the motion animation from the beginning (and reset react state)
+ */
+
+/**
  * Start
  */
+
 // @refresh reset
+
 /**
  * End
- *
- * NextJS Fast Refresh
- *
- * Directive telling NextJS to remount on every edit
- * Do this to restart the motion animation from the beginning
- *
  */
 
 const variants: Variants = {
@@ -74,7 +71,7 @@ const variants: Variants = {
 export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
   const isPresent = useIsPresent();
   const x = useMotionValue(0);
-  const screenRightEdge = window.innerWidth - 100;
+  const screenRightEdge = window.innerWidth - 300;
   const [scope, animate] = useAnimate();
   // This + the offset dur = the max dur for a character to move across the screen
   const maxDurSecondsMotion = 950;
@@ -94,8 +91,9 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
         // Haven't tested, but hopefully using 2x rnd fn calls will create a
         // little more variability
         ((Math.random() * maxDurSecondsMotion) / 2 +
-        (Math.random() * maxDurSecondsMotion) / 2 +
-        +maxDurSecondsMotionOffset) / 199,
+          (Math.random() * maxDurSecondsMotion) / 2 +
+          +maxDurSecondsMotionOffset) /
+        199,
       delay: 3,
       onComplete: (v) => {
         console.log("v:", v);
@@ -152,10 +150,22 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
     // >
     //   <ImgBtn id={props.id} width="500" src={props.src} />
     // </motion.div>
-    <MotionImgBtn
+    // <MotionImgBtn
+    //   id={props.id}
+    //   ref={scope}
+    //   width={props.width ?? props.height ? "auto" : "10vw"}
+    //   height={props.height ?? "auto"}
+    //   src={props.src}
+    //   style={{ x }}
+    //   mv={x}
+    //   animate="right"
+    //   variants={variants}
+    // />
+    <MotionKaptchaMeImgBtn
       id={props.id}
       ref={scope}
-      width="500"
+      width={props.width ?? props.height ? "auto" : "10vw"}
+      height={props.height ?? "auto"}
       src={props.src}
       style={{ x }}
       mv={x}

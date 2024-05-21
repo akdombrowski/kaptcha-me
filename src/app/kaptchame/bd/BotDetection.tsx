@@ -9,7 +9,7 @@ import MotionContainer, {
 } from "@/kaptchame/bd/MotionContainer.OLD";
 import ContainerWithThemedBGImg from "#/src/app/kaptchame/bd/ContainerWithThemedBGImg";
 import CharImg from "@/kaptchame/bd/CharImg";
-import MotionDiv from "#/src/ui/components/motion/MotionCharacterImgBtn";
+import MotionCharacterImgBtn from "#/src/ui/components/motion/MotionCharacterImgBtn";
 import {
   motion,
   useMotionValue,
@@ -18,7 +18,6 @@ import {
   AnimatePresence,
   stagger,
 } from "framer-motion";
-import MotionCharacterImgBtn from "#/src/ui/components/motion/MotionImgBtn";
 
 import type { Challenges } from "@/kaptchapi/challenge/create/customFunction";
 import type { MotionValue, Variants } from "framer-motion";
@@ -58,39 +57,44 @@ export interface MotionValuesObj {
  * NextJS Fast Refresh
  *
  * Directive telling NextJS to remount on every edit
- * Do this to restart the motion animation from the beginning
- *
+ * Do this to restart the motion animation from the beginning (and reset react state)
+ */
+
+/**
  * Start
  */
+
 // @refresh reset
+
 /**
  * End
- *
- * NextJS Fast Refresh
- *
- * Directive telling NextJS to remount on every edit
- * Do this to restart the motion animation from the beginning
- *
  */
 
 export default function BotDetection(
   BotDetectionProps: Readonly<{ BotDetectionProps }>,
 ) {
-  const motionValues: { [key: string]: MotionValue } = {};
+  const [displayCountdown, setDisplayCountdown] = useState<boolean>(true);
 
-  const variants: Variants = {
+  const motionValues: { [key: string]: MotionValue } = {};
+  const countdownFinishedHandler = () => {
+    setDisplayCountdown(false);
+  };
+  const parentVariants: Variants = {
     parent: {
       transition: {
-        when: "staggerChildren",
+        when: "beforeChildren",
+        staggerChildren: 30,
       },
     },
+  };
+  const variants: Variants = {
     right: {
       x: window.innerWidth,
-      transition: { ease: "easeOut", duration: 5, when: "staggerChildren" },
+      transition: { ease: "easeOut", duration: 5 },
     },
     left: {
       x: 0,
-      transition: { ease: "easeOut", duration: 5, when: "staggerChildren" },
+      transition: { ease: "easeOut", duration: 5 },
     },
   };
 
@@ -99,14 +103,16 @@ export default function BotDetection(
   const rotations = [0, 180];
   const translations = [0, -1];
 
-  const imgBtnOptionsToKaptcha = () => {
-    let chil = new Array(5);
+  const generateMotionCharacterImgBtns = (params: { count: number }) => {
+    const { count } = params;
+    let chil = new Array(count);
+    let heightPerBtn = 100 / count;
     for (let i = 0; i < chil.length; i++) {
-
       const id = `optionBtn-${i}`;
       chil[i] = (
-        <MotionDiv
+        <MotionCharacterImgBtn
           id={id}
+          height={`${heightPerBtn}vh`}
           key={`optionBtn-${i}`}
           src={kmGoKartR}
           variants={variants}
@@ -119,21 +125,12 @@ export default function BotDetection(
 
   return (
     <ContainerWithThemedBGImg>
-      <Countdown/>
-      <motion.div initial="parent" animate="parent" variants={variants}>
-        <AnimatePresence>
-          {/* <MotionDiv
-          id="option1"
-          src={kmGoKartR}
-          // initial={{ x: 0 }}
-          style={{ x }}
-          direction="right"
-          animate={{ x: "90vw" }}
-          transition={{ ease: "easeOut", duration: 7 }}
-        /> */}
-          {imgBtnOptionsToKaptcha()}
-        </AnimatePresence>
-      </motion.div>
+      <Countdown />
+      <AnimatePresence>
+        <motion.div initial="parent" animate="parent" variants={parentVariants}>
+          {generateMotionCharacterImgBtns({ count: 5 })}
+        </motion.div>
+      </AnimatePresence>
     </ContainerWithThemedBGImg>
   );
 }

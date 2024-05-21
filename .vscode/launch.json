@@ -8,7 +8,14 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "server",
+      "name": "Attach to Chrome",
+      "port": 9222,
+      "request": "attach",
+      "type": "chrome",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
+      "name": "start server",
       "type": "node-terminal",
       "request": "launch",
       "command": "yarn dev",
@@ -27,6 +34,7 @@
       "type": "chrome",
       "request": "launch",
       "url": "http://127.0.0.1:3000",
+      "webRoot": "${workspaceFolder}",
       "userDataDir": false,
       "runtimeArgs": [
         "--profile-directory=Profile 8"
@@ -44,16 +52,29 @@
   ],
   "compounds": [
     {
-      "name": "vscode+chrome",
+      "name": "server+browser",
       "configurations": [
         "launch chrome",
-        "server"
+        "start server"
       ],
       "stopAll": true,
       "presentation": {
         "hidden": false,
         "group": "server+client",
         "order": 1
+      },
+    },
+    {
+      "name": "server+browser-attach",
+      "configurations": [
+        "Attach to Chrome",
+        "start server"
+      ],
+      "stopAll": true,
+      "presentation": {
+        "hidden": false,
+        "group": "server+client",
+        "order": 2
       },
     }
   ]

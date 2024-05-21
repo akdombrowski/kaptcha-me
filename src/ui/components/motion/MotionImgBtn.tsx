@@ -110,58 +110,109 @@ const NextImageSrc = styled(Image, {
   }),
 }));
 
-const KaptchaMeImgBtn = styled(ButtonBase, {
+const StyledKaptchaMeImgBtn = styled(ButtonBase, {
   shouldForwardProp: (prop) => prop !== "width",
 })<KaptchaMeImgBtnProps>(({ width, theme }) => ({
   ...(width && {
-    // the overrides added when the new prop is used
-
-    // color: theme.palette.success.main,
-    // "& .MuiSlider-thumb": {
-    //   [`&:hover, &.Mui-focusVisible`]: {
-    //     boxShadow: `0px 0px 0px 8px ${alpha(theme.palette.success.main, 0.16)}`,
-    //   },
-    //   [`&.Mui-active`]: {
-    //     boxShadow: `0px 0px 0px 14px ${alpha(theme.palette.success.main, 0.16)}`,
-    //   },
-    // },
     width: width,
   }),
 }));
 
-export const ImgBtn = forwardRef((props: any, ref) => {
-
+const kmImgBtn = styled(ButtonBase, {
+  shouldForwardProp: (prop) => prop !== "width",
+})<KaptchaMeImgBtnProps>(({ width, theme }) => ({
+  ...(width && {
+    width: width,
+  }),
+}));
+export const KaptchaMeImgBtn = forwardRef((props: any, ref) => {
   return (
     <Box
+      className="motion-img-btn"
       ref={ref}
-      sx={{
-        display: "flex",
-        flexWrap: "nowrap",
-        minWidth: 100,
-        width: props.width,
-      }}
+      minWidth={10}
+      maxWidth="25vw"
+      width={props?.width}
+      height={props?.height}
     >
-      <KaptchaMeImgBtn
+      <ButtonBase
         id={props.id}
-        style={{
-          width: props.width,
+        className="btn"
+        sx={{
+          width: "100%",
+          height: "100%",
         }}
+        onClick={props?.handleClick}
       >
-        <Image
-          src={props.src}
-          alt="kaptcha-me option"
-          sizes="100px"
-          style={{
-            width: "100%",
-            height: "auto",
-          }}
-          width={100}
-          height={68}
-        />
-        {/* <ImageSrc style={{ backgroundImage: `url(${props.src})` }} /> */}
-        {/* <ImageBackdrop className="MuiImageBackdrop-root" /> */}
-        {/* <ImageMarked className="MuiImageMarked-root" /> */}
-      </KaptchaMeImgBtn>
+        <Box width="100%" height="100%" position="relative">
+          <Image
+            src={props.src}
+            alt="kaptcha-me option"
+            sizes="(max-width: 768px) 15vw, (max-width: 1200px) 25vw, 50vw"
+            fill
+            style={{
+              objectFit: "contain",
+              overflow: "hidden",
+            }}
+          />
+        </Box>
+      </ButtonBase>
+    </Box>
+  );
+});
+
+export const MotionKaptchaMeImgBtn = motion(KaptchaMeImgBtn, {
+  forwardMotionProps: true,
+});
+
+/**
+ * NextJS Fast Refresh
+ *
+ * Directive telling NextJS to remount on every edit
+ * Do this to restart the motion animation from the beginning (and reset react state)
+ */
+
+/**
+ * Start
+ */
+
+// @refresh reset
+
+/**
+ * End
+ */
+
+export const ImgBtn = forwardRef((props: any, ref) => {
+  return (
+    <Box
+      className="motion-img-btn"
+      ref={ref}
+      minWidth={10}
+      maxWidth="25vw"
+      width={props?.width}
+      height={props?.height}
+    >
+      <StyledKaptchaMeImgBtn
+        id={props.id}
+        className="btn"
+        sx={{
+          width: "100%",
+        }}
+        onClick={props?.handleClick}
+      >
+        <Box width="100%" height="100%" position="relative">
+          <Image
+            src={props.src}
+            alt="kaptcha-me option"
+            sizes="(max-width: 768px) 1vw, (max-width: 1200px) 10vw, 15vw"
+            fill
+            style={{
+              objectFit: "cover",
+              overflow: "hidden",
+            }}
+          />
+        </Box>
+      </StyledKaptchaMeImgBtn>
     </Box>
   );
 });
