@@ -73,12 +73,9 @@ export interface MotionValuesObj {
 export default function BotDetection(
   BotDetectionProps: Readonly<{ BotDetectionProps }>,
 ) {
-  const [displayCountdown, setDisplayCountdown] = useState<boolean>(true);
 
   const motionValues: { [key: string]: MotionValue } = {};
-  const countdownFinishedHandler = () => {
-    setDisplayCountdown(false);
-  };
+
   const parentVariants: Variants = {
     parent: {
       transition: {
