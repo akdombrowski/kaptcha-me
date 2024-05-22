@@ -1,7 +1,7 @@
 import "client-only";
 
 import { Button, type ButtonProps } from "@mui/material";
-import { forwardRef, useRef, useEffect } from "react";
+import { forwardRef, useRef, useEffect, useState } from "react";
 import MotionImgBtn, {
   MotionKaptchaMeImgBtn,
 } from "#/src/ui/components/motion/MotionImgBtn";
@@ -25,6 +25,7 @@ import type {
   MotionValue,
   Variants,
   MotionProps,
+  AnimationPlaybackControls,
 } from "framer-motion";
 
 export interface CharacterImgBtnProps extends MotionProps {
@@ -76,34 +77,118 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
   const x = useMotionValue(0);
   const screenRightEdge = window.innerWidth - 300;
   const [scope, animate] = useAnimate();
+  const delay = 3;
+  // const [animateControls, setAnimateControls] = useState<AnimationPlaybackControls | null>(null)
+  let animateControls: AnimationPlaybackControls;
   // This + the offset dur = the max dur for a character to move across the screen
   const maxDurSecondsMotion = 950;
   // This is the min. dur for a character to move across the screen
   const maxDurSecondsMotionOffset = Math.ceil(screenRightEdge);
+  // Haven't tested thoroughly, but hopefully using 2x rnd fn calls will create a
+  // little more variability
+  const duration =
+    ((Math.random() * maxDurSecondsMotion) / 2 +
+      (Math.random() * maxDurSecondsMotion) / 2 +
+      maxDurSecondsMotionOffset) /
+    199;
 
-  useMotionValueEvent(x, "animationComplete", () => {
+  console.log(`${props.id} duration + delay: ${duration + delay} `);
+
+  const motionEvnt = () => {
+    // useMotionValueEvent(x, "animationComplete", () => {
     console.log("animation complete");
-    console.log(x.get());
-  });
+    const lastX = x.get();
+
+    console.log("lastX:", lastX);
+    console.log(`${props.id} setting time to  ${duration + delay - 1} `);
+    animateControls.time = duration + delay - 1;
+    // if (lastX >= screenRightEdge) {
+    if (lastX >= 0) {
+      // console.log(`setting time to ${duration + 1} `);
+      // animateControls.time = duration + 1;
+      // console.log("restarting animation");
+      // animateControls.play();
+      // console.log(`setting time to delay: ${delay} `);
+      // animateControls.time = delay;
+    }
+
+    console.log("");
+    // });
+  };
+
+  // TODO:
+  // DONT THINK SEQUENCES ARE GOING TO WORK
+  // CAN I TRIGGER ANOTHER ANIMATE BASED BY AWAITING THE PREVIOUS ANIMATION'S
+  // PROMISE TO RESOLVE AND TRIGGERING THE OTHER ONE (HEADING IN THE OTHER
+  // DIRECTION)
+  // THAT'S AFTER RUNNING THE STARTING ANIMATION WITH THE DELAY
+  const sequence = [
+    [
+      x,
+      screenRightEdge,
+      {
+        type: "tween",
+        ease: "linear",
+        delay: delay,
+        duration,
+      },
+    ],
+    [
+      x,
+      0,
+      {
+        type: "tween",
+        ease: "linear",
+        duration,
+      },
+    ],
+    [
+      x,
+      screenRightEdge,
+      {
+        type: "tween",
+        ease: "linear",
+        duration,
+        at: "+1",
+      },
+    ],
+  ];
+
+  const start = async () => {};
 
   useEffect(() => {
-    const controls = animate(x, screenRightEdge, {
-      type: "tween",
-      ease: "linear",
-      duration:
-        // Haven't tested, but hopefully using 2x rnd fn calls will create a
-        // little more variability
-        ((Math.random() * maxDurSecondsMotion) / 2 +
-          (Math.random() * maxDurSecondsMotion) / 2 +
-          +maxDurSecondsMotionOffset) /
-        199,
-      delay: 3,
-      onComplete: (v) => {
-        console.log("v:", v);
-      },
-    });
+    // const controls = animate(x, screenRightEdge, {
+    // animateControls = animate(x, screenRightEdge, {
+    //   type: "tween",
+    //   ease: "linear",
+    //   duration:
+    //     // Haven't tested, but hopefully using 2x rnd fn calls will create a
+    //     // little more variability
+    //     ((Math.random() * maxDurSecondsMotion) / 2 +
+    //       (Math.random() * maxDurSecondsMotion) / 2 +
+    //       +maxDurSecondsMotionOffset) /
+    //     199,
+    //   delay: 3,
+    //   onComplete: (v) => {
+    //     console.log("v:", v);
+    //   },
+    // });
+    // async function start() {
+    //   animateControls = animate(x, screenRightEdge, {
+    //     type: "tween",
+    //     ease: "linear",
+    //     delay: delay,
+    //     duration,
+    //     at: 0,
+    //   });
+    //   await animateControls;
+    //   animateControls = animate(sequence);
+    // }
+    // start();
 
-    return () => controls.stop();
+    animateControls = animate(sequence);
+    animateControls.then(() => motionEvnt());
+    return () => animateControls.stop();
   });
 
   useEffect(() => {
