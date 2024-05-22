@@ -125,6 +125,7 @@ const kmImgBtn = styled(ButtonBase, {
     width: width,
   }),
 }));
+
 export const KaptchaMeImgBtn = forwardRef((props: any, ref) => {
   return (
     <Box
@@ -134,6 +135,7 @@ export const KaptchaMeImgBtn = forwardRef((props: any, ref) => {
       maxWidth="25vw"
       width={props?.width}
       height={props?.height}
+      sx={{ aspectRatio: props.aspectRatio }}
     >
       <ButtonBase
         id={props.id}

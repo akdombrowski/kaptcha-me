@@ -117,6 +117,7 @@ export default function BotDetection(
           src={kmGoKartR}
           variants={variants}
           animate="right"
+          aspectRatio={100 / 68}
         />
       );
     }

@@ -2,7 +2,9 @@ import "client-only";
 
 import { Button, type ButtonProps } from "@mui/material";
 import { forwardRef, useRef, useEffect } from "react";
-import MotionImgBtn, {MotionKaptchaMeImgBtn} from "#/src/ui/components/motion/MotionImgBtn";
+import MotionImgBtn, {
+  MotionKaptchaMeImgBtn,
+} from "#/src/ui/components/motion/MotionImgBtn";
 import {
   motion,
   useMotionValue,
@@ -36,6 +38,7 @@ export interface CharacterImgBtnProps extends MotionProps {
   btn?: ButtonProps;
   width?: string;
   height?: string;
+  aspectRatio: number;
 }
 
 /**
@@ -171,6 +174,7 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
       mv={x}
       animate="right"
       variants={variants}
+      aspectRatio={props.aspectRatio}
     />
   );
 }
