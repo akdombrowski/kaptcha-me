@@ -39,6 +39,7 @@ const MAX_DUR = 8;
 // // for local dev
 const kmTheme = "racing";
 const kmGoKartR = "https://i.ibb.co/zm6cRTt/gokart-R.png";
+const kmGoKartL = "/me/gokart/l/gokart-L.png";
 // // const bgImg = "https://i.ibb.co/yWrB3tt/anthony-double-trouble.png";
 const bgImg = "https://i.postimg.cc/DzjCwcwW/race-Track.webp";
 
@@ -73,7 +74,6 @@ export interface MotionValuesObj {
 export default function BotDetection(
   BotDetectionProps: Readonly<{ BotDetectionProps }>,
 ) {
-
   const motionValues: { [key: string]: MotionValue } = {};
 
   const parentVariants: Variants = {
@@ -99,12 +99,30 @@ export default function BotDetection(
   const leftMovingXPositions = [90, 0];
   const rotations = [0, 180];
   const translations = [0, -1];
+  const screenRightEdge = window.innerWidth - 300;
 
   const generateMotionCharacterImgBtns = (params: { count: number }) => {
     const { count } = params;
+
     let chil = new Array(count);
     let heightPerBtn = 100 / count;
+  const delay = 3;
+
     for (let i = 0; i < chil.length; i++) {
+      // This + the offset dur = the max dur for a character to move across the screen
+      const maxDurSecondsMotion = 950;
+      // This is the min. dur for a character to move across the screen
+      const maxDurSecondsMotionOffset = Math.ceil(screenRightEdge);
+      // Haven't tested thoroughly, but hopefully using 2x rnd fn calls will create a
+      // little more variability
+      const duration = parseFloat(
+        Number(
+          ((Math.random() * maxDurSecondsMotion) / 2 +
+            (Math.random() * maxDurSecondsMotion) / 2 +
+            maxDurSecondsMotionOffset) /
+            199,
+        ).toPrecision(2),
+      );
       const id = `optionBtn-${i}`;
       chil[i] = (
         <MotionCharacterImgBtn
@@ -115,6 +133,8 @@ export default function BotDetection(
           variants={variants}
           animate="right"
           aspectRatio={100 / 68}
+          duration={duration}
+          delay={delay}
         />
       );
     }
@@ -126,7 +146,7 @@ export default function BotDetection(
       <Countdown />
       <AnimatePresence>
         <motion.div initial="parent" animate="parent" variants={parentVariants}>
-          {generateMotionCharacterImgBtns({ count: 5 })}
+          {generateMotionCharacterImgBtns({ count: 1 })}
         </motion.div>
       </AnimatePresence>
     </ContainerWithThemedBGImg>

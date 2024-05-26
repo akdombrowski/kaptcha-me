@@ -29,6 +29,8 @@
         "<node_internals>/**",
       ],
     },
+    // Only works if start without any open instances of Chrome and will close
+    // all open instances of Chrome when stopping debugging
     {
       "name": "launch chrome",
       "type": "chrome",
@@ -49,6 +51,26 @@
         "<node_internals>/**",
       ],
     },
+    {
+      "name": "full stack",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "yarn dev",
+      "serverReadyAction": {
+        "pattern": ".+, url: (https?://.+)",
+        "uriFormat": "%s",
+        "action": "debugWithChrome"
+      },
+      "skipFiles": [
+        "${workspaceFolder}/node_modules/**/*.js",
+        "<node_internals>/**",
+      ],
+      "presentation": {
+        "hidden": false,
+        "group": "server+client",
+        "order": 1
+      },
+    }
   ],
   "compounds": [
     {
@@ -61,7 +83,7 @@
       "presentation": {
         "hidden": false,
         "group": "server+client",
-        "order": 1
+        "order": 2
       },
     },
     {
@@ -74,7 +96,7 @@
       "presentation": {
         "hidden": false,
         "group": "server+client",
-        "order": 2
+        "order": 3
       },
     }
   ]

@@ -163,6 +163,10 @@ export const KaptchaMeImgBtn = forwardRef((props: any, ref) => {
   );
 });
 
+// export const MotionKaptchaMeImgBtn = motion(KaptchaMeImgBtn, {
+//   forwardMotionProps: true,
+// });
+
 export const MotionKaptchaMeImgBtn = motion(KaptchaMeImgBtn, {
   forwardMotionProps: true,
 });
@@ -184,41 +188,4 @@ export const MotionKaptchaMeImgBtn = motion(KaptchaMeImgBtn, {
  * End
  */
 
-export const ImgBtn = forwardRef((props: any, ref) => {
-  return (
-    <Box
-      className="motion-img-btn"
-      ref={ref}
-      minWidth={10}
-      maxWidth="25vw"
-      width={props?.width}
-      height={props?.height}
-    >
-      <StyledKaptchaMeImgBtn
-        id={props.id}
-        className="btn"
-        sx={{
-          width: "100%",
-        }}
-        onClick={props?.handleClick}
-      >
-        <Box width="100%" height="100%" position="relative">
-          <Image
-            src={props.src}
-            alt="kaptcha-me option"
-            sizes="(max-width: 768px) 1vw, (max-width: 1200px) 10vw, 15vw"
-            fill
-            style={{
-              objectFit: "cover",
-              overflow: "hidden",
-            }}
-          />
-        </Box>
-      </StyledKaptchaMeImgBtn>
-    </Box>
-  );
-});
-
-const MotionImgBtn = motion(ImgBtn, { forwardMotionProps: true });
-
-export default MotionImgBtn;
+export default MotionKaptchaMeImgBtn;
