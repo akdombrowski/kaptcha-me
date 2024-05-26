@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
+// use `box-sizing: border-sizing` by default rather than content-sizing
+import "@/styles/boxSizing.css";
+
 // import styles for fonts
 import "@fontsource/roboto/100.css";
 import "@fontsource/roboto/300.css";
@@ -18,17 +21,17 @@ import CssBaseline from "@mui/material/CssBaseline";
 // nextjs optimization
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 
-
 // vercel site performance and analytics
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
   title: "kaptcha-me",
-  description: "Anthony Dombrowski's kaptcha-me, a secure alternative to reCAPTCHA's image grid bot detection protection.",
+  description:
+    "Anthony Dombrowski's kaptcha-me, a secure alternative to reCAPTCHA's image grid bot detection protection.",
 };
 
-export default function RootLayout({children}: { children: ReactNode }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>

@@ -3,13 +3,9 @@
 import "client-only";
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import "./App.css";
-import MotionContainer, {
-  type MeInMotion,
-} from "@/kaptchame/bd/MotionContainer.OLD";
-import ContainerWithThemedBGImg from "#/src/app/kaptchame/bd/ContainerWithThemedBGImg";
-import CharImg from "@/kaptchame/bd/CharImg";
-import MotionCharacterImgBtn from "#/src/ui/components/motion/MotionCharacterImgBtn";
+import Countdown from "@/kaptchame/bd/Countdown";
+import ThemedBGContainer from "@/components/ThemedBGContainer";
+import MotionCharacterImgBtn from "@/components/motion/MotionCharacterImgBtn";
 import {
   motion,
   useMotionValue,
@@ -21,10 +17,10 @@ import {
 
 import type { Challenges } from "@/kaptchapi/challenge/create/customFunction";
 import type { MotionValue, Variants } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Countdown from "#/src/app/kaptchame/bd/Countdown";
+import { ThemedBGContainerProps } from "../../../ui/components/ThemedBGContainer";
 
 // // for local dev
 const IMG_SIZE = 6;
@@ -69,50 +65,84 @@ export interface MotionValuesObj {
 
 /**
  * End
+ *
+ *
  */
+
+export interface IContainerSize {
+  width: string | number;
+  height: string | number;
+}
 
 export default function BotDetection(
   BotDetectionProps: Readonly<{ BotDetectionProps }>,
 ) {
+  const themedBGContainerRef = useRef<ThemedBgContainer | null>(null);
+  const [imgBtns, setImgBtns] = useState<MotionCharacterImgBtn[] | null>(null);
+  const [containerSize, setContainerSize] = useState<IContainerSize>({
+    width: window.innerSize,
+    height: window.innerHeight,
+  });
+
   const motionValues: { [key: string]: MotionValue } = {};
+  const numOptions = 2;
 
-  const parentVariants: Variants = {
-    parent: {
-      transition: {
-        when: "beforeChildren",
-        staggerChildren: 30,
+  const createResizeObserver = () => {
+    return new ResizeObserver(
+      (entries: Element, observer: typeof ResizeObserver) => {
+        let width, height;
+        for (const entry of entries) {
+          // borderBoxSize is newer and preferred but may not be supported on all
+          // browsers like the older contentRect is likely to be
+          if (entry.borderBoxSize) {
+            width = entry.borderBoxSize[0].inlineSize;
+            height = entry.borderBoxSize[0].blockSize;
+          } else {
+            width = entry.contentRect.width;
+            height = entry.contentRect.height;
+          }
+        }
+        setContainerSize({ width, height });
       },
-    },
-  };
-  const variants: Variants = {
-    right: {
-      x: window.innerWidth,
-      transition: { ease: "easeOut", duration: 5 },
-    },
-    left: {
-      x: 0,
-      transition: { ease: "easeOut", duration: 5 },
-    },
+    );
   };
 
-  const rightMovingXPositions = [0, window.innerWidth];
-  const leftMovingXPositions = [90, 0];
-  const rotations = [0, 180];
-  const translations = [0, -1];
-  const screenRightEdge = window.innerWidth - 300;
+  const resizeObserver = createResizeObserver();
+  useEffect(() => {
+    console.log("themedBGContainerRef.current:", themedBGContainerRef.current);
+    if (themedBGContainerRef.current) {
+      resizeObserver.observe(themedBGContainerRef.current);
 
-  const generateMotionCharacterImgBtns = (params: { count: number }) => {
-    const { count } = params;
+      return () => resizeObserver.disconnect();
+    }
+  }, [themedBGContainerRef]);
 
-    let chil = new Array(count);
-    let heightPerBtn = 100 / count;
-  const delay = 3;
+  useEffect(() => {
+    console.log("containerSize:", containerSize);
+    if (containerSize.width) {
+      const charImgBtns = generateMotionCharacterImgBtns({
+        numOptions,
+        containerSize,
+      });
+      setImgBtns(charImgBtns);
+    }
+  }, [containerSize]);
+
+  const generateMotionCharacterImgBtns = (params: {
+    numOptions: number;
+    containerSize: IContainerSize;
+  }) => {
+    const { numOptions, containerSize } = params;
+
+    let chil = new Array(numOptions);
+    let heightPerBtn = 1 / numOptions;
+    const delay = 3;
 
     for (let i = 0; i < chil.length; i++) {
       // This + the offset dur = the max dur for a character to move across the screen
       const maxDurSecondsMotion = 950;
       // This is the min. dur for a character to move across the screen
-      const maxDurSecondsMotionOffset = Math.ceil(screenRightEdge);
+      const maxDurSecondsMotionOffset = Math.ceil(containerSize.width);
       // Haven't tested thoroughly, but hopefully using 2x rnd fn calls will create a
       // little more variability
       const duration = parseFloat(
@@ -120,18 +150,19 @@ export default function BotDetection(
           ((Math.random() * maxDurSecondsMotion) / 2 +
             (Math.random() * maxDurSecondsMotion) / 2 +
             maxDurSecondsMotionOffset) /
-            199,
+            199 /
+            1.1,
         ).toPrecision(2),
       );
+
       const id = `optionBtn-${i}`;
       chil[i] = (
         <MotionCharacterImgBtn
           id={id}
-          height={`${heightPerBtn}vh`}
+          height={heightPerBtn}
           key={`optionBtn-${i}`}
           src={kmGoKartR}
-          variants={variants}
-          animate="right"
+          containerSize={containerSize}
           aspectRatio={100 / 68}
           duration={duration}
           delay={delay}
@@ -141,14 +172,17 @@ export default function BotDetection(
     return chil;
   };
 
+  console.log("imgBtns:");
+  console.log(imgBtns);
+
   return (
-    <ContainerWithThemedBGImg>
+    <ThemedBGContainer
+      themeSrc={"https://i.postimg.cc/DzjCwcwW/race-Track.webp"}
+      ref={themedBGContainerRef}
+    >
+      {/* Countdown uses absolute positioning */}
       <Countdown />
-      <AnimatePresence>
-        <motion.div initial="parent" animate="parent" variants={parentVariants}>
-          {generateMotionCharacterImgBtns({ count: 1 })}
-        </motion.div>
-      </AnimatePresence>
-    </ContainerWithThemedBGImg>
+      {imgBtns}
+    </ThemedBGContainer>
   );
 }
