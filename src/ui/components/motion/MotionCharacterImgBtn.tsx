@@ -2,7 +2,7 @@ import "client-only";
 
 import { Button, type ButtonProps } from "@mui/material";
 import { forwardRef, useRef, useEffect, useState } from "react";
-import MotionKaptchaMeImgBtn from "#/src/ui/components/motion/MotionImgBtn";
+import MotionKaptchaMeImgBtn from "@/components/motion/MotionImgBtn";
 import {
   motion,
   useMotionValue,
@@ -16,7 +16,7 @@ import {
 } from "framer-motion";
 
 import type { CSSProperties } from "react";
-import { IContainerSize } from "../../../app/kaptchame/bd/BotDetection";
+import { IContainerSize } from "@/kaptchame/bd/BotDetection";
 
 import type {
   MotionStyle,
@@ -33,6 +33,7 @@ export interface CharacterImgBtnProps extends MotionProps {
   duration: number;
   containerSize: IContainerSize;
   delay?: number;
+  motionValue?: moVa;
   horizontal?: boolean;
   vertical?: boolean;
   startPos?: { [key: string]: string | number };
@@ -89,6 +90,7 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
 
   const seqR = [
     [
+      // x,
       scope.current,
       { scaleX: 1 },
       {
@@ -96,6 +98,7 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
       },
     ],
     [
+      // x,
       scope.current,
       { x: containerSize.width },
       {
@@ -110,6 +113,7 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
   const seqL = [
     [
       scope.current,
+      // x,
       { scaleX: -1 },
       {
         duration: 1,
@@ -117,7 +121,8 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
     ],
     [
       scope.current,
-      { x: 0 - width },
+      // x,
+      { x: 0 - imgWidth },
       {
         type: "tween",
         ease: "linear",
@@ -126,21 +131,6 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
       },
     ],
   ];
-
-  const motionEvnt = (animateConfig) => {
-    const lastX = x.get();
-    animateControls = animate(scope.current);
-
-    console.log("");
-  };
-
-  useMotionValueEvent(x, "animationComplete", () => {
-    console.log("animationComplete");
-  });
-
-  useMotionValueEvent(x, "change", (latest) => {
-    // console.log("change:", latest);
-  });
 
   useEffect(() => {
     if (dir !== "start") {
@@ -154,6 +144,7 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
       animateControls.then(() => {
         setDir((dir) => (dir === "right" ? "left" : "right"));
       });
+
       return () => animateControls.stop();
     }
   }, [dir]);
@@ -162,6 +153,7 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
     if (dir === "start") {
       animateControls = animate(
         scope.current,
+        // x,
         { x: containerSize.width },
         {
           type: "tween",
@@ -174,6 +166,7 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
       animateControls.then(() => {
         setDir("left");
       });
+
       return () => animateControls.stop();
     }
   }, []);

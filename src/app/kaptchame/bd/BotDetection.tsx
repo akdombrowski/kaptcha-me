@@ -83,7 +83,7 @@ export default function BotDetection(
     width: window.innerSize,
     height: window.innerHeight,
   });
-
+  const goKartAspectRatio = 100 / 68;
   const motionValues: { [key: string]: MotionValue } = {};
   const numOptions = 2;
 
@@ -109,7 +109,6 @@ export default function BotDetection(
 
   const resizeObserver = createResizeObserver();
   useEffect(() => {
-    console.log("themedBGContainerRef.current:", themedBGContainerRef.current);
     if (themedBGContainerRef.current) {
       resizeObserver.observe(themedBGContainerRef.current);
 
@@ -118,7 +117,6 @@ export default function BotDetection(
   }, [themedBGContainerRef]);
 
   useEffect(() => {
-    console.log("containerSize:", containerSize);
     if (containerSize.width) {
       const charImgBtns = generateMotionCharacterImgBtns({
         numOptions,
@@ -127,6 +125,22 @@ export default function BotDetection(
       setImgBtns(charImgBtns);
     }
   }, [containerSize]);
+
+  const useMotionValueWithImgBtn = (params: {
+    numOptions: number;
+    containerSize: IContainerSize;
+    height?: string | number;
+    width?: string | number;
+  }) => {
+    const imgWidth = width
+      ? width * containerSize.width
+      : height * containerSize.height * goKartAspectRatio;
+    const imgHeight = height
+      ? height * containerSize.height
+      : (width * containerSize.width) / goKartAspectRatio;
+    const moVal = useMotionValue(0 - imgWidth);
+    return moVal;
+  };
 
   const generateMotionCharacterImgBtns = (params: {
     numOptions: number;
@@ -171,9 +185,6 @@ export default function BotDetection(
     }
     return chil;
   };
-
-  console.log("imgBtns:");
-  console.log(imgBtns);
 
   return (
     <ThemedBGContainer
