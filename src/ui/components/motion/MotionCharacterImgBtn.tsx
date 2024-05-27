@@ -178,16 +178,8 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
     console.log(id, "", "animationComplete");
   });
 
-  useMotionValueEvent(x, "change", (currentX) => {
-    const a = Math.ceil(Math.abs(currentX));
-    const b = a % 188;
-    const interval = !b;
-    if (Math.abs(currentX) > 400 && Math.abs(currentX) < 700 && interval) {
-      console.log(id, "x:", currentX);
-      console.log(id, "velocity", "=", x.getVelocity());
-      console.log("");
-    }
-  });
+  // useMotionValueEvent(x, "change", (currentX) => {
+  // });
 
   return (
     <MotionKaptchaMeImgBtn
@@ -198,6 +190,17 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
       src={src}
       style={{ x }}
       aspectRatio={aspectRatio}
+      whileHover={{
+        scale: 3,
+        translateY: 0,
+        transition: { duration: 0.1 },
+      }}
+      whileTap={{
+        scale: 10,
+        translateY: 0,
+        transition: { duration: 0.01 },
+      }}
+      exit={{ scale: 1000, transition: { duration: 0.1 } }}
     />
   );
 }

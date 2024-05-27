@@ -86,7 +86,7 @@ export default function BotDetection(
   });
   const goKartAspectRatio = 100 / 68;
   const motionValues: { [key: string]: MotionValue } = {};
-  const numOptions = 5;
+  const numOptions = 15;
 
   const createResizeObserver = () => {
     return new ResizeObserver(
