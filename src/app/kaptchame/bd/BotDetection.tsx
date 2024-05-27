@@ -19,6 +19,7 @@ import type { Challenges } from "@/kaptchapi/challenge/create/customFunction";
 import type { MotionValue, Variants } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import Box from "@mui/material/Box";
+import Grid from "@mui/material/Unstable_Grid2";
 import Typography from "@mui/material/Typography";
 import { ThemedBGContainerProps } from "../../../ui/components/ThemedBGContainer";
 
@@ -85,7 +86,7 @@ export default function BotDetection(
   });
   const goKartAspectRatio = 100 / 68;
   const motionValues: { [key: string]: MotionValue } = {};
-  const numOptions = 2;
+  const numOptions = 5;
 
   const createResizeObserver = () => {
     return new ResizeObserver(
@@ -126,46 +127,33 @@ export default function BotDetection(
     }
   }, [containerSize]);
 
-  const useMotionValueWithImgBtn = (params: {
-    numOptions: number;
-    containerSize: IContainerSize;
-    height?: string | number;
-    width?: string | number;
-  }) => {
-    const imgWidth = width
-      ? width * containerSize.width
-      : height * containerSize.height * goKartAspectRatio;
-    const imgHeight = height
-      ? height * containerSize.height
-      : (width * containerSize.width) / goKartAspectRatio;
-    const moVal = useMotionValue(0 - imgWidth);
-    return moVal;
-  };
-
   const generateMotionCharacterImgBtns = (params: {
     numOptions: number;
     containerSize: IContainerSize;
   }) => {
     const { numOptions, containerSize } = params;
 
+    const maxVelocity = 100;
+    const minVelocity = 35;
+    const minDur = containerSize.width / maxVelocity;
+    const maxDur = containerSize.width / minVelocity;
+    // ${maxAddRNDDur} + ${minDur} = the max dur for a character to move across the screen
+    const maxAddRNDDur = maxDur - minDur;
+
     let chil = new Array(numOptions);
     let heightPerBtn = 1 / numOptions;
     const delay = 3;
 
     for (let i = 0; i < chil.length; i++) {
-      // This + the offset dur = the max dur for a character to move across the screen
-      const maxDurSecondsMotion = 950;
       // This is the min. dur for a character to move across the screen
       const maxDurSecondsMotionOffset = Math.ceil(containerSize.width);
       // Haven't tested thoroughly, but hopefully using 2x rnd fn calls will create a
       // little more variability
       const duration = parseFloat(
         Number(
-          ((Math.random() * maxDurSecondsMotion) / 2 +
-            (Math.random() * maxDurSecondsMotion) / 2 +
-            maxDurSecondsMotionOffset) /
-            199 /
-            1.1,
+          (Math.random() * maxAddRNDDur) / 2 +
+            (Math.random() * maxAddRNDDur) / 2 +
+            minDur,
         ).toPrecision(2),
       );
 

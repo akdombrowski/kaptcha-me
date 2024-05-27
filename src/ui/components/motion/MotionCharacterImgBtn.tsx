@@ -1,6 +1,8 @@
 import "client-only";
 
-import { Button, type ButtonProps } from "@mui/material";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import type { ButtonProps } from "@mui/material";
 import { forwardRef, useRef, useEffect, useState } from "react";
 import MotionKaptchaMeImgBtn from "@/components/motion/MotionImgBtn";
 import {
@@ -76,14 +78,12 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
   const [scope, animate] = useAnimate();
   const [dir, setDir] = useState("start");
   const imgWidth = width
-    ? width * containerSize.width
-    : height * containerSize.height * aspectRatio;
+    ? width * containerSize.width * 0.9
+    : height * containerSize.height * aspectRatio * 0.9;
   const imgHeight = height
-    ? height * containerSize.height
-    : (width * containerSize.width) / aspectRatio;
+    ? height * containerSize.height * 0.9
+    : ((width * containerSize.width) / aspectRatio) * 0.9;
 
-  // TODO: x.current disappears once one of the characters reaches the edge of
-  // the screen
   const x = useMotionValue(0 - imgWidth);
   let slowDownDur = duration;
   let animateControls: AnimationPlaybackControls;
@@ -132,6 +132,8 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
     ],
   ];
 
+  // Run an animation in one direction and switch to the opposite direction
+  // animation when complete
   useEffect(() => {
     if (dir !== "start") {
       slowDownDur *= 1.01;
@@ -149,6 +151,7 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
     }
   }, [dir]);
 
+  // On initial render, start animation
   useEffect(() => {
     if (dir === "start") {
       animateControls = animate(
@@ -170,6 +173,21 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
       return () => animateControls.stop();
     }
   }, []);
+
+  useMotionValueEvent(x, "animationComplete", () => {
+    console.log(id, "", "animationComplete");
+  });
+
+  useMotionValueEvent(x, "change", (currentX) => {
+    const a = Math.ceil(Math.abs(currentX));
+    const b = a % 188;
+    const interval = !b;
+    if (Math.abs(currentX) > 400 && Math.abs(currentX) < 700 && interval) {
+      console.log(id, "x:", currentX);
+      console.log(id, "velocity", "=", x.getVelocity());
+      console.log("");
+    }
+  });
 
   return (
     <MotionKaptchaMeImgBtn
