@@ -174,9 +174,9 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
     }
   }, []);
 
-  useMotionValueEvent(x, "animationComplete", () => {
-    console.log(id, "", "animationComplete");
-  });
+  // useMotionValueEvent(x, "animationComplete", () => {
+  //   console.log(id, "", "animationComplete");
+  // });
 
   // useMotionValueEvent(x, "change", (currentX) => {
   // });
