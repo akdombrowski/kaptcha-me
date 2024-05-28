@@ -21,7 +21,7 @@ import { useEffect, useState, useRef } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
 import Typography from "@mui/material/Typography";
-import { ThemedBGContainerProps } from "../../../ui/components/ThemedBGContainer";
+import { ThemedBGContainerProps } from "@/components/ThemedBGContainer";
 
 // // for local dev
 const IMG_SIZE = 6;
@@ -35,10 +35,10 @@ const MAX_DUR = 8;
 
 // // for local dev
 const kmTheme = "racing";
-const kmGoKartR = "https://i.ibb.co/zm6cRTt/gokart-R.png";
+const kmGoKartR = "/me/gokart/r/gokart-R.png";
 const kmGoKartL = "/me/gokart/l/gokart-L.png";
 // // const bgImg = "https://i.ibb.co/yWrB3tt/anthony-double-trouble.png";
-const bgImg = "https://i.postimg.cc/DzjCwcwW/race-Track.webp";
+const bgImg = "/bg/race-Track.png";
 
 export interface BotDetectionProps {
   imgs: string[];
