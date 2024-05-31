@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import type { ButtonProps } from "@mui/material";
 import { forwardRef, useRef, useEffect, useState } from "react";
-import MotionKaptchaMeImgBtn from "@/components/motion/MotionImgBtn";
+import MotionKaptchaMeImgBtn from "@/components/motion/MotionKaptchaMeImgBtn";
 import {
   motion,
   useMotionValue,
