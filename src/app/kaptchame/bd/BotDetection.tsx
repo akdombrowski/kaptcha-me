@@ -6,6 +6,8 @@ import "client-only";
 import Countdown from "@/kaptchame/bd/Countdown";
 import ThemedBGContainer from "@/components/ThemedBGContainer";
 import MotionCharacterImgBtn from "@/components/motion/MotionCharacterImgBtn";
+import KaptchaMeForm from "@/components/motion/KaptchaMeForm";
+
 import {
   motion,
   useMotionValue,
@@ -15,13 +17,16 @@ import {
   stagger,
 } from "framer-motion";
 
-import type { Challenges } from "@/kaptchapi/challenge/create/customFunction";
-import type { MotionValue, Variants } from "framer-motion";
-import { useEffect, useState, useRef } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
 import Typography from "@mui/material/Typography";
+
+import { useEffect, useState, useRef } from "react";
+
 import { ThemedBGContainerProps } from "@/components/ThemedBGContainer";
+import type { Challenges } from "@/kaptchapi/challenge/create/customFunction";
+import type { MotionValue, Variants } from "framer-motion";
+import type { ReactNode } from "react";
 
 // // for local dev
 const IMG_SIZE = 6;
@@ -51,6 +56,11 @@ export interface MotionValuesObj {
   [key: string]: MotionValue;
 }
 
+export interface IContainerSize {
+  width: string | number;
+  height: string | number;
+}
+
 /**
  * NextJS Fast Refresh
  *
@@ -66,14 +76,7 @@ export interface MotionValuesObj {
 
 /**
  * End
- *
- *
  */
-
-export interface IContainerSize {
-  width: string | number;
-  height: string | number;
-}
 
 export default function BotDetection(
   BotDetectionProps: Readonly<{ BotDetectionProps }>,
@@ -87,6 +90,7 @@ export default function BotDetection(
   const goKartAspectRatio = 100 / 68;
   const motionValues: { [key: string]: MotionValue } = {};
   const numOptions = 15;
+  const formID = "formWrapperForBtns";
 
   const createResizeObserver = () => {
     return new ResizeObserver(
@@ -161,6 +165,7 @@ export default function BotDetection(
       chil[i] = (
         <MotionCharacterImgBtn
           id={id}
+          formID={formID}
           height={heightPerBtn}
           key={`optionBtn-${i}`}
           src={kmGoKartR}
@@ -174,6 +179,10 @@ export default function BotDetection(
     return chil;
   };
 
+  const formAction = (formData) => {
+    console.log(formData);
+  };
+
   return (
     <ThemedBGContainer
       themeSrc={"https://i.postimg.cc/DzjCwcwW/race-Track.webp"}
@@ -181,7 +190,7 @@ export default function BotDetection(
     >
       {/* Countdown uses absolute positioning */}
       <Countdown />
-      {imgBtns}
+      <KaptchaMeForm formID={formID} formAction={formAction}>{imgBtns}</KaptchaMeForm>
     </ThemedBGContainer>
   );
 }

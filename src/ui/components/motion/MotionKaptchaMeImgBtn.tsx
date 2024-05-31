@@ -27,7 +27,7 @@ export interface KaptchaMeImgBtnProps {
 export const KaptchaMeImgBtn = forwardRef((props: any, ref) => {
   return (
     <Box
-      className="motion-img-btn"
+      className="motion-img-btn-box"
       ref={ref}
       minWidth={10}
       maxWidth="25vw"
@@ -35,14 +35,22 @@ export const KaptchaMeImgBtn = forwardRef((props: any, ref) => {
       height={props?.height}
       sx={{ aspectRatio: props.aspectRatio }}
     >
+
+      {/* //TODO:
+      * why isn't form attribute getting set?!?!?
+      */}
+
+
       <ButtonBase
         id={props.id}
+        form={props.formid}
         className="btn"
         sx={{
           width: "100%",
           height: "100%",
         }}
         onClick={props?.handleClick}
+        type="submit"
       >
         <Box width="100%" height="100%" position="relative">
           <Image
@@ -60,10 +68,6 @@ export const KaptchaMeImgBtn = forwardRef((props: any, ref) => {
     </Box>
   );
 });
-
-// export const MotionKaptchaMeImgBtn = motion(KaptchaMeImgBtn, {
-//   forwardMotionProps: true,
-// });
 
 export const MotionKaptchaMeImgBtn = motion(KaptchaMeImgBtn, {
   forwardMotionProps: true,

@@ -2,9 +2,9 @@ import "client-only";
 
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import type { ButtonProps } from "@mui/material";
-import { forwardRef, useRef, useEffect, useState } from "react";
+
 import MotionKaptchaMeImgBtn from "@/components/motion/MotionKaptchaMeImgBtn";
+
 import {
   motion,
   useMotionValue,
@@ -17,9 +17,11 @@ import {
   useIsPresent,
 } from "framer-motion";
 
-import type { CSSProperties } from "react";
-import { IContainerSize } from "@/kaptchame/bd/BotDetection";
+import { forwardRef, useRef, useEffect, useState } from "react";
 
+import { IContainerSize } from "@/kaptchame/bd/BotDetection";
+import type { CSSProperties, SyntheticEvent } from "react";
+import type { ButtonProps } from "@mui/material";
 import type {
   MotionStyle,
   AnimationControls,
@@ -34,8 +36,9 @@ export interface CharacterImgBtnProps extends MotionProps {
   src: string;
   duration: number;
   containerSize: IContainerSize;
+  handleClick?: (event: SyntheticEvent, id: string) => void;
   delay?: number;
-  motionValue?: moVa;
+  motionValue?: MotionValue;
   horizontal?: boolean;
   vertical?: boolean;
   startPos?: { [key: string]: string | number };
@@ -45,6 +48,7 @@ export interface CharacterImgBtnProps extends MotionProps {
   width?: string;
   height?: string;
   aspectRatio: number;
+  formID: string;
 }
 
 /**
@@ -74,6 +78,7 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
     src,
     aspectRatio,
     containerSize,
+    formID,
   } = props;
   const [scope, animate] = useAnimate();
   const [dir, setDir] = useState("start");
@@ -181,15 +186,25 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
   // useMotionValueEvent(x, "change", (currentX) => {
   // });
 
+  const handleClick = (event: SyntheticEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (handleClick) {
+      props.handleClick(event, id);
+    }
+  };
+
   return (
     <MotionKaptchaMeImgBtn
       id={id}
+      formID={formID}
       ref={scope}
       width={imgWidth}
       height={imgHeight}
       src={src}
       style={{ x }}
       aspectRatio={aspectRatio}
+      onClick={handleClick}
       whileHover={{
         scale: 3,
         translateY: 0,
