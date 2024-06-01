@@ -3,9 +3,8 @@
 import "client-only";
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import Countdown from "@/kaptchame/bd/Countdown";
+import Countdown from "@/components/Countdown";
 import ThemedBGContainer from "@/components/ThemedBGContainer";
-import MotionCharacterImgBtn from "@/components/motion/MotionCharacterImgBtn";
 import KaptchaMeForm from "@/components/motion/KaptchaMeForm";
 
 import {
@@ -82,7 +81,7 @@ export default function BotDetection(
   BotDetectionProps: Readonly<{ BotDetectionProps }>,
 ) {
   const themedBGContainerRef = useRef<ThemedBgContainer | null>(null);
-  const [imgBtns, setImgBtns] = useState<MotionCharacterImgBtn[] | null>(null);
+
   const [containerSize, setContainerSize] = useState<IContainerSize>({
     width: window.innerSize,
     height: window.innerHeight,
@@ -121,67 +120,7 @@ export default function BotDetection(
     }
   }, [themedBGContainerRef]);
 
-  useEffect(() => {
-    if (containerSize.width) {
-      const charImgBtns = generateMotionCharacterImgBtns({
-        numOptions,
-        containerSize,
-      });
-      setImgBtns(charImgBtns);
-    }
-  }, [containerSize]);
 
-  const generateMotionCharacterImgBtns = (params: {
-    numOptions: number;
-    containerSize: IContainerSize;
-  }) => {
-    const { numOptions, containerSize } = params;
-
-    const maxVelocity = 100;
-    const minVelocity = 35;
-    const minDur = containerSize.width / maxVelocity;
-    const maxDur = containerSize.width / minVelocity;
-    // ${maxAddRNDDur} + ${minDur} = the max dur for a character to move across the screen
-    const maxAddRNDDur = maxDur - minDur;
-
-    let chil = new Array(numOptions);
-    let heightPerBtn = 1 / numOptions;
-    const delay = 3;
-
-    for (let i = 0; i < chil.length; i++) {
-      // This is the min. dur for a character to move across the screen
-      const maxDurSecondsMotionOffset = Math.ceil(containerSize.width);
-      // Haven't tested thoroughly, but hopefully using 2x rnd fn calls will create a
-      // little more variability
-      const duration = parseFloat(
-        Number(
-          (Math.random() * maxAddRNDDur) / 2 +
-            (Math.random() * maxAddRNDDur) / 2 +
-            minDur,
-        ).toPrecision(2),
-      );
-
-      const id = `optionBtn-${i}`;
-      chil[i] = (
-        <MotionCharacterImgBtn
-          id={id}
-          formID={formID}
-          height={heightPerBtn}
-          key={`optionBtn-${i}`}
-          src={kmGoKartR}
-          containerSize={containerSize}
-          aspectRatio={100 / 68}
-          duration={duration}
-          delay={delay}
-        />
-      );
-    }
-    return chil;
-  };
-
-  const formAction = (formData) => {
-    console.log(formData);
-  };
 
   return (
     <ThemedBGContainer
@@ -190,7 +129,7 @@ export default function BotDetection(
     >
       {/* Countdown uses absolute positioning */}
       <Countdown />
-      <KaptchaMeForm formID={formID} formAction={formAction}>{imgBtns}</KaptchaMeForm>
+      <KaptchaMeForm formID={formID}  numOptions={numOptions} containerSize={containerSize} />
     </ThemedBGContainer>
   );
 }

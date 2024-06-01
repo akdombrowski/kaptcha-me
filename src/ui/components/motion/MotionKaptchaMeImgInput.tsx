@@ -1,21 +1,23 @@
-import { forwardRef } from "react";
-import type { SyntheticEvent } from "react";
-
-import { alpha, styled } from "@mui/material/styles";
+import Button, { type ButtonProps } from "@mui/material/Button";
+import InputBase from "@mui/material/InputBase";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import ButtonBase from "@mui/material/ButtonBase";
-import type { ButtonProps } from "@mui/material/Button";
-import type {
-  ButtonBaseOwnProps,
-  ButtonBaseProps,
-} from "@mui/material/ButtonBase";
-
+import { alpha, styled } from "@mui/material/styles";
 import Image from "next/image";
-
+import { forwardRef, type ForwardedRef } from "react";
 import { motion, useMotionValue } from "framer-motion";
 import type { ForwardRefComponent, MotionProps } from "framer-motion";
+
+import type {
+  InputBaseOwnProps,
+  InputBaseProps,
+} from "@mui/material/InputBase";
+
+const img = {
+  url: "https://i.ibb.co/zm6cRTt/gokart-R.png",
+  title: "kaptcha-me-gokart-r",
+  width: "30%",
+};
 
 export interface KaptchaMeImgBtnProps {
   id: string;
@@ -23,17 +25,6 @@ export interface KaptchaMeImgBtnProps {
 }
 
 export const KaptchaMeImgBtn = forwardRef((props: any, ref) => {
-  const handleClick = (event: SyntheticEvent) => {
-    event.stopPropagation();
-    event.preventDefault();
-    console.log("handleClick");
-    console.log(event);
-    console.log("event.currentTarget");
-    console.log(event.currentTarget);
-    console.log("handleClick");
-    console.log("calling formAction");
-    props.formAction(event);
-  };
   return (
     <Box
       className="motion-img-btn-box"
@@ -44,20 +35,22 @@ export const KaptchaMeImgBtn = forwardRef((props: any, ref) => {
       height={props?.height}
       sx={{ aspectRatio: props.aspectRatio }}
     >
-      {/* //TODO:
-       * why isn't form attribute getting set?!?!?
-       */}
 
-      <ButtonBase
+      {/* //TODO:
+      * why isn't form attribute getting set?!?!?
+      */}
+
+
+      <InputBase
         id={props.id}
-        form={props.formID}
+        form={props.formid}
         className="btn"
         sx={{
           width: "100%",
           height: "100%",
         }}
-        onClick={handleClick}
-        // type="submit"
+        onClick={props?.handleClick}
+        type="image"
       >
         <Box width="100%" height="100%" position="relative">
           <Image
@@ -71,7 +64,7 @@ export const KaptchaMeImgBtn = forwardRef((props: any, ref) => {
             }}
           />
         </Box>
-      </ButtonBase>
+      </InputBase>
     </Box>
   );
 });

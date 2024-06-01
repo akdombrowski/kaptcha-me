@@ -1,10 +1,12 @@
 import "client-only";
-
+// react
+import { forwardRef, useRef, useEffect, useState } from "react";
+// mui
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-
+// kaptcha-me
 import MotionKaptchaMeImgBtn from "@/components/motion/MotionKaptchaMeImgBtn";
-
+// framer-motion
 import {
   motion,
   useMotionValue,
@@ -16,9 +18,7 @@ import {
   useAnimationControls,
   useIsPresent,
 } from "framer-motion";
-
-import { forwardRef, useRef, useEffect, useState } from "react";
-
+// Interfaces and Types
 import { IContainerSize } from "@/kaptchame/bd/BotDetection";
 import type { CSSProperties, SyntheticEvent } from "react";
 import type { ButtonProps } from "@mui/material";
@@ -36,7 +36,7 @@ export interface CharacterImgBtnProps extends MotionProps {
   src: string;
   duration: number;
   containerSize: IContainerSize;
-  handleClick?: (event: SyntheticEvent, id: string) => void;
+  formAction: (event: SyntheticEvent, data: any) => void;
   delay?: number;
   motionValue?: MotionValue;
   horizontal?: boolean;
@@ -79,6 +79,7 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
     aspectRatio,
     containerSize,
     formID,
+    formAction,
   } = props;
   const [scope, animate] = useAnimate();
   const [dir, setDir] = useState("start");
@@ -187,8 +188,8 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
   // });
 
   const handleClick = (event: SyntheticEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+    event.preventDefault();
+    event.stopPropagation();
     if (handleClick) {
       props.handleClick(event, id);
     }
@@ -204,7 +205,7 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
       src={src}
       style={{ x }}
       aspectRatio={aspectRatio}
-      onClick={handleClick}
+      formAction={formAction}
       whileHover={{
         scale: 3,
         translateY: 0,
