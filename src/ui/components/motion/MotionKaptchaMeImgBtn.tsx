@@ -34,6 +34,7 @@ export const KaptchaMeImgBtn = forwardRef((props: any, ref) => {
     console.log("calling formAction");
     props.formAction(event);
   };
+
   return (
     <Box
       className="motion-img-btn-box"

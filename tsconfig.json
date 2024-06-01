@@ -48,6 +48,9 @@
       "@/components/*": [
         "src/ui/components/*"
       ],
+      "@/actions/*": [
+        "src/actions/*"
+      ],
     },
     "plugins": [
       {

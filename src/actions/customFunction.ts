@@ -1,4 +1,8 @@
-const crypto = require("crypto");
+"use server";
+import "server-only";
+
+// const crypto = require("crypto");
+import crypto from "crypto";
 
 export type imgs = {
   bg: {

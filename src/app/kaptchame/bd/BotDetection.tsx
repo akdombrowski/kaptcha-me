@@ -1,9 +1,10 @@
 "use client";
-
 import "client-only";
 
+// react
+import { useEffect, useState, useRef } from "react";
+import type { ReactNode } from "react";
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import Countdown from "@/components/Countdown";
 import ThemedBGContainer from "@/components/ThemedBGContainer";
 import KaptchaMeForm from "@/components/motion/KaptchaMeForm";
 
@@ -16,16 +17,12 @@ import {
   stagger,
 } from "framer-motion";
 
+import type { MotionValue, Variants } from "framer-motion";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
 import Typography from "@mui/material/Typography";
 
-import { useEffect, useState, useRef } from "react";
-
 import { ThemedBGContainerProps } from "@/components/ThemedBGContainer";
-import type { Challenges } from "@/kaptchapi/challenge/create/customFunction";
-import type { MotionValue, Variants } from "framer-motion";
-import type { ReactNode } from "react";
 
 // // for local dev
 const IMG_SIZE = 6;
@@ -55,11 +52,6 @@ export interface MotionValuesObj {
   [key: string]: MotionValue;
 }
 
-export interface IContainerSize {
-  width: string | number;
-  height: string | number;
-}
-
 /**
  * NextJS Fast Refresh
  *
@@ -77,17 +69,23 @@ export interface IContainerSize {
  * End
  */
 
+// react
+
+export interface IContainerSize {
+  width: string | number;
+  height: string | number;
+}
 export default function BotDetection(
   BotDetectionProps: Readonly<{ BotDetectionProps }>,
 ) {
   const themedBGContainerRef = useRef<ThemedBgContainer | null>(null);
-
   const [containerSize, setContainerSize] = useState<IContainerSize>({
     width: window.innerSize,
     height: window.innerHeight,
   });
-  const goKartAspectRatio = 100 / 68;
   const motionValues: { [key: string]: MotionValue } = {};
+
+  const goKartAspectRatio = 100 / 68;
   const numOptions = 15;
   const formID = "formWrapperForBtns";
 
@@ -112,6 +110,7 @@ export default function BotDetection(
   };
 
   const resizeObserver = createResizeObserver();
+
   useEffect(() => {
     if (themedBGContainerRef.current) {
       resizeObserver.observe(themedBGContainerRef.current);
@@ -120,16 +119,16 @@ export default function BotDetection(
     }
   }, [themedBGContainerRef]);
 
-
-
   return (
     <ThemedBGContainer
       themeSrc={"https://i.postimg.cc/DzjCwcwW/race-Track.webp"}
       ref={themedBGContainerRef}
     >
-      {/* Countdown uses absolute positioning */}
-      <Countdown />
-      <KaptchaMeForm formID={formID}  numOptions={numOptions} containerSize={containerSize} />
+      <KaptchaMeForm
+        formID={formID}
+        numOptions={numOptions}
+        containerSize={containerSize}
+      />
     </ThemedBGContainer>
   );
 }

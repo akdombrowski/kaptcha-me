@@ -1,13 +1,18 @@
-import MotionCharacterImgBtn from "@/components/motion/MotionCharacterImgBtn";
+import "client-only";
 
+// react
+import { useEffect, useState, useRef } from "react";
+import type { ReactNode, SyntheticEvent } from "react";
+// kaptcha-me
+import MotionCharacterImgBtn from "@/components/motion/MotionCharacterImgBtn";
+// mui
 import Box from "@mui/material/Box";
 
-import { useEffect, useState, useRef } from "react";
-
-import type { ReactNode, SyntheticEvent } from "react";
-
+// local images
 import kmGoKartR from "#/gokart/r/gokart-R.png";
 import kmGoKartL from "#/gokart/l/gokart-L.png";
+// actions
+import { getNewChallenges } from "@/actions/createChallenges";
 
 export interface IKaptchaMeFormProps {
   formAction: () => {};
@@ -35,16 +40,18 @@ export default function KaptchaMeForm(props: IKaptchaMeFormProps) {
     }
   }, [containerSize]);
 
-
   const formAction = (event: SyntheticEvent) => {
-    console.log("formAction")
+    console.log("formAction");
 
     console.log(event);
 
-    console.log("event.currentTarget")
-    console.log(event.currentTarget)
-    console.log("formAction")
+    console.log("event.currentTarget");
+    console.log(event.currentTarget);
 
+    console.log("");
+    const challenges = getNewChallenges();
+    console.log("");
+    console.log("formAction");
   };
 
   const generateMotionCharacterImgBtns = (params: {

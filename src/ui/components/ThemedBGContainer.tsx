@@ -5,6 +5,7 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { getImageProps } from "next/image";
 import { ReactNode, forwardRef } from "react";
+import Countdown from "@/components/Countdown";
 
 export interface ThemedBGContainerProps {
   children?: ReactNode;
@@ -53,6 +54,8 @@ export const ThemedBGContainer = forwardRef(
         disableGutters
         sx={{ overflow: "hidden" }}
       >
+        {/* Countdown uses absolute positioning */}
+        <Countdown />
         {children}
       </Container>
     );
