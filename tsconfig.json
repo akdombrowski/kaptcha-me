@@ -21,10 +21,13 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "#/*": [
+      "root/*": [
         "./*"
       ],
-      "#/gokart/*": [
+      "@/pub/*": [
+        "public/*"
+      ],
+      "@/gokart/*": [
         "public/me/gokart/*"
       ],
       "@/*": [
@@ -38,6 +41,9 @@
       ],
       "@/kaptchame/*": [
         "src/app/kaptchame/*"
+      ],
+      "@/bd/*": [
+        "src/app/kaptchame/bd/*"
       ],
       "@/styles/*": [
         "src/styles/*"

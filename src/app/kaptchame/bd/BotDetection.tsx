@@ -3,7 +3,7 @@ import "client-only";
 
 // react
 import { useEffect, useState, useRef } from "react";
-import type { ReactNode } from "react";
+import type { ReactNode, ReactElement } from "react";
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import ThemedBGContainer from "@/components/ThemedBGContainer";
 import KaptchaMeForm from "@/components/motion/KaptchaMeForm";
@@ -23,6 +23,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 import Typography from "@mui/material/Typography";
 
 import { ThemedBGContainerProps } from "@/components/ThemedBGContainer";
+import type { Challenges } from "@/actions/customFunction";
 
 // // for local dev
 const IMG_SIZE = 6;
@@ -45,11 +46,16 @@ export interface BotDetectionProps {
   imgs: string[];
   dur: string | number;
   numChoices: number;
-  challenges: Challenges;
+  challenges?: Challenges;
 }
 
 export interface MotionValuesObj {
   [key: string]: MotionValue;
+}
+
+export interface IContainerSize {
+  width: string | number;
+  height: string | number;
 }
 
 /**
@@ -71,16 +77,12 @@ export interface MotionValuesObj {
 
 // react
 
-export interface IContainerSize {
-  width: string | number;
-  height: string | number;
-}
 export default function BotDetection(
   BotDetectionProps: Readonly<{ BotDetectionProps }>,
 ) {
-  const themedBGContainerRef = useRef<ThemedBgContainer | null>(null);
+  const themedBGContainerRef = useRef<typeof ThemedBGContainer | null>(null);
   const [containerSize, setContainerSize] = useState<IContainerSize>({
-    width: window.innerSize,
+    width: window.innerWidth,
     height: window.innerHeight,
   });
   const motionValues: { [key: string]: MotionValue } = {};
@@ -90,30 +92,30 @@ export default function BotDetection(
   const formID = "formWrapperForBtns";
 
   const createResizeObserver = () => {
-    return new ResizeObserver(
-      (entries: Element, observer: typeof ResizeObserver) => {
-        let width, height;
-        for (const entry of entries) {
-          // borderBoxSize is newer and preferred but may not be supported on all
-          // browsers like the older contentRect is likely to be
-          if (entry.borderBoxSize) {
-            width = entry.borderBoxSize[0].inlineSize;
-            height = entry.borderBoxSize[0].blockSize;
-          } else {
-            width = entry.contentRect.width;
-            height = entry.contentRect.height;
-          }
+    return new ResizeObserver((entries: ResizeObserverEntry[]) => {
+      let width, height;
+      for (const entry of entries) {
+        // borderBoxSize is newer and preferred but may not be supported on all
+        // browsers like the older contentRect is likely to be
+        if (entry.borderBoxSize) {
+          width = entry.borderBoxSize[0].inlineSize;
+          height = entry.borderBoxSize[0].blockSize;
+        } else {
+          width = entry.contentRect.width;
+          height = entry.contentRect.height;
         }
-        setContainerSize({ width, height });
-      },
-    );
+      }
+      setContainerSize({ width, height });
+    });
   };
 
   const resizeObserver = createResizeObserver();
 
   useEffect(() => {
     if (themedBGContainerRef.current) {
-      resizeObserver.observe(themedBGContainerRef.current);
+      resizeObserver.observe(
+        themedBGContainerRef.current as unknown as Element,
+      );
 
       return () => resizeObserver.disconnect();
     }

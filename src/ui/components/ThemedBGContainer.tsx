@@ -8,7 +8,7 @@ import { ReactNode, forwardRef } from "react";
 import Countdown from "@/components/Countdown";
 
 export interface ThemedBGContainerProps {
-  children?: ReactNode;
+  children: ReactNode;
   themeSrc?: string;
 }
 
@@ -46,18 +46,18 @@ export const ThemedBGContainer = forwardRef(
     };
 
     return (
-      <Container
+      <Box
         id="themedBGContainer"
         ref={ref}
-        maxWidth={false}
+        width="100%"
+        height="100%"
         style={style}
-        disableGutters
         sx={{ overflow: "hidden" }}
       >
         {/* Countdown uses absolute positioning */}
         <Countdown />
         {children}
-      </Container>
+      </Box>
     );
   },
 );

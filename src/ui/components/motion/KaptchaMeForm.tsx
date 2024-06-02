@@ -9,17 +9,19 @@ import MotionCharacterImgBtn from "@/components/motion/MotionCharacterImgBtn";
 import Box from "@mui/material/Box";
 
 // local images
-import kmGoKartR from "#/gokart/r/gokart-R.png";
-import kmGoKartL from "#/gokart/l/gokart-L.png";
+import kmGoKartR from "@/gokart/r/gokart-R.png";
+import kmGoKartL from "@/gokart/l/gokart-L.png";
 // actions
 import { getNewChallenges } from "@/actions/createChallenges";
 
+import type { IContainerSize } from "@/bd/BotDetection";
+
 export interface IKaptchaMeFormProps {
-  formAction: () => {};
   formID: string;
-  children: ReactNode;
+  children?: ReactNode;
   numOptions: number;
-  containerSize: number;
+  containerSize: IContainerSize;
+  formAction?: () => {};
 }
 
 const kmTheme = "racing";
@@ -27,7 +29,9 @@ const kmTheme = "racing";
 // const kmGoKartL = "/me/gokart/l/gokart-L.png";
 
 export default function KaptchaMeForm(props: IKaptchaMeFormProps) {
-  const [imgBtns, setImgBtns] = useState<MotionCharacterImgBtn[] | null>(null);
+  const [imgBtns, setImgBtns] = useState<
+    (typeof MotionCharacterImgBtn)[] | null
+  >(null);
   const { formID, children, numOptions, containerSize } = props;
 
   useEffect(() => {

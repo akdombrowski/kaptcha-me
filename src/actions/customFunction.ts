@@ -1011,7 +1011,7 @@ const combineCodesAndPosArrayAndImgs = (
 };
 
 export type GenerateChallengesRequest = {
-  difficulty: number;
+  numOptions: number;
   imgSize: number;
   imgSizeRacing: number;
   theme: string;
@@ -1020,7 +1020,7 @@ export type GenerateChallengesRequest = {
 export const createChallenges = async (
   params: GenerateChallengesRequest,
 ): Promise<Challenges> => {
-  const difficulty = Number(params.difficulty);
+  const difficulty = Number(params.numOptions);
   const imgSize = Number(params.imgSize);
   const imgSizeRacing = Number(params.imgSizeRacing);
   const theme = params.theme;
