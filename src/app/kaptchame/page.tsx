@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 
-const DynamicBotDetection = dynamic(() => import("#/src/app/kaptchame/bd/BotDetection"), {
+const DynamicBotDetection = dynamic(() => import("@/kaptchame/bd/BotDetection"), {
   ssr: false,
 });
 

@@ -78,7 +78,7 @@ export interface IContainerSize {
 // react
 
 export default function BotDetection(
-  BotDetectionProps: Readonly<{ BotDetectionProps }>,
+  BotDetectionProps?: Readonly<{ BotDetectionProps }>,
 ) {
   const themedBGContainerRef = useRef<typeof ThemedBGContainer | null>(null);
   const [containerSize, setContainerSize] = useState<IContainerSize>({
