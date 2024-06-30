@@ -6,10 +6,12 @@ import Box from "@mui/material/Box";
 import { getImageProps } from "next/image";
 import { ReactNode, forwardRef } from "react";
 import Countdown from "@/components/Countdown";
+import type { IContainerSize } from "@/bd/BotDetection";
 
 export interface ThemedBGContainerProps {
   children: ReactNode;
   themeSrc?: string;
+  containerSize: IContainerSize;
 }
 
 function getBackgroundImage(srcSet = "") {
@@ -29,8 +31,8 @@ export const ThemedBGContainer = forwardRef(
     const {
       props: { srcSet },
     } = getImageProps({
-      width: 1920,
-      height: 1080,
+      width: props.containerSize.width,
+      height: props.containerSize.height,
       src: "https://i.postimg.cc/DzjCwcwW/race-Track.webp",
       priority: true,
       alt: "kaptcha-me background image: race track",

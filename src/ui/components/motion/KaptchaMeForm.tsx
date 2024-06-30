@@ -29,9 +29,7 @@ const kmTheme = "racing";
 // const kmGoKartL = "/me/gokart/l/gokart-L.png";
 
 export default function KaptchaMeForm(props: IKaptchaMeFormProps) {
-  const [imgBtns, setImgBtns] = useState<
-    (typeof MotionCharacterImgBtn)[] | null
-  >(null);
+  const [imgBtns, setImgBtns] = useState<ReactNode | null>(null);
   const { formID, children, numOptions, containerSize } = props;
 
   useEffect(() => {
@@ -44,16 +42,16 @@ export default function KaptchaMeForm(props: IKaptchaMeFormProps) {
     }
   }, [containerSize]);
 
-  const formAction = (event: SyntheticEvent) => {
+  const formAction = (formData) => {
     console.log("formAction");
 
-    console.log(event);
+    // console.log(event);
 
-    console.log("event.currentTarget");
-    console.log(event.currentTarget);
+    console.log("formData");
+    console.log(formData);
 
     console.log("");
-    const challenges = getNewChallenges();
+    // const challenges = getNewChallenges();
     console.log("");
     console.log("formAction");
   };
@@ -61,7 +59,7 @@ export default function KaptchaMeForm(props: IKaptchaMeFormProps) {
   const generateMotionCharacterImgBtns = (params: {
     numOptions: number;
     containerSize: IContainerSize;
-  }) => {
+  }): ReactNode => {
     const { numOptions, containerSize } = params;
 
     const maxVelocity = 100;
@@ -115,7 +113,7 @@ export default function KaptchaMeForm(props: IKaptchaMeFormProps) {
       action={formAction}
       name={formID}
     >
-      {imgBtns}
+      {imgBtns ?? <></>}
     </Box>
   );
 }

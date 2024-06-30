@@ -54,8 +54,8 @@ export interface MotionValuesObj {
 }
 
 export interface IContainerSize {
-  width: string | number;
-  height: string | number;
+  width: number;
+  height: number;
 }
 
 /**
@@ -77,9 +77,7 @@ export interface IContainerSize {
 
 // react
 
-export default function BotDetection(
-  BotDetectionProps?: Readonly<{ BotDetectionProps }>,
-) {
+export default function BotDetection() {
   const themedBGContainerRef = useRef<typeof ThemedBGContainer | null>(null);
   const [containerSize, setContainerSize] = useState<IContainerSize>({
     width: window.innerWidth,
@@ -125,6 +123,7 @@ export default function BotDetection(
     <ThemedBGContainer
       themeSrc={"https://i.postimg.cc/DzjCwcwW/race-Track.webp"}
       ref={themedBGContainerRef}
+      containerSize={containerSize}
     >
       <KaptchaMeForm
         formID={formID}

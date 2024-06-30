@@ -29,11 +29,15 @@ import type {
   Variants,
   MotionProps,
   AnimationPlaybackControls,
+  MotionValueSegment,
+  MotionValueSegmentWithTransition,
+  DOMSegmentWithTransition,
 } from "framer-motion";
+import { StaticImageData } from "next/image";
 
 export interface CharacterImgBtnProps extends MotionProps {
   id: string;
-  src: string;
+  src: string | StaticImageData;
   duration: number;
   containerSize: IContainerSize;
   formAction: (event: SyntheticEvent, data: any) => void;
@@ -45,8 +49,8 @@ export interface CharacterImgBtnProps extends MotionProps {
   endPos?: { [key: string]: string | number };
   direction?: string;
   btn?: ButtonProps;
-  width?: string;
-  height?: string;
+  width?: number;
+  height?: number;
   aspectRatio: number;
   formID: string;
 }
@@ -83,18 +87,27 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
   } = props;
   const [scope, animate] = useAnimate();
   const [dir, setDir] = useState("start");
-  const imgWidth = width
-    ? width * containerSize.width * 0.9
-    : height * containerSize.height * aspectRatio * 0.9;
-  const imgHeight = height
-    ? height * containerSize.height * 0.9
-    : ((width * containerSize.width) / aspectRatio) * 0.9;
-
-  const x = useMotionValue(0 - imgWidth);
   let slowDownDur = duration;
   let animateControls: AnimationPlaybackControls;
 
-  const seqR = [
+  const getDims = () => {
+    let imgWidth, imgHeight;
+    if (width) {
+      imgWidth = width * containerSize.width * 0.9;
+      imgHeight = ((width * containerSize.width) / aspectRatio) * 0.9;
+    } else if (height) {
+      imgHeight = height * containerSize.height * 0.9;
+      imgWidth = height * containerSize.height * aspectRatio * 0.9;
+    } else {
+      imgWidth = ((200 * containerSize.width) / aspectRatio) * 0.9;
+      imgHeight = 200 * containerSize.height * aspectRatio * 0.9;
+    }
+    return { imgWidth, imgHeight };
+  };
+  const { imgWidth, imgHeight } = getDims();
+  const x = useMotionValue(0 - imgWidth);
+
+  const seqR: DOMSegmentWithTransition[] = [
     [
       // x,
       scope.current,
@@ -116,7 +129,7 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
     ],
   ];
 
-  const seqL = [
+  const seqL: DOMSegmentWithTransition[] = [
     [
       scope.current,
       // x,
@@ -186,14 +199,6 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
 
   // useMotionValueEvent(x, "change", (currentX) => {
   // });
-
-  const handleClick = (event: SyntheticEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
-    if (handleClick) {
-      props.handleClick(event, id);
-    }
-  };
 
   return (
     <MotionKaptchaMeImgBtn
