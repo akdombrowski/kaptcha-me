@@ -17,6 +17,8 @@ import Image from "next/image";
 import { motion, useMotionValue } from "framer-motion";
 import type { ForwardRefComponent, MotionProps } from "framer-motion";
 
+import submitChoice from "@/actions/submitChoice";
+
 export interface KaptchaMeImgBtnProps {
   id: string;
   width?: string;
@@ -32,7 +34,9 @@ export const KaptchaMeImgBtn = forwardRef((props: any, ref) => {
     console.log(event.currentTarget);
     console.log("handleClick");
     console.log("calling formAction");
-    props.formAction(event);
+    const btnEl = event.currentTarget as HTMLButtonElement;
+    btnEl.form?.requestSubmit();
+    // props.formAction(event);
   };
 
   return (
@@ -52,13 +56,14 @@ export const KaptchaMeImgBtn = forwardRef((props: any, ref) => {
       <ButtonBase
         id={props.id}
         form={props.formID}
+        formAction={submitChoice}
         className="btn"
         sx={{
           width: "100%",
           height: "100%",
         }}
-        onClick={handleClick}
-        // type="submit"
+        // onClick={handleClick}
+        type="submit"
       >
         <Box width="100%" height="100%" position="relative">
           <Image
