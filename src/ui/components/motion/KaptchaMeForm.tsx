@@ -62,7 +62,7 @@ export default function KaptchaMeForm(props: IKaptchaMeFormProps) {
   }): ReactNode => {
     const { numOptions, containerSize } = params;
 
-    const maxVelocity = 100;
+    const maxVelocity = 150;
     const minVelocity = 35;
     const minDur = containerSize.width / maxVelocity;
     const maxDur = containerSize.width / minVelocity;
