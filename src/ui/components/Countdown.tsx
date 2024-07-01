@@ -6,7 +6,7 @@ export default function Countdown() {
   const [countdown, setCountdown] = useState<number>(3);
   const [color, setColor] = useState<string>("#000000");
   const COLORS = ["#00FF00", "#fcf300", "#FF0000", "#000000"];
-  const holdOnZeroMillis = 15000;
+  const holdOnZeroMillis = 1500;
 
   // handler runs every 1 second to change the countdown
   const countdownHandler = () => {
