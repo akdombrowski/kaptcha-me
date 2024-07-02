@@ -1,12 +1,16 @@
 "use server";
 
-export default async function submitChoice(choice: FormData) {
-  console.log("")
-  console.log("")
-  console.log("")
-  console.log("submit choice server action")
-  console.log("formData:", choice)
-  console.log("")
-  console.log("")
-  console.log("")
+import { FormEvent, FormEventHandler, SyntheticEvent } from "react";
+
+// export default async function submitChoice(choice: FormEvent<HTMLButtonElement>) {
+export default async function submitChoice(event: SyntheticEvent) {
+  console.log("");
+  console.log("");
+  console.log("");
+  console.log("inside submit choice server action");
+  console.log("formData:", event);
+  console.log("");
+  console.log("");
+  console.log("");
+  return "returning from submitChoice server action, yes";
 }

@@ -20,7 +20,7 @@ import {
 } from "framer-motion";
 // Interfaces and Types
 import { IContainerSize } from "@/kaptchame/bd/BotDetection";
-import type { CSSProperties, SyntheticEvent } from "react";
+import type { CSSProperties, FormEvent, SyntheticEvent } from "react";
 import type { ButtonProps } from "@mui/material";
 import type {
   MotionStyle,
@@ -40,7 +40,9 @@ export interface CharacterImgBtnProps extends MotionProps {
   src: string | StaticImageData;
   duration: number;
   containerSize: IContainerSize;
-  formAction: (event: SyntheticEvent, data: any) => void;
+  formAction?:
+    | ((event: SyntheticEvent, data: any) => void)
+    | ((choice: FormEvent<HTMLButtonElement>) => Promise<void>);
   delay?: number;
   motionValue?: MotionValue;
   horizontal?: boolean;

@@ -1,43 +1,36 @@
 import { forwardRef } from "react";
 import type { SyntheticEvent } from "react";
 
-import { alpha, styled } from "@mui/material/styles";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import ButtonBase from "@mui/material/ButtonBase";
-import type { ButtonProps } from "@mui/material/Button";
-import type {
-  ButtonBaseOwnProps,
-  ButtonBaseProps,
-} from "@mui/material/ButtonBase";
 
 import Image from "next/image";
 
-import { motion, useMotionValue } from "framer-motion";
-import type { ForwardRefComponent, MotionProps } from "framer-motion";
+import { motion } from "framer-motion";
 
 import submitChoice from "@/actions/submitChoice";
 
 export interface KaptchaMeImgBtnProps {
   id: string;
   width?: string;
+  formAction?: () => Promise<any>;
 }
 
 export const KaptchaMeImgBtn = forwardRef((props: any, ref) => {
   const handleClick = (event: SyntheticEvent) => {
-    event.stopPropagation();
+    console.log("handleClick");
     event.preventDefault();
-    console.log("handleClick");
-    console.log(event);
-    console.log("event.currentTarget");
-    console.log(event.currentTarget);
-    console.log("handleClick");
+    // console.log(event.nativeEvent);
+    // console.log(event);
+    console.log(event.currentTarget as HTMLElement);
+    console.log("id");
+    console.log(event.currentTarget.id);
     console.log("calling formAction");
     const btnEl = event.currentTarget as HTMLButtonElement;
-    btnEl.form?.requestSubmit();
-    // props.formAction(event);
+    btnEl.form?.requestSubmit(event.currentTarget as HTMLElement);
+    console.log("handleClick");
   };
+  const updateWithID = submitChoice.bind(null, props.id);
 
   return (
     <Box
@@ -49,20 +42,16 @@ export const KaptchaMeImgBtn = forwardRef((props: any, ref) => {
       height={props?.height}
       sx={{ aspectRatio: props.aspectRatio }}
     >
-      {/* //TODO:
-       * why isn't form attribute getting set?!?!?
-       */}
-
       <ButtonBase
         id={props.id}
-        form={props.formID}
-        formAction={submitChoice}
+        name={"here's the name of the key"}
+        value={"value of the key"}
         className="btn"
         sx={{
           width: "100%",
           height: "100%",
         }}
-        // onClick={handleClick}
+        onClick={handleClick}
         type="submit"
       >
         <Box width="100%" height="100%" position="relative">

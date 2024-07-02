@@ -15,6 +15,7 @@ import kmGoKartL from "@/gokart/l/gokart-L.png";
 import { getNewChallenges } from "@/actions/createChallenges";
 
 import type { IContainerSize } from "@/bd/BotDetection";
+import submitChoice from "@/actions/submitChoice";
 
 export interface IKaptchaMeFormProps {
   formID: string;
@@ -43,7 +44,7 @@ export default function KaptchaMeForm(props: IKaptchaMeFormProps) {
   }, [containerSize]);
 
   const formAction = (formData) => {
-    console.log("formAction");
+    console.log("inside KaptchaMeForm formAction");
 
     // console.log(event);
 
@@ -91,7 +92,7 @@ export default function KaptchaMeForm(props: IKaptchaMeFormProps) {
         <MotionCharacterImgBtn
           id={id}
           formID={formID}
-          formAction={formAction}
+          formAction={submitChoice}
           height={heightPerBtn}
           key={`optionBtn-${i}`}
           src={kmGoKartR}
