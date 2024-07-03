@@ -96,7 +96,7 @@ export const getNewChallenges = async ({
   console.log("====================================");
   console.log("====================================");
   console.log("");
-  console.log("   GET kaptchapi/challenge/create   ");
+  console.log("   server action getNewChallenges   ");
   console.log("");
   console.log("====================================");
   console.log("====================================");
@@ -112,3 +112,5 @@ export const getNewChallenges = async ({
   const challenge = "get challenge to put here";
   return challenges;
 };
+
+export default getNewChallenges;

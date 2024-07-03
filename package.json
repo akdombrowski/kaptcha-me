@@ -24,7 +24,6 @@
     "@types/react": "^18.3.3",
     "@vercel/analytics": "^1.3.1",
     "@vercel/speed-insights": "^1.0.12",
-    "clsx": "2.1.1",
     "framer-motion": "11.2.12",
     "next": "^14.2",
     "react": "19.0.0-rc-58af67a8f8-20240628",
@@ -32,13 +31,13 @@
   },
   "devDependencies": {
     "@types/node": "20.14.9",
-    "@typescript-eslint/parser": "^7.14.1",
+    "@typescript-eslint/parser": "^7.15.0",
     "client-only": "0.0.1",
     "eslint": "^9.6.0",
     "prettier": "^3.3.2",
     "prettier-eslint": "^16.3.0",
     "server-only": "0.0.1",
-    "typescript": "^5.5.2",
+    "typescript": "^5.5.3",
     "vercel": "^34.2.8"
   },
   "packageManager": "yarn@4.3.1"
