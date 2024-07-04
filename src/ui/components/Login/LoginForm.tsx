@@ -16,6 +16,7 @@ import Paper from "@mui/material/Paper";
 import { useTheme, alpha } from "@mui/material/styles";
 
 import DifficultyRadioBtnGroup from "@/components/Login/DifficultyRadioBtnGroup";
+import DifficultySlider from "@/components/Login/DifficultySlider";
 
 import loginFormSubmit from "@/actions/loginFormSubmit";
 
@@ -101,7 +102,7 @@ export default function LoginForm(props) {
           />
         </Stack>
         <Box my={2}>
-          <DifficultyRadioBtnGroup />
+          <DifficultySlider />
         </Box>
         <Stack spacing={1} my={2}>
           <Button fullWidth type="submit" variant="contained" color="primary">
