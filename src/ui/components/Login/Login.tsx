@@ -1,13 +1,12 @@
 "use client";
 import "client-only";
 
-import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
 import LoginForm from "@/ui/components/Login/LoginForm";
-import Image from "next/image";
 import Container from "@mui/material/Container";
 import getBGImg from "root/src/utils/getBGImg";
 import { CSSProperties } from "react";
+
 export default function Login() {
   const src = "/recaptcha-katpchame.webp";
   const bgImg = getBGImg({

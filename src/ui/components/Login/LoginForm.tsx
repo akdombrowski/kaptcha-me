@@ -7,10 +7,6 @@ import { FormEvent } from "react";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import InputLabel from "@mui/material/InputLabel";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Grid from "@mui/material/Unstable_Grid2";
 import Stack from "@mui/material/Stack";
 import Link from "next/link";
 import Typography from "@mui/material/Typography";
@@ -18,7 +14,6 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Avatar from "@mui/material/Avatar";
 import Paper from "@mui/material/Paper";
 import { useTheme, alpha } from "@mui/material/styles";
-import { FormControl, Input } from "@mui/material";
 
 import DifficultyRadioBtnGroup from "@/components/Login/DifficultyRadioBtnGroup";
 
@@ -71,11 +66,6 @@ export default function LoginForm(props) {
           alignItems="center"
           py={0}
           my={0}
-          // component={Paper}
-          // elevation={6}
-          // sx={{
-          //   backgroundColor: alpha(theme.palette.background.paper, 0.5),
-          // }}
         >
           <Avatar sx={{ bgcolor: theme.palette.secondary.light }}>
             <LockOutlinedIcon />
