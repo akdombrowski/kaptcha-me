@@ -20,6 +20,8 @@ import Paper from "@mui/material/Paper";
 import { useTheme, alpha } from "@mui/material/styles";
 import { FormControl, Input } from "@mui/material";
 
+import DifficultyRadioBtnGroup from "@/components/Login/DifficultyRadioBtnGroup";
+
 import loginFormSubmit from "@/actions/loginFormSubmit";
 
 const DEBUG = true;
@@ -31,6 +33,8 @@ export default function LoginForm(props) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     if (DEBUG) {
+      // !!! - CAREFUL - !!!
+      // THIS IS CLIENT SIDE CODE
       console.log({
         email: data.get("email"),
         password: data.get("password"),
@@ -45,53 +49,54 @@ export default function LoginForm(props) {
       component="form"
       noValidate
       action={loginFormSubmit}
-      // onSubmit={}
+      width="100%"
+      sx={{ backgroundColor: alpha("#000", 0.9), borderRadius: "10%" }}
     >
       <Stack
-        spacing={1}
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-        pb={1}
-        // component={Paper}
-        // elevation={6}
-        // sx={{
-        //   backgroundColor: alpha(theme.palette.background.paper, 0.5),
-        // }}
-      >
-        <Avatar sx={{ bgcolor: theme.palette.secondary.light }}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h4" fontWeight={900}>
-          Sign in
-        </Typography>
-      </Stack>
-      <Stack
-        spacing={3}
         justifyContent="flex-start"
-        px={{ xs: 2, sm: 3, md: 6 }}
+        px={{ xs: 3, sm: 6 }}
         component={Paper}
         elevation={6}
-        py={{ xs: 4, sm: 5, md: 6 }}
+        pt={{xs: 2, sm: 4, md: 6}}
+        pb={{xs: 5, md: 6}}
         sx={{
-          backgroundColor: alpha(theme.palette.background.paper, 0.35),
+          backgroundColor: alpha("#000", 0.7),
+          borderRadius: "10%",
         }}
       >
-        <Stack >
-          <FormControl variant="outlined">
-            <InputLabel htmlFor="email" color="primary">
-              Email
-            </InputLabel>
-            <Input
-              // required
-              id="email"
-              size="small"
-              fullWidth
-              name="email"
-              autoComplete="email"
-              autoFocus
-            ></Input>
-          </FormControl>
+        <Stack
+          spacing={1}
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          py={0}
+          my={0}
+          // component={Paper}
+          // elevation={6}
+          // sx={{
+          //   backgroundColor: alpha(theme.palette.background.paper, 0.5),
+          // }}
+        >
+          <Avatar sx={{ bgcolor: theme.palette.secondary.light }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h4" fontWeight={900}>
+            Sign in
+          </Typography>
+        </Stack>
+        <Stack spacing={0} my={2}>
+          <TextField
+            id="email"
+            size="small"
+            color="primary"
+            margin="normal"
+            fullWidth
+            name="email"
+            label="Email"
+            type="email"
+            autoComplete="email"
+            sx={{ mt: 1, mb: 0 }}
+          />
           <TextField
             id="password"
             size="small"
@@ -102,9 +107,13 @@ export default function LoginForm(props) {
             label="Password"
             type="password"
             autoComplete="current-password"
+            sx={{ mt: 2, mb: 0 }}
           />
         </Stack>
-        <Stack spacing={1}>
+        <Box my={2}>
+          <DifficultyRadioBtnGroup />
+        </Box>
+        <Stack spacing={1} my={2}>
           <Button fullWidth type="submit" variant="contained" color="primary">
             Login
           </Button>

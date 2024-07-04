@@ -92,21 +92,22 @@ export const getNewChallenges = async ({
   });
 
   console.log("");
-  console.log("====================================");
-  console.log("====================================");
-  console.log("====================================");
   console.log("");
+  console.log("");
+  console.log("====================================");
   console.log("   server action getNewChallenges   ");
+  console.log("====================================");
   console.log("");
-  console.log("====================================");
-  console.log("====================================");
-  console.log("====================================");
 
+  console.log("challenges");
+  console.log(JSON.stringify(challenges, null, 2));
   console.log("");
-  console.log("JSON.stringify(challenges)");
-  console.log(JSON.stringify(challenges));
   console.log("");
-  console.log(challenges);
+  console.log("====================================");
+  console.log("   server action getNewChallenges   ");
+  console.log("====================================");
+  console.log("");
+  console.log("");
   console.log("");
 
   const challenge = "get challenge to put here";

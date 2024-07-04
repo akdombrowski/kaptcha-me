@@ -7,6 +7,7 @@ import { getImageProps } from "next/image";
 import { ReactNode, forwardRef } from "react";
 import Countdown from "@/components/Countdown";
 import type { IContainerSize } from "@/bd/BotDetection";
+import getBGImg from "@/utils/getBGImg";
 
 export interface ThemedBGContainerProps {
   children: ReactNode;
@@ -14,30 +15,17 @@ export interface ThemedBGContainerProps {
   containerSize: IContainerSize;
 }
 
-function getBackgroundImage(srcSet = "") {
-  const imageSet = srcSet
-    .split(", ")
-    .map((str) => {
-      const [url, dpi] = str.split(" ");
-      return `url("${url}") ${dpi}`;
-    })
-    .join(", ");
-  return `image-set(${imageSet})`;
-}
-
 export const ThemedBGContainer = forwardRef(
   (props: ThemedBGContainerProps, ref) => {
     const { children, themeSrc } = props;
-    const {
-      props: { srcSet },
-    } = getImageProps({
+
+    const backgroundImage = getBGImg({
       width: props.containerSize.width,
       height: props.containerSize.height,
       src: "https://i.postimg.cc/DzjCwcwW/race-Track.webp",
       priority: true,
       alt: "kaptcha-me background image: race track",
     });
-    const backgroundImage = getBackgroundImage(srcSet);
     const style = {
       height: "100vh",
       width: "100vw",

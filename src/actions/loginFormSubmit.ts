@@ -11,7 +11,10 @@ export default async function loginFormSubmit(formData: FormData) {
 
   console.log("");
   console.log("");
+  console.log("");
+  console.log("==============================");
   console.log("loginformsubmit server action");
+  console.log("==============================");
   console.log("");
   console.log("requesting new challenges...");
   console.log("");
@@ -30,6 +33,11 @@ export default async function loginFormSubmit(formData: FormData) {
   console.log("email:", email);
   console.log("password:", password);
   console.log("redirecting to /kaptchame");
+  console.log("");
+  console.log("==============================");
+  console.log("loginformsubmit server action");
+  console.log("==============================");
+  console.log("");
   console.log("");
   console.log("");
 
