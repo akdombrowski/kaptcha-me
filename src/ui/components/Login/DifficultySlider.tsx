@@ -9,12 +9,12 @@ import { useTheme } from "@mui/material/styles";
 
 import { SyntheticEvent } from "react";
 
-export default function DifficultySlider() {
+export default function DifficultySlider({ formID }: { formID: string }) {
   const theme = useTheme();
 
   const handleChange = (
-    ev: SyntheticEvent,
-    value: number | Array<{ value: number; label: string }>,
+    ev: Event | SyntheticEvent,
+    value: number | number[],
   ): void => {
     ev.preventDefault();
     console.log(
@@ -47,6 +47,7 @@ export default function DifficultySlider() {
       <FormLabel id="difficulty-radio-btn-group-label">Difficulty</FormLabel>
       <Box px={3}>
         <Slider
+          slotProps={{ input: { form: formID, name: "difficulty" } }}
           aria-label="Difficulty"
           defaultValue={1}
           getAriaValueText={getLabelForValue}
@@ -60,6 +61,7 @@ export default function DifficultySlider() {
           sx={{
             ".MuiSlider-markLabelActive": { fontWeight: 700, fontSize: "1rem" },
           }}
+          onChangeCommitted={handleChange}
         />
       </Box>
     </FormControl>

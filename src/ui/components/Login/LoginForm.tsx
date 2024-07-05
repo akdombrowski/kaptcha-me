@@ -40,6 +40,8 @@ export default function LoginForm(props) {
 
   return (
     <Stack
+      id="loginForm"
+      name="loginForm"
       justifyContent="flex-start"
       alignItems="stretch"
       component="form"
@@ -53,7 +55,7 @@ export default function LoginForm(props) {
         px={{ xs: 2, sm: 3 }}
         component={Paper}
         elevation={6}
-        py={{xs: 2, md: 4}}
+        py={{ xs: 2, md: 4 }}
         sx={{
           backgroundColor: alpha("#000", 0.75),
           borderRadius: "10%",
@@ -101,7 +103,7 @@ export default function LoginForm(props) {
           />
         </Stack>
         <Box mt={1}>
-          <DifficultySlider />
+          <DifficultySlider formID="loginForm" />
         </Box>
         <Stack spacing={1} my={1}>
           <Button fullWidth type="submit" variant="contained" color="primary">

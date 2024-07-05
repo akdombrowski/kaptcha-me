@@ -25,13 +25,14 @@ export default async function loginFormSubmit(formData: FormData) {
     imgSizeRacing: 10,
     theme: "racing",
   };
-  const challenges = createChallenges(createChallengeParams);
+  const challenges = await createChallenges(createChallengeParams);
   console.log("challenges:");
   console.log(challenges);
 
   console.log("");
   console.log("email:", email);
   console.log("password:", password);
+  console.log(JSON.stringify(formData, null, 2));
   console.log("redirecting to /kaptchame");
   console.log("");
   console.log("==============================");
