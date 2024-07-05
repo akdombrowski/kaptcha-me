@@ -10,7 +10,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import GetChallenges from "../readChallenges/route";
-import createChallenges from "../create/customFunction";
+import createChallenges from "@/actions/customFunction";
 
 type CheckChallengeReqBody = {
   challenge: string;
@@ -112,7 +112,7 @@ export async function POST(request: NextRequest) {
   console.log('new URL("/kaptchame", request.url)');
   console.log(kaptchameURL);
   console.log("");
-  
+
   // TODO: redirect to the page being protected by the katpchame bot detection
   return NextResponse.redirect(kaptchameURL);
   // return NextResponse.json("good", { status: 200 });

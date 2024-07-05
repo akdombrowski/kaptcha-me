@@ -6,7 +6,7 @@ import "server-only";
 // doesn't currently use sensitive environment variables, it's
 // good practise to add `server-only` preemptively.
 import createChallenges from "@/actions/customFunction";
-import type { Challenges } from "@/actions/customFunction";
+import type { GenerateChallengesRequestParams } from "@/actions/customFunction";
 
 const DIFFICULTY = 10;
 // const IMG_WIDTH = Number('{{global.variables.IMG_WIDTH}}');
@@ -70,20 +70,13 @@ const rndPosPercFromLeftEdge = () => {
 //   return chlls;
 // };
 
-export interface CreateChallengeParams {
-  numOptions: number;
-  imgSize: number;
-  imgSizeRacing: number;
-  theme: string;
-}
-
 // GENERATE LIST OF CHALLENGES AND POSITIONS AND IMAGES
 export const getNewChallenges = async ({
   numOptions,
   imgSize,
   imgSizeRacing,
   theme,
-}: CreateChallengeParams) => {
+}: GenerateChallengesRequestParams) => {
   const challenges = await createChallenges({
     numOptions,
     imgSize,

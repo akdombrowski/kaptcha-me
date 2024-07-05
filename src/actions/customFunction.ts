@@ -203,26 +203,6 @@ const shuffleArray = (array) => {
   return array;
 };
 
-const shuffleObjectWithNumberKeys = (obj) => {
-  let currentIndex = obj.keys.length;
-  let randomIndex = 0;
-
-  // While there remain elements to shuffle.
-  while (currentIndex != 0) {
-    // Pick a remaining element.
-    randomIndex = floorRND(currentIndex);
-    currentIndex--;
-
-    // And swap it with the current element.
-    [obj[currentIndex], obj[randomIndex]] = [
-      obj[randomIndex],
-      obj[currentIndex],
-    ];
-  }
-
-  return obj;
-};
-
 /**
  * It calculates a random number to place the col containing an img
  * min value is 0 to keep from going off screen to the left
@@ -237,48 +217,7 @@ const getRNDPos = (imgSize) => {
   return Math.max(0, floorRND(maxPositionFromLeftEdge));
 };
 
-const noLuckFallback = (
-  claimedPosVizArr,
-  claimedPosArr,
-  unclaimedPosSet,
-  claimedPosSet,
-  noLuck,
-  imgSize,
-) => {
-  const lastDitchIterations = 100;
-  let rnd = getRNDPos(imgSize);
-
-  // just try to avoid direct overlap
-  for (let i = 0; i < lastDitchIterations; i++) {
-    const isRNDAlreadyAClaimedPos = claimedPosArr[rnd];
-    if (isRNDAlreadyAClaimedPos) {
-      rnd = getRNDPos(imgSize);
-    } else {
-      break;
-    }
-  }
-  // add to set to try to avoid overlapping
-  claimedPosSet.add(rnd);
-  // add to array to return
-  claimedPosVizArr[rnd] = true;
-  claimedPosArr.push(rnd);
-
-  const numUnclaimedPos = unclaimedPosSet.size;
-  if (unclaimedPosSet && numUnclaimedPos > 0) {
-    unclaimedPosSet.delete(rnd);
-  }
-  noLuck++;
-
-  return {
-    noLuck,
-    claimedPosSet,
-    claimedPosVizArr,
-    claimedPosArr,
-    unclaimedPosSet,
-  };
-};
-
-const getMinOverlapNeeded = (imgSize, maxNumPosWOOverlap, numOfDVs) => {
+const getMinOverlapNeeded = (imgSize, maxNumPosWOOverlap, numOfMes) => {
   // actually don't want to go through at an overlap then increase overlap
   // because we'll get more overlap on some that we might've been able to avoid
   // if we started out spacing out imgs with the min overlap required given how
@@ -367,7 +306,7 @@ const getMinOverlapNeeded = (imgSize, maxNumPosWOOverlap, numOfDVs) => {
   // we reserve 2 spots, 1, 0, or 2 - 0
   // it's the min of pos - 0 or the current overlap number
 
-  const overlap = imgSize - Math.floor(maxNumPosWOOverlap / numOfDVs);
+  const overlap = imgSize - Math.floor(maxNumPosWOOverlap / numOfMes);
 
   return overlap;
 };
@@ -384,7 +323,7 @@ const addPosToHelperObjs = (pos, helperObjs) => {
   // add pos to list of claimed pos
   helperObjs.claimedPosSet.add(pos);
   // mark index which is equal to the pos in the visualization array
-  helperObjs.claimedPosVizArr[pos] = true;
+  helperObjs.claimedPosVizArr[pos] = 1;
   // add pos to claimed positions array
   helperObjs.claimedPosArr.push(pos);
 
@@ -429,7 +368,7 @@ const fillPosWithOverlap = (
   maxNumPosWOOverlap,
   posOverlapping,
   overlap,
-  numOfDVs,
+  numOfMes,
 ) => {
   let numClaimedPos = 0;
   const maxNumPosAvail = 100 - imgSize + 1 + 1;
@@ -452,10 +391,10 @@ const fillPosWithOverlap = (
 
   // TODO: figure how much we can space out if we're below the next overlap number
   let rndMaxSpacingAddition =
-    Math.floor(numOfDVs / maxNumPosWOOverlap) + (maxNumPosAvail % numOfDVs);
+    Math.floor(numOfMes / maxNumPosWOOverlap) + (maxNumPosAvail % numOfMes);
   const minSpacing = imgSize - overlap - 1;
   let rnd = 0;
-  while (numClaimedPos < numOfDVs) {
+  while (numClaimedPos < numOfMes) {
     // if we've got greater than 1 extra space left to work with,
     // divide it by 2 so we don't use all the extra space up in the first couple
     // of positions
@@ -475,7 +414,6 @@ const fillPosWithOverlap = (
     // calc the pos
     const currPos = prevPos + minSpacing + 1 + rnd;
     rndMaxSpacingAddition -= rnd;
-    const extraSpacingUsed = currPos - (prevPos + imgSize - overlap);
 
     ({ claimedPosSet, claimedPosVizArr, claimedPosArr } = addPosToHelperObjs(
       currPos,
@@ -511,12 +449,12 @@ const fillPosWOOverlap = (
   unclaimedPosSet,
   imgSize,
   noLuck,
-  numOfDVs,
+  numOfMes,
   totNumPosAvail,
 ) => {
   const overlap = 0;
   const numOfPosTakenImg = imgSize - 1;
-  const numOfPosNeededForAllImgs = numOfPosTakenImg * numOfDVs;
+  const numOfPosNeededForAllImgs = numOfPosTakenImg * numOfMes;
   let xtraSpacing = totNumPosAvail - numOfPosNeededForAllImgs;
   let rnd = xtraSpacing;
   let currPos = floorRND(imgSize + xtraSpacing);
@@ -528,8 +466,7 @@ const fillPosWOOverlap = (
     unclaimedPosSet.delete(i);
   }
 
-  let j = 0;
-  while (claimedPosArr.length < numOfDVs) {
+  while (claimedPosArr.length < numOfMes) {
     prevPos = currPos;
     xtraSpacing -= rnd;
     ({ claimedPosSet, claimedPosVizArr, claimedPosArr } = addPosToHelperObjs(
@@ -541,7 +478,7 @@ const fillPosWOOverlap = (
       },
     ));
 
-    // should only hit this first conditional block if numOfDVs <
+    // should only hit this first conditional block if numOfMes <
     // maxNumPosWOOverlapping
     if (numPosAvail > 0) {
       // get a rnd num to add to prev pos
@@ -569,49 +506,87 @@ const fillPosWOOverlap = (
   };
 };
 
-// fill an array while trying to avoid overlap and moving up slowly
-// on how much overlap we add
-const generateDVColPosArrays = (numOfDVs, imgSize) => {
-  // if imgSize were 1, we'd have 100 position slots from 0 - 99
-  // if imgSize were 5, we'd have 96 positions to work with 0 - 95
-  const maxPosToAvoidClipping = 100 - imgSize;
-  const totNumPosAvail = maxPosToAvoidClipping + 1;
-  const maxNumPosWOOverlap = Math.floor(totNumPosAvail / imgSize);
-  const posOverlapping = {
+/**
+ * The `createColPosArrays` function calculates position arrays for images to
+ * avoid overlapping based on the number of images and image size.
+ * @param numOfMes - The number of images (images of 'me' in kaptcha-*me*)
+ * parameter in the `createColPosArrays` function represents the number of
+ * images or images that need to be positioned without overlapping on a grid.
+ * This parameter is used to calculate the positions for the images based on the
+ * `imgSize` provided.
+ * @param imgSize - The `imgSize` parameter in the `createColPosArrays` function
+ * represents the size of the image for which you are trying to allocate
+ * positions. It is used to calculate the number of position slots available
+ * based on the size of the image.
+ * @returns The `createColPosArrays` function returns an object with the
+ * positions array and some other metadata
+ */
+const createColPosArrays = (numOfMes, imgSize) => {
+  /**
+   *
+   * the latter cases are what this fn is attempting to deal with
+   *
+   * Case #1
+   *
+   * if imgSize were 1, we'd have 100 position slots from 0 - 99
+   *
+   * in this case, the number of position slots is the same as the number of
+   * images that could be generated without any overlapping
+   *
+   *
+   * Case #2
+   *
+   * if imgSize were 5, we'd have 96 positions to work with 0 - 95
+   *
+   * in this case, the number of position slots is NOT the same as the number of
+   * images that could be generated without any overlapping
+   **/
+
+  const finalPosToStayOnScreen = 100 - imgSize;
+  // + 1 to account for 0 position
+  const totNumPosAvail = finalPosToStayOnScreen + 1;
+  // maximum number of position slots to avoid any images overlapping
+  // uses floor() to be on the safe side and round to whole number
+  const maxPosSlotsNoOverlap = Math.floor(totNumPosAvail / imgSize);
+  const overlappingDataTracker = {
     withoutOverlap: 0,
     withPartialOverlap: 0,
     withOverlap: 0,
     withRandom: 0,
   };
-  let numPosClaimed = 0;
+  // since this relies on RNG, may not be able to find a position with the right
+  // parameters, so to avoid an infinite loop, it gives up after a certain limit
+  // is reached. The 'noLuck' variable is the number of times this happens.
   let noLuck = 0;
   let claimedPosSet = new Set();
-  let claimedPosVizArr = new Array(100);
-  let claimedPosArr = new Array();
+  // This array is to visualize the spread of images. The indices of the array
+  // correspond to the positions rendered. A value of 0 indicates no image is in
+  // the position corresponding to that value's index value. A value of 1
+  // indicates an image.
+  let claimedPosVizArr = new Array(100).fill(0);
+  let claimedPosArr = [];
   let unclaimedPosSet = new Set();
-  claimedPosVizArr = claimedPosVizArr.fill(0);
 
   for (let i = 0; i <= 100 - imgSize; i++) {
     unclaimedPosSet.add(i);
   }
 
-  if (numOfDVs > maxNumPosWOOverlap) {
+  if (numOfMes > maxPosSlotsNoOverlap) {
     // with overlap
-    const overlap = getMinOverlapNeeded(imgSize, totNumPosAvail, numOfDVs);
+    const overlap = getMinOverlapNeeded(imgSize, totNumPosAvail, numOfMes);
 
     ({} = fillPosWithOverlap(
       imgSize,
       claimedPosSet,
       claimedPosVizArr,
       claimedPosArr,
-      maxNumPosWOOverlap,
-      posOverlapping,
+      maxPosSlotsNoOverlap,
+      overlappingDataTracker,
       overlap,
-      numOfDVs,
+      numOfMes,
     ));
   } else {
     // without overlap
-
     ({
       claimedPosSet,
       claimedPosVizArr,
@@ -625,7 +600,7 @@ const generateDVColPosArrays = (numOfDVs, imgSize) => {
       unclaimedPosSet,
       imgSize,
       noLuck,
-      numOfDVs,
+      numOfMes,
       totNumPosAvail,
     ));
   }
@@ -634,8 +609,8 @@ const generateDVColPosArrays = (numOfDVs, imgSize) => {
     claimedPosVizArr,
     claimedPosArr,
     noLuck,
-    posOverlapping,
-    maxNumPosWOOverlap,
+    posOverlapping: overlappingDataTracker,
+    maxNumPosWOOverlap: maxPosSlotsNoOverlap,
   };
 };
 
@@ -738,7 +713,7 @@ const getImgToUseAtPosHorizontal = (
 };
 
 const fillRenderings = (
-  numOfDVs,
+  numOfMes,
   initRND,
   chanceForOh,
   ohs,
@@ -771,7 +746,7 @@ const fillRenderings = (
     }
   }
 
-  for (let i = 0; i < numOfDVs; i++) {
+  for (let i = 0; i < numOfMes; i++) {
     // skip the "chosen one" index (the one we used for initializing renderings)
     if (i === initRND) {
       continue;
@@ -804,7 +779,7 @@ const fillRenderings = (
 };
 
 const fillRenderings2D = (
-  numOfDVs,
+  numOfMes,
   initRND,
   chanceForOh,
   ohs,
@@ -841,7 +816,7 @@ const fillRenderings2D = (
     }
   }
 
-  for (let i = 0; i < numOfDVs; i++) {
+  for (let i = 0; i < numOfMes; i++) {
     // skip the "chosen one" index (the one we used for initializing renderings)
     if (i === initRND) {
       continue;
@@ -932,7 +907,7 @@ const getImgOptions = (theme) => {
 };
 
 const combineCodesAndPosArrayAndImgs = (
-  numOfDVs,
+  numOfMes,
   codes,
   claimedPosArr,
   claimedPosVizArr,
@@ -940,7 +915,7 @@ const combineCodesAndPosArrayAndImgs = (
 ) => {
   // init
   let renderings = {};
-  const initRND = floorRND(numOfDVs);
+  const initRND = floorRND(numOfMes);
   const initCode = codes[initRND];
   const initPos = claimedPosArr[initRND];
 
@@ -966,7 +941,7 @@ const combineCodesAndPosArrayAndImgs = (
     };
 
     renderings = fillRenderings2D(
-      numOfDVs,
+      numOfMes,
       initRND,
       chanceForOh,
       ohs,
@@ -991,7 +966,7 @@ const combineCodesAndPosArrayAndImgs = (
     renderings[initRND] = { value: initCode, pos: initPos, img: initImage };
 
     renderings = fillRenderings(
-      numOfDVs,
+      numOfMes,
       initRND,
       chanceForOh,
       ohs,
@@ -1005,12 +980,13 @@ const combineCodesAndPosArrayAndImgs = (
     );
   }
 
-  const renderingsString = JSON.stringify(renderings);
+  // const renderingsString = JSON.stringify(renderings);
 
-  return { code: initCode, renderings: renderingsString };
+  // return { code: initCode, renderings: renderingsString };
+  return { code: initCode, renderings: renderings };
 };
 
-export type GenerateChallengesRequest = {
+export type GenerateChallengesRequestParams = {
   numOptions: number;
   imgSize: number;
   imgSizeRacing: number;
@@ -1018,11 +994,11 @@ export type GenerateChallengesRequest = {
 };
 
 export const createChallenges = async (
-  params: GenerateChallengesRequest,
+  params: GenerateChallengesRequestParams,
 ): Promise<Challenges> => {
-  const difficulty = Number(params.numOptions);
-  const imgSize = Number(params.imgSize);
-  const imgSizeRacing = Number(params.imgSizeRacing);
+  const difficulty = params.numOptions;
+  const imgSize = params.imgSize;
+  const imgSizeRacing = params.imgSizeRacing;
   const theme = params.theme;
   const bgImgSrc = images.bg[theme];
   let size;
@@ -1037,7 +1013,7 @@ export const createChallenges = async (
     noLuck,
     posOverlapping,
     maxNumPosWOOverlap,
-  } = generateDVColPosArrays(difficulty, size);
+  } = createColPosArrays(difficulty, size);
 
   const codes = generateCodes(difficulty);
 
