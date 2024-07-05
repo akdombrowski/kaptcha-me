@@ -4,10 +4,10 @@ import "client-only";
 import Grid from "@mui/material/Unstable_Grid2";
 import LoginForm from "@/ui/components/Login/LoginForm";
 import Container from "@mui/material/Container";
-import getBGImg from "root/src/utils/getBGImg";
+import getBGImg from "@/utils/getBGImg";
 import { CSSProperties } from "react";
 
-export default function Login() {
+export default function LoginPage() {
   const src = "/recaptcha-katpchame.webp";
   const bgImg = getBGImg({
     width: 535,
@@ -34,7 +34,10 @@ export default function Login() {
         height="100vh"
       >
         <Grid xs={3} />
-        <Grid xs={9} md={8} lg={4} display="flex" alignItems="center">
+        <Grid xs={1} md={2} lg={1}/>
+
+        <Grid xs={6} md={5} lg={4} display="flex" alignItems="center">
+          <Grid xs={0} sm={2} lg={4} />
           <LoginForm />
         </Grid>
       </Grid>

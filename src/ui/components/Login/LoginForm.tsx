@@ -50,13 +50,12 @@ export default function LoginForm(props) {
     >
       <Stack
         justifyContent="flex-start"
-        px={{ xs: 3, sm: 6 }}
+        px={{ xs: 2, sm: 3 }}
         component={Paper}
         elevation={6}
-        pt={{xs: 2, sm: 4, md: 6}}
-        pb={{xs: 5, md: 6}}
+        py={{xs: 2, md: 4}}
         sx={{
-          backgroundColor: alpha("#000", 0.7),
+          backgroundColor: alpha("#000", 0.75),
           borderRadius: "10%",
         }}
       >
@@ -75,7 +74,7 @@ export default function LoginForm(props) {
             Sign in
           </Typography>
         </Stack>
-        <Stack spacing={0} my={2}>
+        <Stack spacing={0} my={1}>
           <TextField
             id="email"
             size="small"
@@ -86,7 +85,7 @@ export default function LoginForm(props) {
             label="Email"
             type="email"
             autoComplete="email"
-            sx={{ mt: 1, mb: 0 }}
+            sx={{ my: 0 }}
           />
           <TextField
             id="password"
@@ -98,13 +97,13 @@ export default function LoginForm(props) {
             label="Password"
             type="password"
             autoComplete="current-password"
-            sx={{ mt: 2, mb: 0 }}
+            sx={{ mt: 1, mb: 0 }}
           />
         </Stack>
-        <Box my={2}>
+        <Box mt={1}>
           <DifficultySlider />
         </Box>
-        <Stack spacing={1} my={2}>
+        <Stack spacing={1} my={1}>
           <Button fullWidth type="submit" variant="contained" color="primary">
             Login
           </Button>

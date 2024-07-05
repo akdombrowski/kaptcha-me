@@ -4,6 +4,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Slider from "@mui/material/Slider";
+import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
 
 import { SyntheticEvent } from "react";
@@ -44,21 +45,23 @@ export default function DifficultySlider() {
   return (
     <FormControl id="difficulty-radio-btn-group-label" fullWidth>
       <FormLabel id="difficulty-radio-btn-group-label">Difficulty</FormLabel>
-      <Slider
-        aria-label="Difficulty"
-        defaultValue={1}
-        getAriaValueText={getLabelForValue}
-        valueLabelDisplay="auto"
-        step={null}
-        min={0}
-        max={2}
-        shiftStep={1}
-        marks={marks}
-        track={false}
-        sx={{
-          ".MuiSlider-markLabelActive": { fontWeight: 700, fontSize: "1rem" },
-        }}
-      />
+      <Box px={3}>
+        <Slider
+          aria-label="Difficulty"
+          defaultValue={1}
+          getAriaValueText={getLabelForValue}
+          valueLabelDisplay="auto"
+          step={null}
+          min={0}
+          max={2}
+          shiftStep={1}
+          marks={marks}
+          track={false}
+          sx={{
+            ".MuiSlider-markLabelActive": { fontWeight: 700, fontSize: "1rem" },
+          }}
+        />
+      </Box>
     </FormControl>
   );
 }

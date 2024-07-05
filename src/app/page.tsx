@@ -1,5 +1,5 @@
-import Login from "@/ui/components/Login/Login";
+import LoginPage from "@/ui/components/Login/LoginPage";
 
 export default function Page() {
-  return <Login />;
+  return <LoginPage />;
 }
