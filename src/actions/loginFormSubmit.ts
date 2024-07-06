@@ -1,8 +1,12 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
+
 import createChallenges from "@/actions/createChallenges";
 import type { GenerateChallengesRequestParams } from "@/actions/customFunction";
+
 export default async function loginFormSubmit(formData: FormData) {
   console.log("");
   console.log("");
@@ -53,8 +57,21 @@ export default async function loginFormSubmit(formData: FormData) {
   // just want renderings and themeSrc
   // but need to figure out how to store the code
   // TODO: Figure out how to store secret code
+  // TODO: Encrypt and store in cookie, but need to think about what encryption
+  // key to use and how to store that. Shouldn't use a single key for everyone
   console.log("...challenges received:");
   console.log(challenges);
+  console.log("");
+  console.log("");
+
+  // Set cookie
+  cookies().set("renderings", JSON.stringify(challenges.renderings));
+  console.log("");
+  console.log("");
+  console.log(
+    "renderings character length:",
+    JSON.stringify(challenges.renderings).length,
+  );
 
   console.log("");
   console.log("");
@@ -71,4 +88,5 @@ export default async function loginFormSubmit(formData: FormData) {
   console.log("");
 
   // redirect("/kaptchame");
+  return challenges.renderings;
 }

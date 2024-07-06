@@ -1,11 +1,12 @@
 import "server-only";
 
-// `server-only` guarantees any modules that import code in file
-// will never run on the client. Even though this particular api
-// doesn't currently use sensitive environment variables, it's
-// good practise to add `server-only` preemptively.
 import { NextRequest, NextResponse } from "next/server";
+
 import createChallenges from "@/actions/customFunction";
+import type {
+  GenerateChallengesRequestParams,
+  Challenges,
+} from "@/actions/customFunction";
 
 const DIFFICULTY = 10;
 // const IMG_WIDTH = Number('{{global.variables.IMG_WIDTH}}');
@@ -70,37 +71,87 @@ const rndPosPercFromLeftEdge = () => {
 // };
 
 // GENERATE LIST OF CHALLENGES AND POSITIONS AND IMAGES
-export async function GET(request: NextRequest) {
+export const getNewChallenges = async ({
+  numOptions,
+  imgSize,
+  imgSizeRacing,
+  theme,
+}: GenerateChallengesRequestParams) => {
   const challenges = await createChallenges({
-    difficulty: 9,
-    imgSize: 6,
-    imgSizeRacing: 20,
-    theme: "seeingDouble",
+    numOptions,
+    imgSize,
+    imgSizeRacing,
+    theme,
   });
 
   console.log("");
-  console.log("====================================");
-  console.log("====================================");
-  console.log("====================================");
   console.log("");
-  console.log("   GET kaptchapi/challenge/create   ");
   console.log("");
   console.log("====================================");
+  console.log("   server action getNewChallenges   ");
   console.log("====================================");
-  console.log("====================================");
+  console.log("");
 
+  console.log("challenges");
+  console.log(JSON.stringify(challenges, null, 2));
   console.log("");
-  console.log("JSON.stringify(challenges)");
-  console.log(JSON.stringify(challenges));
   console.log("");
-  console.log(challenges);
+  console.log("====================================");
+  console.log("   server action getNewChallenges   ");
+  console.log("====================================");
+  console.log("");
+  console.log("");
   console.log("");
 
   const challenge = "get challenge to put here";
+  return challenges;
+};
+
+// GENERATE LIST OF CHALLENGES AND POSITIONS AND IMAGES
+export default async function POST(request: NextRequest) {
+  const body = await request.json();
+  const { numOptions, imgSize, imgSizeRacing, theme } = body;
+  const challenges: Challenges = await createChallenges({
+    numOptions,
+    imgSize,
+    imgSizeRacing,
+    theme,
+  });
+
+  console.log("");
+  console.log("");
+  console.log("");
+  console.log("====================================");
+  console.log("   in GET kaptchapi/challenge/create   ");
+  console.log("====================================");
+
+  console.log("");
+  console.log("challenges");
+  console.log(JSON.stringify(challenges, null, 2));
+  console.log("");
+
+  console.log("====================================");
+  console.log("   in GET kaptchapi/challenge/create   ");
+  console.log("====================================");
+  console.log("");
+  console.log("");
+  console.log("");
+  const challenge = challenges.code;
+  const renderings = challenges.renderings;
 
   if (!challenge) {
-    return NextResponse.error();
+    return NextResponse.json(
+      { error: "failed to get challenge info" },
+      { status: 500 },
+    );
   }
 
-  return NextResponse.json(challenges);
+  if (!renderings) {
+    return NextResponse.json(
+      { error: "failed to get challimage info" },
+      { status: 500 },
+    );
+  }
+
+  return NextResponse.json(renderings);
 }
