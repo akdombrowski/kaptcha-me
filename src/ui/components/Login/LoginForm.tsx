@@ -48,7 +48,7 @@ export default function LoginForm(props) {
       noValidate
       action={loginFormSubmit}
       width="100%"
-      sx={{ backgroundColor: alpha("#000", 0.9), borderRadius: "10%" }}
+      // sx={{ backgroundColor: alpha("#000", 0.9), borderRadius: "10%" }}
     >
       <Stack
         justifyContent="flex-start"
@@ -56,10 +56,10 @@ export default function LoginForm(props) {
         component={Paper}
         elevation={6}
         py={{ xs: 2, md: 4 }}
-        sx={{
-          backgroundColor: alpha("#000", 0.75),
-          borderRadius: "10%",
-        }}
+        // sx={{
+        //   backgroundColor: alpha("#000", 0.75),
+        //   borderRadius: "10%",
+        // }}
       >
         <Stack
           spacing={1}
@@ -69,10 +69,16 @@ export default function LoginForm(props) {
           py={0}
           my={0}
         >
-          <Avatar sx={{ bgcolor: theme.palette.secondary.light }}>
-            <LockOutlinedIcon />
+          <Avatar
+            sx={{
+              width: "30px",
+              height: "30px",
+              bgcolor: theme.palette.text.secondary,
+            }}
+          >
+            <LockOutlinedIcon fontSize="small" />
           </Avatar>
-          <Typography component="h1" variant="h4" fontWeight={900}>
+          <Typography component="h1" variant="h3" fontWeight={900}>
             Sign in
           </Typography>
         </Stack>

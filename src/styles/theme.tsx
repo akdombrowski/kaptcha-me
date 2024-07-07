@@ -53,7 +53,7 @@ const theme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: "#CEBACF",
+      main: "#82FF9E",
       // light: will be calculated from palette.primary.main,
       // dark: will be calculated from palette.primary.main,
       // contrastText: will be calculated to contrast with palette.primary.main
@@ -66,13 +66,13 @@ const theme = createTheme({
     },
     divider: "#ffd781",
     background: {
-      default: "#0D090A",
-      paper: "#27323F",
+      default: "#050401",
+      paper: "#0F0F1A",
     },
     text: {
-      primary: "#91FF85",
-      // secondary: "#320000",
-      // dark: "#002a31",
+      primary: "#45F0DF",
+      secondary: "#12E2CE",
+      // dark: "#002a31",'
     },
   },
 });
