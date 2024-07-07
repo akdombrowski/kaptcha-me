@@ -66,11 +66,11 @@ const theme = createTheme({
     },
     divider: "#ffd781",
     background: {
-      default: "#232E2E",
-      paper: "#7B2D26",
+      default: "#0D090A",
+      paper: "#27323F",
     },
     text: {
-      primary: "#E2E8C0",
+      primary: "#91FF85",
       // secondary: "#320000",
       // dark: "#002a31",
     },
