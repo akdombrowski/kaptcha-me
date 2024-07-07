@@ -33,13 +33,13 @@ export default function LoginPage() {
         alignItems="center"
         height="100vh"
       >
-        <Grid xs={3} />
-        <Grid xs={1} md={2} lg={1}/>
+        <Grid xs={2} />
+        <Grid xs={0} md={2} lg={2} />
 
-        <Grid xs={6} md={5} lg={4} display="flex" alignItems="center">
-          <Grid xs={0} sm={2} lg={4} />
+        <Grid xs={7} md={5} lg={4} display="flex" alignItems="center">
           <LoginForm />
         </Grid>
+        <Grid xs={0} sm={3} lg={4} />
       </Grid>
     </Container>
   );

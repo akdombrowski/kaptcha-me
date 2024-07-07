@@ -56,10 +56,11 @@ export default function LoginForm(props) {
         component={Paper}
         elevation={6}
         py={{ xs: 2, md: 4 }}
-        // sx={{
-        //   backgroundColor: alpha("#000", 0.75),
-        //   borderRadius: "10%",
-        // }}
+        sx={{
+          // backgroundColor: alpha("#000", 0.75),
+          borderRadius: "10%",
+          backgroundBlendMode: "overlay"
+        }}
       >
         <Stack
           spacing={1}
@@ -78,7 +79,7 @@ export default function LoginForm(props) {
           >
             <LockOutlinedIcon fontSize="small" />
           </Avatar>
-          <Typography component="h1" variant="h3" fontWeight={900}>
+          <Typography component="h1" variant="h3">
             Sign in
           </Typography>
         </Stack>
