@@ -65,7 +65,8 @@ export default async function loginFormSubmit(formData: FormData) {
   console.log("");
 
   // Set cookie
-  cookies().set("renderings", JSON.stringify(challenges.renderings));
+  cookies().set("numOptions", `${numOptions}` );
+  cookies().set("imgSize", `${imgSize}` );
   console.log("");
   console.log("");
   console.log(
@@ -87,6 +88,6 @@ export default async function loginFormSubmit(formData: FormData) {
   console.log("");
   console.log("");
 
-  // redirect("/kaptchame");
-  return challenges.renderings;
+  redirect("/kaptchame");
+  // return challenges.renderings;
 }
