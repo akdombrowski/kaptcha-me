@@ -97,7 +97,7 @@ export default function KaptchaMeForm(props: IKaptchaMeFormProps) {
           formAction={submitChoice}
           height={imgSize}
           key={`optionBtn-${i}`}
-          src={renderings[i].img[0]}
+          src={renderings[i].img}
           containerSize={containerSize}
           aspectRatio={100 / 68}
           duration={duration}

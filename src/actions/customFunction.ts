@@ -42,7 +42,7 @@ export interface Challenges {
 }
 
 export interface Renderings {
-  [key: string | number]: { value: string; pos: number; img: string[] };
+  [key: string | number]: { value: string; pos: number; img: string };
 }
 
 const images: imgs = {
@@ -176,13 +176,14 @@ const images: imgs = {
 /**
  * Return a random integer between 0 and the provided max value (exclusive of
  *  max value).
- * @param max - the maximum value to use in Math.random()
+ * @param max - the maximum value to use with Math.random()
  * @returns A random number between 0 and the max value provided.
  */
 const floorRND = (max) => {
-  const rnd = Math.random();
-  const rndValUsingMax = rnd * max;
-  return Math.floor(rndValUsingMax);
+  // const rnd = Math.random();
+  // const rndValUsingMax = rnd * max;
+  const rnd = crypto.randomInt(max);
+  return Math.floor(rnd);
 };
 
 const shuffleArray = (array) => {
@@ -850,7 +851,7 @@ const fillRenderings2D = (
       immediateLeft,
     ));
 
-    renderings[i] = { value: code, pos: position, img: [image, image2] };
+    renderings[i] = { value: code, pos: position, img: image };
   }
 
   return renderings;
@@ -941,7 +942,7 @@ const combineCodesAndPosArrayAndImgs = (
     renderings[initRND] = {
       value: initCode,
       pos: initPos,
-      img: [initImage, initImage2],
+      img: initImage,
     };
 
     renderings = fillRenderings2D(
