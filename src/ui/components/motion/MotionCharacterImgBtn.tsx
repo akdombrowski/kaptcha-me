@@ -55,6 +55,8 @@ export interface CharacterImgBtnProps extends MotionProps {
   height?: number;
   aspectRatio: number;
   formID: string;
+  value: string;
+  top: number;
 }
 
 /**
@@ -85,7 +87,8 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
     aspectRatio,
     containerSize,
     formID,
-    formAction,
+    value,
+    top
   } = props;
   const [scope, animate] = useAnimate();
   const [dir, setDir] = useState("start");
@@ -210,9 +213,10 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
       width={imgWidth}
       height={imgHeight}
       src={src}
+      value={value}
+      top={top}
       style={{ x }}
       aspectRatio={aspectRatio}
-      formAction={formAction}
       whileHover={{
         scale: 3,
         translateY: 0,

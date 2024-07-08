@@ -317,11 +317,11 @@ const getMinOverlapNeeded = (imgSize, maxNumPosWOOverlap, numOfMes) => {
 };
 
 const getLeftImgBufferEdge = (rndPos, imgSize, overlap) => {
-  return Math.max(rndPos - (imgSize - 1) + overlap + 1, 0);
+  return Math.max(rndPos - imgSize - (imgSize - 1) + overlap + 1, imgSize / -4);
 };
 
 const getRightImgBufferEdge = (rndPos, imgSize, overlap) => {
-  return Math.min(rndPos + (imgSize - 1) + overlap - 1, 99);
+  return Math.min(rndPos + (imgSize - 1) + overlap - 1, 99 + imgSize / 2);
 };
 
 const addPosToHelperObjs = (pos, helperObjs) => {
@@ -381,7 +381,7 @@ const fillPosWithOverlap = (
   // if we started at pos >= imgSize we'd be leaving enough room for another
   // img to fit in before it
   const maxPosForFirstImg = imgSize - overlap;
-  const firstPos = floorRND(maxPosForFirstImg);
+  const firstPos = floorRND(maxPosForFirstImg) - floorRND(imgSize) / 4;
   ({ claimedPosSet, claimedPosVizArr, claimedPosArr } = addPosToHelperObjs(
     firstPos,
     {
@@ -547,7 +547,7 @@ const createColPosArrays = (numOfMes, imgSize) => {
    * images that could be generated without any overlapping
    **/
 
-  const finalPosToStayOnScreen = 100 - imgSize;
+  const finalPosToStayOnScreen = 99 + imgSize / 2;
   // + 1 to account for 0 position
   const totNumPosAvail = finalPosToStayOnScreen + 1;
   // maximum number of position slots to avoid any images overlapping

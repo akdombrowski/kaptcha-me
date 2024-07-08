@@ -10,7 +10,8 @@ import Box from "@mui/material/Box";
 
 // local images
 import kmGoKartR from "@/gokart/r/gokart-R.png";
-import kmGoKartL from "@/gokart/l/gokart-L.png";
+// import kmGoKartL from "@/gokart/l/gokart-L.png";
+import kmGoKartL from "@/gokart/l/gokart-L.webp";
 // actions
 import { getNewChallenges } from "@/actions/createChallenges";
 
@@ -94,10 +95,11 @@ export default function KaptchaMeForm(props: IKaptchaMeFormProps) {
         <MotionCharacterImgBtn
           id={id}
           formID={formID}
-          formAction={submitChoice}
           height={imgSize}
           key={`optionBtn-${i}`}
           src={renderings[i].img}
+          value={renderings[i].value}
+          top={renderings[i].pos}
           containerSize={containerSize}
           aspectRatio={100 / 68}
           duration={duration}

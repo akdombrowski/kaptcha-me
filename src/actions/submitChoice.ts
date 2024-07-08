@@ -3,7 +3,7 @@
 import { FormEvent, FormEventHandler, SyntheticEvent } from "react";
 
 // export default async function submitChoice(choice: FormEvent<HTMLButtonElement>) {
-export default async function submitChoice(event: SyntheticEvent) {
+export default async function submitChoice(id: string, event: SyntheticEvent) {
   console.log("");
   console.log("");
   console.log("");
