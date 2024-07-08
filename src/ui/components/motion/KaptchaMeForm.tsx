@@ -16,11 +16,13 @@ import { getNewChallenges } from "@/actions/createChallenges";
 
 import type { IContainerSize } from "@/bd/BotDetection";
 import submitChoice from "@/actions/submitChoice";
+import { Renderings } from "@/actions/customFunction";
 
 export interface IKaptchaMeFormProps {
   formID: string;
   children?: ReactNode;
-  numOptions: number;
+  renderings: Renderings;
+  imgSize: number;
   containerSize: IContainerSize;
   formAction?: () => {};
 }
@@ -31,12 +33,12 @@ const kmTheme = "racing";
 
 export default function KaptchaMeForm(props: IKaptchaMeFormProps) {
   const [imgBtns, setImgBtns] = useState<ReactNode | null>(null);
-  const { formID, children, numOptions, containerSize } = props;
+  const { formID, children, renderings, containerSize, imgSize } = props;
 
   useEffect(() => {
     if (containerSize.width) {
       const charImgBtns = generateMotionCharacterImgBtns({
-        numOptions,
+        renderings,
         containerSize,
       });
       setImgBtns(charImgBtns);
@@ -58,10 +60,10 @@ export default function KaptchaMeForm(props: IKaptchaMeFormProps) {
   };
 
   const generateMotionCharacterImgBtns = (params: {
-    numOptions: number;
     containerSize: IContainerSize;
+    renderings: Renderings;
   }): ReactNode => {
-    const { numOptions, containerSize } = params;
+    const { containerSize, renderings } = params;
 
     const maxVelocity = 150;
     const minVelocity = 35;
@@ -69,7 +71,7 @@ export default function KaptchaMeForm(props: IKaptchaMeFormProps) {
     const maxDur = containerSize.width / minVelocity;
     // ${maxAddRNDDur} + ${minDur} = the max dur for a character to move across the screen
     const maxAddRNDDur = maxDur - minDur;
-
+    const numOptions = Object.values(renderings).length;
     let chil = new Array(numOptions);
     let heightPerBtn = 1 / numOptions;
     const delay = 3;
@@ -93,9 +95,9 @@ export default function KaptchaMeForm(props: IKaptchaMeFormProps) {
           id={id}
           formID={formID}
           formAction={submitChoice}
-          height={heightPerBtn}
+          height={imgSize}
           key={`optionBtn-${i}`}
-          src={kmGoKartR}
+          src={renderings[i].img[0]}
           containerSize={containerSize}
           aspectRatio={100 / 68}
           duration={duration}

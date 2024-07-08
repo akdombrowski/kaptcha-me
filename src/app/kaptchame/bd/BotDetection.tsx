@@ -23,7 +23,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 import Typography from "@mui/material/Typography";
 
 import { ThemedBGContainerProps } from "@/components/ThemedBGContainer";
-import type { Challenges } from "@/actions/customFunction";
+import type { Challenges, Renderings } from "@/actions/customFunction";
 
 // // for local dev
 const IMG_SIZE = 6;
@@ -77,11 +77,17 @@ export interface IContainerSize {
 
 // react
 
-export default function BotDetection() {
+export default function BotDetection({
+  renderings,
+  imgSize,
+}: {
+  renderings: Renderings;
+  imgSize: number;
+}) {
   const themedBGContainerRef = useRef<typeof ThemedBGContainer | null>(null);
   const [containerSize, setContainerSize] = useState<IContainerSize>({
-    width: window.innerWidth,
-    height: window.innerHeight,
+    width: window?.innerWidth,
+    height: window?.innerHeight,
   });
   const motionValues: { [key: string]: MotionValue } = {};
 
@@ -110,6 +116,12 @@ export default function BotDetection() {
   const resizeObserver = createResizeObserver();
 
   useEffect(() => {
+    setContainerSize({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+  }, []);
+  useEffect(() => {
     if (themedBGContainerRef.current) {
       resizeObserver.observe(
         themedBGContainerRef.current as unknown as Element,
@@ -119,6 +131,7 @@ export default function BotDetection() {
     }
   }, [themedBGContainerRef]);
 
+  console.log("renderings:", renderings);
   return (
     <ThemedBGContainer
       themeSrc={"https://i.postimg.cc/DzjCwcwW/race-Track.webp"}
@@ -127,7 +140,8 @@ export default function BotDetection() {
     >
       <KaptchaMeForm
         formID={formID}
-        numOptions={numOptions}
+        renderings={renderings}
+        imgSize={imgSize}
         containerSize={containerSize}
       />
     </ThemedBGContainer>

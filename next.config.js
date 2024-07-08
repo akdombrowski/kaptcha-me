@@ -14,6 +14,12 @@ const nextConfig = {
         pathname: "/zm6cRTt/gokart-R.png",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "i.postimg.cc",
+        pathname: "/*/katpcha-me-*.webp",
+        port: "",
+      },
     ],
   },
   /**

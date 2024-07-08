@@ -26,22 +26,23 @@ export default async function loginFormSubmit(formData: FormData) {
   let numOptions = 10;
   let imgSize = 10;
   if (difficulty && typeof difficulty === "string") {
+    cookies().set("difficulty", `${difficulty}`);
     switch (Number.parseInt(difficulty)) {
       case 0:
         numOptions = 3;
-        imgSize = 25;
+        imgSize = 35;
         break;
       case 1:
         numOptions = 9;
-        imgSize = 10;
+        imgSize = 25;
         break;
       case 2:
         numOptions = 20;
-        imgSize = 6;
+        imgSize = 20;
         break;
       default:
         numOptions = 11;
-        imgSize = 9;
+        imgSize = 25;
         break;
     }
   }
@@ -65,8 +66,9 @@ export default async function loginFormSubmit(formData: FormData) {
   console.log("");
 
   // Set cookie
-  cookies().set("numOptions", `${numOptions}` );
-  cookies().set("imgSize", `${imgSize}` );
+  cookies().set("numOptions", `${numOptions}`);
+  cookies().set("imgSize", `${imgSize}`);
+  cookies().set("SameSite", "strict");
   console.log("");
   console.log("");
   console.log(

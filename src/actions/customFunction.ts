@@ -22,10 +22,10 @@ export type imgs = {
   pointGG: string[];
 };
 
-export type Challenges = {
+export interface Challenges {
   themeSrc: string;
   code: string;
-  renderings: Object;
+  renderings: Renderings;
   posArray: Array<Number>;
   positions: Array<Number>;
   positionsSorted: Array<Number>;
@@ -39,7 +39,11 @@ export type Challenges = {
   };
   maxNumPosWOOverlap: number;
   numDirectOverlaps: number;
-};
+}
+
+export interface Renderings {
+  [key: string | number]: { value: string; pos: number; img: string[] };
+}
 
 const images: imgs = {
   bg: {

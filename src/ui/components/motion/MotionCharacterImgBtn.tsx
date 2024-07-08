@@ -95,14 +95,14 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
   const getDims = () => {
     let imgWidth, imgHeight;
     if (width) {
-      imgWidth = width * containerSize.width * 0.9;
-      imgHeight = ((width * containerSize.width) / aspectRatio) * 0.9;
+      imgWidth = width * containerSize.width * 0.9 * 0.01;
+      imgHeight = ((width * containerSize.width) / aspectRatio) * 0.9 * 0.01;
     } else if (height) {
-      imgHeight = height * containerSize.height * 0.9;
-      imgWidth = height * containerSize.height * aspectRatio * 0.9;
+      imgHeight = height * containerSize.height * 0.9 * 0.01;
+      imgWidth = height * containerSize.height * aspectRatio * 0.9 * 0.01;
     } else {
-      imgWidth = ((200 * containerSize.width) / aspectRatio) * 0.9;
-      imgHeight = 200 * containerSize.height * aspectRatio * 0.9;
+      imgWidth = ((200 * containerSize.width) / aspectRatio) * 0.9 * 0.01;
+      imgHeight = 200 * containerSize.height * aspectRatio * 0.9 * 0.01;
     }
     return { imgWidth, imgHeight };
   };
