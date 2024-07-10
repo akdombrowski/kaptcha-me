@@ -46,18 +46,17 @@ export default function KaptchaMeForm(props: IKaptchaMeFormProps) {
     }
   }, [containerSize]);
 
-  const formAction = (formData) => {
-    console.log("inside KaptchaMeForm formAction");
+  const formAction = (formData: FormData) => {
+    console.log();
+    console.log("KaptchaMeForm -> formAction");
 
-    // console.log(event);
+    const choiceName = formData.keys().next().value;
+    const choiceValue = formData.values().next().value;
+    console.log(choiceName);
+    console.log(choiceValue);
 
-    console.log("formData");
-    console.log(formData);
-
-    console.log("");
-    // const challenges = getNewChallenges();
-    console.log("");
     console.log("formAction");
+    console.log();
   };
 
   const generateMotionCharacterImgBtns = (params: {
@@ -66,7 +65,7 @@ export default function KaptchaMeForm(props: IKaptchaMeFormProps) {
   }): ReactNode => {
     const { containerSize, renderings } = params;
 
-    const maxVelocity = 150;
+    const maxVelocity = 1000;
     const minVelocity = 35;
     const minDur = containerSize.width / maxVelocity;
     const maxDur = containerSize.width / minVelocity;
@@ -74,7 +73,6 @@ export default function KaptchaMeForm(props: IKaptchaMeFormProps) {
     const maxAddRNDDur = maxDur - minDur;
     const numOptions = Object.values(renderings).length;
     let chil = new Array(numOptions);
-    let heightPerBtn = 1 / numOptions;
     const delay = 3;
 
     for (let i = 0; i < chil.length; i++) {

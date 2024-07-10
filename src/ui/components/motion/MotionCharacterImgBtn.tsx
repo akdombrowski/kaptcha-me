@@ -88,11 +88,12 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
     containerSize,
     formID,
     value,
-    top
+    top,
   } = props;
   const [scope, animate] = useAnimate();
   const [dir, setDir] = useState("start");
-  let slowDownDur = duration;
+  const [slowdown, setSlowdown] = useState(duration * .01);
+  let slowDownDur = duration * 0.01;
   let animateControls: AnimationPlaybackControls;
 
   const getDims = () => {
@@ -128,7 +129,7 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
       {
         type: "tween",
         ease: "linear",
-        duration,
+        duration: duration + slowdown,
         // at: "+1",
       },
     ],
@@ -150,7 +151,7 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
       {
         type: "tween",
         ease: "linear",
-        duration,
+        duration: duration + slowdown,
         // at: "+1",
       },
     ],
@@ -161,6 +162,7 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
   useEffect(() => {
     if (dir !== "start") {
       slowDownDur *= 1.01;
+      setSlowdown(slowdown => slowdown + slowdown * 1.01)
       if (dir === "right") {
         animateControls = animate(seqR);
       } else if (dir === "left") {

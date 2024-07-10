@@ -26,17 +26,21 @@ export const KaptchaMeImgBtn = forwardRef(
   (props: KaptchaMeImgBtnProps, ref) => {
     const { width, height, value, aspectRatio, id, src, top } = props;
     const handleClick = (event: SyntheticEvent) => {
-      console.log("handleClick");
+      console.log();
+      console.log("MotionKaptchaMeImgBtn -> handleClick");
       event.preventDefault();
       // console.log(event.nativeEvent);
       // console.log(event);
-      console.log(event.currentTarget as HTMLElement);
+      // console.log(event.currentTarget as HTMLElement);
       console.log("id");
       console.log(event.currentTarget.id);
       console.log("calling formAction");
       const btnEl = event.currentTarget as HTMLButtonElement;
+      console.log();
       btnEl.form?.requestSubmit(event.currentTarget as HTMLElement);
+      console.log();
       console.log("handleClick");
+      console.log();
     };
     const updateWithID = submitChoice.bind(null, props.id);
 
@@ -53,7 +57,7 @@ export const KaptchaMeImgBtn = forwardRef(
       >
         <ButtonBase
           id={props.id}
-          name={`me-${id}`}
+          name={`chooze-me-${id}`}
           value={value}
           className="btn"
           sx={{

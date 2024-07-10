@@ -376,11 +376,11 @@ const fillPosWithOverlap = (
   numOfMes,
 ) => {
   let numClaimedPos = 0;
-  const maxNumPosAvail = 100 - imgSize + 1 + 1;
+  const maxNumPosAvail = 100 - numClaimedPos - imgSize + 1;
 
   // if we started at pos >= imgSize we'd be leaving enough room for another
   // img to fit in before it
-  const maxPosForFirstImg = imgSize - overlap;
+  const maxPosForFirstImg = Math.floor((imgSize * 3) / 4) - overlap;
   const firstPos = floorRND(maxPosForFirstImg) - floorRND(imgSize) / 4;
   ({ claimedPosSet, claimedPosVizArr, claimedPosArr } = addPosToHelperObjs(
     firstPos,
@@ -547,7 +547,7 @@ const createColPosArrays = (numOfMes, imgSize) => {
    * images that could be generated without any overlapping
    **/
 
-  const finalPosToStayOnScreen = 99 + imgSize / 2;
+  const finalPosToStayOnScreen = 99 - (imgSize / 4) * 3;
   // + 1 to account for 0 position
   const totNumPosAvail = finalPosToStayOnScreen + 1;
   // maximum number of position slots to avoid any images overlapping
