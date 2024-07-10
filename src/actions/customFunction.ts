@@ -182,8 +182,13 @@ const images: imgs = {
 const floorRND = (max) => {
   // const rnd = Math.random();
   // const rndValUsingMax = rnd * max;
-  const rnd = crypto.randomInt(max);
-  return Math.floor(rnd);
+  let maxAbs = Math.abs(max);
+  const rnd = crypto.randomInt(maxAbs);
+  if (max > 0) {
+    return Math.floor(rnd);
+  } else {
+    return Math.floor(rnd) * -1;
+  }
 };
 
 const shuffleArray = (array) => {
