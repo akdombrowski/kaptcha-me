@@ -69,10 +69,15 @@ export default function KaptchaMeForm(props: IKaptchaMeFormProps) {
     const minVelocity = 35;
     const minDur = containerSize.width / maxVelocity;
     const maxDur = containerSize.width / minVelocity;
+    const minDurMillis = 2000;
+    const maxDurMillis = 30000;
     // ${maxAddRNDDur} + ${minDur} = the max dur for a character to move across the screen
     const maxAddRNDDur = maxDur - minDur;
+    const maxAddRNDDurMillis = maxDurMillis - minDurMillis;
     const numOptions = Object.values(renderings).length;
     let chil = new Array(numOptions);
+
+    // delay for countdown
     const delay = 3;
 
     for (let i = 0; i < chil.length; i++) {
@@ -80,13 +85,20 @@ export default function KaptchaMeForm(props: IKaptchaMeFormProps) {
       const maxDurSecondsMotionOffset = Math.ceil(containerSize.width);
       // Haven't tested thoroughly, but hopefully using 2x rnd fn calls will create a
       // little more variability
+      // const duration = parseFloat(
+      //   Number(
+      //     (Math.random() * maxAddRNDDur) / 2 +
+      //       (Math.random() * maxAddRNDDur) / 2 +
+      //       minDur,
+      //   ).toPrecision(2),
+      // );
       const duration = parseFloat(
         Number(
-          (Math.random() * maxAddRNDDur) / 2 +
-            (Math.random() * maxAddRNDDur) / 2 +
-            minDur,
-        ).toPrecision(2),
-      );
+          (Math.random() * maxAddRNDDurMillis) / 2 +
+            (Math.random() * maxAddRNDDurMillis) / 2 +
+            minDurMillis,
+        ).toPrecision(5),
+      )/1000;
 
       const id = `optionBtn-${i}`;
       chil[i] = (

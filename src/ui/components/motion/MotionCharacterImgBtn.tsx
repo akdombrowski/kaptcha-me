@@ -1,37 +1,22 @@
 import "client-only";
+
 // react
-import { forwardRef, useRef, useEffect, useState } from "react";
-// mui
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
+import { useEffect, useState } from "react";
 // kaptcha-me
 import MotionKaptchaMeImgBtn from "@/components/motion/MotionKaptchaMeImgBtn";
 // framer-motion
-import {
-  motion,
-  useMotionValue,
-  useTransform,
-  useAnimate,
-  AnimatePresence,
-  stagger,
-  useMotionValueEvent,
-  useAnimationControls,
-  useIsPresent,
-} from "framer-motion";
+import { useAnimate, useMotionValue } from "framer-motion";
+
 // Interfaces and Types
 import { IContainerSize } from "@/kaptchame/bd/BotDetection";
-import type { CSSProperties, FormEvent, SyntheticEvent } from "react";
+import type { FormEvent, SyntheticEvent } from "react";
 import type { ButtonProps } from "@mui/material";
 import type {
-  MotionStyle,
-  AnimationControls,
-  MotionValue,
-  Variants,
-  MotionProps,
   AnimationPlaybackControls,
-  MotionValueSegment,
-  MotionValueSegmentWithTransition,
   DOMSegmentWithTransition,
+  BezierDefinition,
+  MotionProps,
+  MotionValue,
 } from "framer-motion";
 import { StaticImageData } from "next/image";
 
@@ -92,8 +77,16 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
   } = props;
   const [scope, animate] = useAnimate();
   const [dir, setDir] = useState("start");
-  const [slowdown, setSlowdown] = useState(duration * .01);
-  let slowDownDur = duration * 0.01;
+  const [slowdown, setSlowdown] = useState((1 / duration) * 0.01);
+  const type = "tween";
+  const ease: BezierDefinition = [
+    0.0 + Math.random() * 0.001,
+    0.1 + Math.random() * 0.1,
+    0.9 + Math.random() * 0.05,
+    0.8 - Math.random() * 0.1,
+  ];
+  const turnAroundDur = 1 - ((duration + slowdown) / (duration + slowdown + 1)) * 0.15;
+  console.log("duration:", duration, " ", "turanroundDur:", turnAroundDur);
   let animateControls: AnimationPlaybackControls;
 
   const getDims = () => {
@@ -119,7 +112,7 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
       scope.current,
       { scaleX: 1 },
       {
-        duration: 1,
+        duration: turnAroundDur,
       },
     ],
     [
@@ -127,8 +120,8 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
       scope.current,
       { x: containerSize.width },
       {
-        type: "tween",
-        ease: "linear",
+        type,
+        ease,
         duration: duration + slowdown,
         // at: "+1",
       },
@@ -141,7 +134,7 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
       // x,
       { scaleX: -1 },
       {
-        duration: 1,
+        duration: turnAroundDur,
       },
     ],
     [
@@ -149,8 +142,8 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
       // x,
       { x: 0 - imgWidth },
       {
-        type: "tween",
-        ease: "linear",
+        type,
+        ease,
         duration: duration + slowdown,
         // at: "+1",
       },
@@ -161,8 +154,7 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
   // animation when complete
   useEffect(() => {
     if (dir !== "start") {
-      slowDownDur *= 1.01;
-      setSlowdown(slowdown => slowdown + slowdown * 1.01)
+      setSlowdown((slowdown) => slowdown * ((1 / duration) * 0.01));
       if (dir === "right") {
         animateControls = animate(seqR);
       } else if (dir === "left") {
@@ -177,7 +169,7 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
     }
   }, [dir]);
 
-  // On initial render, start animation
+  // On initial render, start animation with delay to wait for countdown
   useEffect(() => {
     if (dir === "start") {
       animateControls = animate(
@@ -185,10 +177,10 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
         // x,
         { x: containerSize.width },
         {
-          type: "tween",
-          ease: "linear",
-          delay: delay,
-          duration,
+          type,
+          ease,
+          delay,
+          duration: duration + slowdown,
         },
       );
 
