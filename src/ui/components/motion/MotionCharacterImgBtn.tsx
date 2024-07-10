@@ -86,7 +86,6 @@ export function MotionCharacterImgBtn(props: CharacterImgBtnProps) {
     0.8 - Math.random() * 0.1,
   ];
   const turnAroundDur = 1 - ((duration + slowdown) / (duration + slowdown + 1)) * 0.15;
-  console.log("duration:", duration, " ", "turanroundDur:", turnAroundDur);
   let animateControls: AnimationPlaybackControls;
 
   const getDims = () => {
