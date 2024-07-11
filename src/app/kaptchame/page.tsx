@@ -4,7 +4,12 @@ import createChallenges, {
 import { cookies } from "next/headers";
 import BotDetection from "@/kaptchame/bd/BotDetection";
 
-export default async function KaptchaMe() {
+import dynamic from "next/dynamic";
+
+const DynamicBD = dynamic(() => import("@/kaptchame/bd/BotDetection"), {
+  ssr: false,
+});
+export default async function KaptchaMePage() {
   const numOptions = cookies().get("numOptions");
   const imgSize = cookies().get("imgSize");
   const options = numOptions ? Number.parseInt(numOptions.value) : 5;
@@ -19,5 +24,5 @@ export default async function KaptchaMe() {
   const challenges = await createChallenges(createChallengeParams);
   const renderings = challenges.renderings;
 
-  return <BotDetection renderings={renderings} imgSize={size} />;
+  return <DynamicBD renderings={renderings} imgSize={size} />;
 }

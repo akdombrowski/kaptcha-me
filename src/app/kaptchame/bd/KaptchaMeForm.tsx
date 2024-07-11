@@ -82,16 +82,6 @@ export default function KaptchaMeForm(props: IKaptchaMeFormProps) {
 
     for (let i = 0; i < chil.length; i++) {
       // This is the min. dur for a character to move across the screen
-      const maxDurSecondsMotionOffset = Math.ceil(containerSize.width);
-      // Haven't tested thoroughly, but hopefully using 2x rnd fn calls will create a
-      // little more variability
-      // const duration = parseFloat(
-      //   Number(
-      //     (Math.random() * maxAddRNDDur) / 2 +
-      //       (Math.random() * maxAddRNDDur) / 2 +
-      //       minDur,
-      //   ).toPrecision(2),
-      // );
       const duration = parseFloat(
         Number(
           (Math.random() * maxAddRNDDurMillis) / 2 +
