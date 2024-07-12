@@ -15,7 +15,7 @@ import "@fontsource/roboto/900.css";
 /**
  *  Styling for MUI components using theme
  */
-import theme from "@/styles/theme";
+import theme from "@/ui/styles/theme";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 // nextjs optimization

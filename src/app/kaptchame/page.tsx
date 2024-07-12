@@ -2,7 +2,6 @@ import createChallenges, {
   type GenerateChallengesRequestParams,
 } from "@/actions/customFunction";
 import { cookies } from "next/headers";
-import BotDetection from "@/kaptchame/bd/BotDetection";
 
 import dynamic from "next/dynamic";
 

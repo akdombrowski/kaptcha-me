@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import theme from "@//styles/theme";
+import theme from "@/ui/styles/theme";
 import type { Metadata } from "next";
 
 const title = "kaptcha-me";

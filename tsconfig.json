@@ -43,7 +43,7 @@
         "src/app/kaptchame/bd/*"
       ],
       "@/styles/*": [
-        "src/styles/*"
+        "src/ui/styles/*"
       ],
       "@/ui/*": [
         "src/ui/*"

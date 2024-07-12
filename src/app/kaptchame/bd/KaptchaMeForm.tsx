@@ -1,22 +1,17 @@
 import "client-only";
 
 // react
-import { useEffect, useState, useRef } from "react";
-import type { ReactNode, SyntheticEvent } from "react";
+import { useEffect, useState } from "react";
+import type { ReactNode } from "react";
+
 // kaptcha-me
 import MotionCharacterImgBtn from "@/components/motion/MotionCharacterImgBtn";
+
 // mui
 import Box from "@mui/material/Box";
 
-// local images
-import kmGoKartR from "@/gokart/r/gokart-R.png";
-// import kmGoKartL from "@/gokart/l/gokart-L.png";
-import kmGoKartL from "@/gokart/l/gokart-L.webp";
-// actions
-import { getNewChallenges } from "@/actions/createChallenges";
 
 import type { IContainerSize } from "@/bd/BotDetection";
-import submitChoice from "@/actions/submitChoice";
 import { Renderings } from "@/actions/customFunction";
 
 export interface IKaptchaMeFormProps {
@@ -25,16 +20,12 @@ export interface IKaptchaMeFormProps {
   renderings: Renderings;
   imgSize: number;
   containerSize: IContainerSize;
-  formAction?: () => {};
 }
 
-const kmTheme = "racing";
-// const kmGoKartR = "/me/gokart/r/gokart-R.png";
-// const kmGoKartL = "/me/gokart/l/gokart-L.png";
 
 export default function KaptchaMeForm(props: IKaptchaMeFormProps) {
   const [imgBtns, setImgBtns] = useState<ReactNode | null>(null);
-  const { formID, children, renderings, containerSize, imgSize } = props;
+  const { formID, renderings, containerSize, imgSize } = props;
 
   useEffect(() => {
     if (containerSize.width) {
@@ -65,14 +56,8 @@ export default function KaptchaMeForm(props: IKaptchaMeFormProps) {
   }): ReactNode => {
     const { containerSize, renderings } = params;
 
-    const maxVelocity = 1000;
-    const minVelocity = 35;
-    const minDur = containerSize.width / maxVelocity;
-    const maxDur = containerSize.width / minVelocity;
     const minDurMillis = 2000;
     const maxDurMillis = 30000;
-    // ${maxAddRNDDur} + ${minDur} = the max dur for a character to move across the screen
-    const maxAddRNDDur = maxDur - minDur;
     const maxAddRNDDurMillis = maxDurMillis - minDurMillis;
     const numOptions = Object.values(renderings).length;
     let chil = new Array(numOptions);
