@@ -9,7 +9,8 @@
     "debug": "--inspect next dev -H 127.0.0.1",
     "prettier": "prettier --write --ignore-unknown .",
     "prettier:check": "prettier --check --ignore-unknown .",
-    "start": "next start"
+    "start": "next start",
+    "db:types": "dotenv -c -- supabase gen types --lang=typescript --debug --project-id 'ftkqsceobmajatkiigdf' > src/utils/db/schemaTypes.ts"
   },
   "dependencies": {
     "@emotion/cache": "^11.11.0",
@@ -34,10 +35,12 @@
     "@types/node": "20.14.10",
     "@typescript-eslint/parser": "^7.16.0",
     "client-only": "0.0.1",
+    "dotenv-cli": "^7.4.2",
     "eslint": "^8.56.0",
     "prettier": "^3.3.2",
     "prettier-eslint": "^16.3.0",
     "server-only": "0.0.1",
+    "supabase": "1.183.5",
     "typescript": "^5.5.3",
     "vercel": "^34.3.1"
   },
