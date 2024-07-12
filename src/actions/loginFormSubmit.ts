@@ -7,6 +7,11 @@ import { NextResponse } from "next/server";
 import createChallenges from "@/actions/createChallenges";
 import type { GenerateChallengesRequestParams } from "@/actions/customFunction";
 
+import dbClient from "@/utils/db/supabase";
+import supabse from "@supabase/supabase-js";
+
+const db = dbClient();
+
 export default async function loginFormSubmit(formData: FormData) {
   console.log("");
   console.log("");
@@ -53,6 +58,7 @@ export default async function loginFormSubmit(formData: FormData) {
     imgSizeRacing: imgSize,
     theme: "racing",
   };
+
   const challenges = await createChallenges(createChallengeParams);
   // Includes the SECRET CODE, don't return that to the client
   // just want renderings and themeSrc
@@ -75,6 +81,15 @@ export default async function loginFormSubmit(formData: FormData) {
     "renderings character length:",
     JSON.stringify(challenges.renderings).length,
   );
+
+  const { data, error } = await db
+    .from("challenges")
+    .insert({ created_at: Date.now(), challenge: challenges.code, user: email })
+    .select();
+
+  console.log("");
+  console.log("");
+  console.log("db entry:", data);
 
   console.log("");
   console.log("");
