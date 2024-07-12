@@ -45,7 +45,7 @@ export default function LoginForm(props) {
       justifyContent="flex-start"
       alignItems="stretch"
       component="form"
-      noValidate
+      // noValidate
       action={loginFormSubmit}
       width="100%"
       // sx={{ backgroundColor: alpha("#000", 0.9), borderRadius: "10%" }}
@@ -59,7 +59,7 @@ export default function LoginForm(props) {
         sx={{
           // backgroundColor: alpha("#000", 0.75),
           borderRadius: "10%",
-          backgroundBlendMode: "overlay"
+          backgroundBlendMode: "overlay",
         }}
       >
         <Stack
@@ -89,12 +89,13 @@ export default function LoginForm(props) {
             size="small"
             color="primary"
             margin="normal"
-            fullWidth
             name="email"
             label="Email"
             type="email"
             autoComplete="email"
             sx={{ my: 0 }}
+            fullWidth
+            required
           />
           <TextField
             id="password"

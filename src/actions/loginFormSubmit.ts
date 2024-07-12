@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import { setSecureServerSideKookie } from "@/utils/kookies";
 
 import createChallenges from "@/actions/createChallenges";
 import type { GenerateChallengesRequestParams } from "@/actions/customFunction";
@@ -10,9 +11,10 @@ import type { GenerateChallengesRequestParams } from "@/actions/customFunction";
 import dbClient from "@/utils/db/supabase";
 import supabse from "@supabase/supabase-js";
 
-const db = dbClient();
-
 export default async function loginFormSubmit(formData: FormData) {
+  const db = dbClient();
+  const kookies = cookies();
+
   console.log("");
   console.log("");
   console.log("");
@@ -31,7 +33,10 @@ export default async function loginFormSubmit(formData: FormData) {
   let numOptions = 10;
   let imgSize = 10;
   if (difficulty && typeof difficulty === "string") {
-    cookies().set("difficulty", `${difficulty}`);
+    console.log("");
+    console.log("setting difficult cookie...");
+    console.log("");
+    setSecureServerSideKookie(kookies, "difficulty", `${difficulty}`);
     switch (Number.parseInt(difficulty)) {
       case 0:
         numOptions = 3;
@@ -67,33 +72,60 @@ export default async function loginFormSubmit(formData: FormData) {
   // TODO: Encrypt and store in cookie, but need to think about what encryption
   // key to use and how to store that. Shouldn't use a single key for everyone
   console.log("...challenges received:");
-  console.log(challenges);
+  // console.log(challenges);
   console.log("");
   console.log("");
 
   // Set cookie
-  cookies().set("numOptions", `${numOptions}`);
-  cookies().set("imgSize", `${imgSize}`);
-  cookies().set("SameSite", "strict");
+
   console.log("");
+  console.log("setting numOptions, imgSize cookies...");
   console.log("");
-  console.log(
-    "renderings character length:",
-    JSON.stringify(challenges.renderings).length,
+  const numOptsKookie = setSecureServerSideKookie(
+    kookies,
+    "numOptions",
+    `${numOptions}`,
   );
+  const imgSizeKookie = setSecureServerSideKookie(
+    kookies,
+    "imgSize",
+    `${imgSize}`,
+  );
+  console.log("");
+  console.log("");
+  // console.log(
+  //   "renderings character length:",
+  //   JSON.stringify(challenges.renderings).length,
+  // );
 
-  const { data, error } = await db
-    .from("challenges")
-    .insert({ created_at: Date.now(), challenge: challenges.code, user: email })
-    .select();
+  if (email) {
+    const date = new Date().toUTCString();
+    const { data, error } = await db
+      .from("challenge")
+      .insert([{
+        created_at: date,
+        challenge: challenges.code,
+        user: email,
+      }])
+      .select();
+
+    console.log("");
+    console.log("");
+    console.log("");
+    console.log("SUPABASE DB");
+    console.log("");
+    console.log("db entry:", data);
+    console.log("db error:", error);
+    console.log("");
+    console.log("SUPABASE DB");
+    console.log("");
+  }
 
   console.log("");
   console.log("");
-  console.log("db entry:", data);
-
-  console.log("");
-  console.log("");
+  console.log("...");
   console.log("redirecting to /kaptchame");
+  console.log("...");
   console.log("");
   console.log("");
   formData.forEach((value, key) => console.log(`${key}: ${value}`));
