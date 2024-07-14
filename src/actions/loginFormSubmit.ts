@@ -1,5 +1,6 @@
 "use server";
 
+import crypto from "crypto";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
@@ -10,6 +11,7 @@ import type { GenerateChallengesRequestParams } from "@/actions/customFunction";
 
 import dbClient from "@/utils/db/supabase";
 import supabse from "@supabase/supabase-js";
+import { encrypt } from "@/utils/db/encrypt";
 
 export default async function loginFormSubmit(formData: FormData) {
   const db = dbClient();
@@ -98,28 +100,31 @@ export default async function loginFormSubmit(formData: FormData) {
   //   JSON.stringify(challenges.renderings).length,
   // );
 
-  if (email) {
-    const date = new Date().toUTCString();
-    const { data, error } = await db
-      .from("challenge")
-      .insert([{
-        created_at: date,
-        challenge: challenges.code,
-        user: email,
-      }])
-      .select();
+  // if (email) {
+  //   const date = new Date().toUTCString();
+  //   const { data, error } = await db
+  //     .from("challenge")
+  //     .upsert([{
+  //       created_at: date,
+  //       challenge: challenges.code,
+  //       user: email,
+  //     }])
+  //     .select();
 
-    console.log("");
-    console.log("");
-    console.log("");
-    console.log("SUPABASE DB");
-    console.log("");
-    console.log("db entry:", data);
-    console.log("db error:", error);
-    console.log("");
-    console.log("SUPABASE DB");
-    console.log("");
-  }
+  //   console.log("");
+  //   console.log("");
+  //   console.log("");
+  //   console.log("SUPABASE DB");
+  //   console.log("");
+  //   console.log("db entry:", data);
+  //   console.log("db error:", error);
+  //   console.log("");
+  //   console.log("SUPABASE DB");
+  //   console.log("");
+  // }
+
+  const encChallCode = encrypt(challenges.code, "utf8", "hex");
+  console.log("encChallCode:", encChallCode);
 
   console.log("");
   console.log("");
