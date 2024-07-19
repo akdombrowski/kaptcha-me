@@ -1,5 +1,6 @@
 import {
   createCipheriv,
+  createHash,
   randomBytes,
   createSecretKey,
   generateKeySync,
@@ -9,7 +10,8 @@ import {
 } from "crypto";
 
 const encAlg = "aes-256-cbc";
-const key = process.env.PRIVATE_KEY;
+const KEY = process.env.PRIVATE_KEY;
+const IV = process.env.IV;
 
 export interface EncryptedOutput {
   encrypted: string;
@@ -21,9 +23,9 @@ export const encrypt = async (
   inEncoding?: Encoding,
   outEncoding?: Encoding,
 ): Promise<EncryptedOutput> => {
-  if (key) {
-    const aesKey = await generateAesKey();
-    const aesKeyExport = aesKey.export({ format: "jwk" });
+  if (KEY && IV) {
+    const myKey = createSecretKey(KEY, "hex");
+    const myKeyExport = myKey.export().toString("hex");
     console.log();
     console.log();
     console.log();
@@ -32,18 +34,17 @@ export const encrypt = async (
     console.log("===============");
     console.log();
     console.log();
-    console.log("aesKey export:");
-    console.log(aesKeyExport);
+    console.log("myKey export:");
+    console.log(myKeyExport);
     console.log();
     console.log();
-    const iv = generateIV();
+    const iv = Buffer.from(IV, "hex");
+    const ivHex = iv.toString("hex");
+    console.log("ivHex:");
+    console.log(ivHex);
     console.log();
     console.log();
-    console.log("iv:");
-    console.log(iv);
-    console.log();
-    console.log();
-    const encrypted = await aesEncrypt(data, aesKey, iv);
+    const encrypted = await aesEncrypt(data, myKey, iv);
     console.log();
     console.log();
     console.log("encrypted:");
@@ -57,7 +58,7 @@ export const encrypt = async (
     console.log();
     console.log();
 
-    return { encrypted, aesKey, iv };
+    return { encrypted, aesKey: myKey, iv };
   } else {
     throw new Error("missing enc key");
   }
@@ -93,8 +94,6 @@ export const aesEncrypt = async (
   let encrypted = cipher.update(plaintext, inEnc, outEnc);
   encrypted += cipher.final(outEnc);
 
-  console.log("cipher final:", encrypted);
-
   return encrypted;
 };
 
@@ -112,4 +111,16 @@ export const aesDecrypt = async (
   decrypted += decipher.final(outEnc);
 
   return decrypted;
+};
+
+export const sha512 = (data) => {
+  const hasher = createHash("sha512");
+  hasher.update(data, "utf8");
+  const hashed = hasher.digest("base64");
+  return hashed;
+};
+
+export const compareHash = (data, hash) => {
+  const hashedData = sha512(data);
+  return hashedData === hash;
 };

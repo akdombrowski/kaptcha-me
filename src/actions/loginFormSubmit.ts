@@ -11,7 +11,7 @@ import type { GenerateChallengesRequestParams } from "@/actions/customFunction";
 
 import dbClient from "@/utils/db/supabase";
 import supabse from "@supabase/supabase-js";
-import { encrypt } from "@/utils/db/encrypt";
+import { encrypt, sha512, compareHash } from "@/utils/db/encrypt";
 import { aesDecrypt } from "@/utils/db/encrypt";
 
 export default async function loginFormSubmit(formData: FormData) {
@@ -68,6 +68,7 @@ export default async function loginFormSubmit(formData: FormData) {
   };
 
   const challenges = await createChallenges(createChallengeParams);
+  const code = challenges.code;
   // Includes the SECRET CODE, don't return that to the client
   // just want renderings and themeSrc
   // but need to figure out how to store the code
@@ -102,13 +103,27 @@ export default async function loginFormSubmit(formData: FormData) {
     "utf8",
     "hex",
   );
-  console.log("unencrypted challenge code:", challenges.code);
-  console.log("encrypted challenge code:", encrypted);
-  console.log("aesKey:", aesKey);
-  console.log("iv:", iv);
+  console.log();
+  console.log("unencrypted challenge code:");
+  console.log(code);
+  console.log();
+  console.log("encrypted challenge code:");
+  console.log(encrypted);
   const decrypted = await aesDecrypt(encrypted, aesKey, iv);
+  console.log();
   console.log("decrypted");
   console.log(decrypted);
+  console.log();
+  console.log("code === decrypted");
+  console.log(code === decrypted);
+  const hashed = sha512(encrypted);
+  console.log();
+  console.log("hashed");
+  console.log(hashed);
+  console.log();
+  console.log("compare hash");
+  console.log(compareHash(encrypted, hashed));
+  console.log();
 
   console.log("");
   console.log("");
@@ -122,9 +137,7 @@ export default async function loginFormSubmit(formData: FormData) {
   console.log("==============================");
   console.log("END loginformsubmit server action");
   console.log("==============================");
-  console.log("");
-  console.log("");
-  console.log("");
+  console.log();
 
   redirect("/kaptchame");
   // return challenges.renderings;
