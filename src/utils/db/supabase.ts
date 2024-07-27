@@ -10,3 +10,13 @@ export default function dbClient(): SupabaseClient {
     throw new Error("not authorized");
   }
 }
+
+export const updateChallenge = async (db, user, created_at, challenge) => {
+  const { data, error } = await db
+    .from("challenge")
+    .update({ user, created_at, challenge })
+    .eq("user", user)
+    .select();
+
+  return { data, error };
+};

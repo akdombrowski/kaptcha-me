@@ -1,3 +1,4 @@
+import { Key } from "@mui/icons-material";
 import {
   createCipheriv,
   createHash,
@@ -12,19 +13,31 @@ import {
 const encAlg = "aes-256-cbc";
 const KEY = process.env.PRIVATE_KEY;
 const IV = process.env.IV;
-
 export interface EncryptedOutput {
   encrypted: string;
   aesKey: KeyObject;
   iv: Buffer;
 }
+
 export const encrypt = async (
   data: string,
   inEncoding?: Encoding,
   outEncoding?: Encoding,
 ): Promise<EncryptedOutput> => {
-  if (KEY && IV) {
-    const myKey = createSecretKey(KEY, "hex");
+  let key: string | undefined = KEY;
+  let iv: string | undefined= IV;
+  if (!key) {
+    console.warn("didn't find key in environment variables");
+    key = (await generateAesKey()).export().toString("hex");
+  }
+
+  if (!iv) {
+    console.warn("didn't find iv in environment variables");
+    iv = await generateIV().toString("hex");
+  }
+
+  if (key && iv) {
+    const myKey = createSecretKey(key, "hex");
     const myKeyExport = myKey.export().toString("hex");
     console.log();
     console.log();
@@ -38,13 +51,13 @@ export const encrypt = async (
     console.log(myKeyExport);
     console.log();
     console.log();
-    const iv = Buffer.from(IV, "hex");
-    const ivHex = iv.toString("hex");
+    const ivBuf = Buffer.from(iv, "hex");
+    const ivHex = ivBuf.toString("hex");
     console.log("ivHex:");
     console.log(ivHex);
     console.log();
     console.log();
-    const encrypted = await aesEncrypt(data, myKey, iv);
+    const encrypted = await aesEncrypt(data, myKey, ivBuf);
     console.log();
     console.log();
     console.log("encrypted:");
@@ -58,9 +71,9 @@ export const encrypt = async (
     console.log();
     console.log();
 
-    return { encrypted, aesKey: myKey, iv };
+    return { encrypted, aesKey: myKey, iv: ivBuf };
   } else {
-    throw new Error("missing enc key");
+    throw new Error("missing enc key or iv");
   }
 };
 

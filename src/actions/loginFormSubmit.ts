@@ -9,7 +9,7 @@ import { setSecureServerSideKookie } from "@/utils/kookies";
 import createChallenges from "@/actions/createChallenges";
 import type { GenerateChallengesRequestParams } from "@/actions/customFunction";
 
-import dbClient from "@/utils/db/supabase";
+import dbClient, { updateChallenge } from "@/utils/db/supabase";
 import supabse from "@supabase/supabase-js";
 import { encrypt, sha512, compareHash } from "@/utils/db/encrypt";
 import { aesDecrypt } from "@/utils/db/encrypt";
@@ -117,6 +117,18 @@ export default async function loginFormSubmit(formData: FormData) {
   console.log("code === decrypted");
   console.log(code === decrypted);
   const hashed = sha512(encrypted);
+
+  const { data, error } = await updateChallenge(db, email, new Date().toLocaleString("en-US"), hashed);
+
+  console.log("db update challenge");
+  console.log("data");
+  console.log(data);
+  console.log("error");
+  console.log(error);
+
+
+
+
   console.log();
   console.log("hashed");
   console.log(hashed);

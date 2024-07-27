@@ -21,8 +21,8 @@
       "command": "yarn dev",
       "presentation": {
         "hidden": false,
-        "group": "server",
-        "order": 1
+        "group": "browser",
+        "order": 4
       },
       "skipFiles": [
         "${workspaceFolder}/node_modules/**/*.js",
@@ -44,7 +44,7 @@
       "presentation": {
         "hidden": false,
         "group": "browser",
-        "order": 1
+        "order": 5
       },
       "skipFiles": [
         "${workspaceFolder}/node_modules/**/*.js",
@@ -67,8 +67,8 @@
       ],
       "presentation": {
         "hidden": false,
-        "group": "server+client",
-        "order": 1
+        "order": 1,
+        "group": "1"
       },
     }
   ],
