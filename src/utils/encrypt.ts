@@ -5,6 +5,7 @@ import {
   randomBytes,
   createSecretKey,
   generateKeySync,
+  generateKeyPairSync,
   type Encoding,
   type KeyObject,
   createDecipheriv,
@@ -13,11 +14,28 @@ import {
 const encAlg = "aes-256-cbc";
 const KEY = process.env.PRIVATE_KEY;
 const IV = process.env.IV;
+const SALT = process.env.SALT;
 export interface EncryptedOutput {
   encrypted: string;
   aesKey: KeyObject;
   iv: Buffer;
 }
+
+
+export const createSeshID = (props: { username: string }) => {
+  const {
+    publicKey,
+    privateKey,
+  }: { publicKey: KeyObject; privateKey: KeyObject } =
+    generateKeyPairSync("ed25519");
+
+    const data = SALT + Buffer.from(props.username).toString("hex");
+    const hash = createHash("SHA3-512");
+    hash.update(data, "hex");
+    const hashed = hash.digest("hex");
+
+    return hashed;
+};
 
 export const encrypt = async (
   data: string,

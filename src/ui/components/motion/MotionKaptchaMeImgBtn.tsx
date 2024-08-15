@@ -25,6 +25,7 @@ export interface KaptchaMeImgBtnProps {
 export const KaptchaMeImgBtn = forwardRef(
   (props: KaptchaMeImgBtnProps, ref) => {
     const { width, height, value, aspectRatio, id, src, top } = props;
+
     const handleClick = (event: SyntheticEvent) => {
       console.log();
       console.log("MotionKaptchaMeImgBtn -> handleClick");
@@ -42,7 +43,6 @@ export const KaptchaMeImgBtn = forwardRef(
       console.log("handleClick");
       console.log();
     };
-    const updateWithID = submitChoice.bind(null, props.id);
 
     return (
       <Box

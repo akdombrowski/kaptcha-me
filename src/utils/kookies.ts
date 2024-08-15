@@ -1,3 +1,4 @@
+import { createSeshID } from "@/utils/encrypt";
 import {
   ResponseCookie,
   ResponseCookies,
@@ -83,16 +84,5 @@ export const setSecureServerSideKookie = (
   return kookies;
 };
 
-export const createSeshIDKookie = (props: { username: string }) => {
-  const {
-    publicKey,
-    privateKey,
-  }: { publicKey: KeyObject; privateKey: KeyObject } =
-    crypto.generateKeyPairSync("ed25519");
-    // TODO: encrypt then hash a unique value with the email (and salt?) and
-    // sign with private key so that we can store that value on the client side
-    // and verify it server side and use it as the key to lookup the right
-    // challenge to check against the challenge being submitted
-};
 
 export const setSeshIDKookie = () => {};

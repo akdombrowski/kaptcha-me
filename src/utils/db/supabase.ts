@@ -20,3 +20,13 @@ export const updateChallenge = async (db, user, created_at, challenge) => {
 
   return { data, error };
 };
+
+export const updateSeshID = async (db, user, created_at, sesh_id) => {
+  const { data, error } = await db
+    .from("sesh")
+    .update({ user, created_at, sesh_id })
+    .eq("user", user)
+    .select();
+
+  return { data, error };
+};

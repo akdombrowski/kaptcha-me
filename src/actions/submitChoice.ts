@@ -1,14 +1,19 @@
 "use server";
 
-import { FormEvent, FormEventHandler, SyntheticEvent } from "react";
-
 // export default async function submitChoice(choice: FormEvent<HTMLButtonElement>) {
-export default async function submitChoice(id: string, event: SyntheticEvent) {
+export default async function submitChoice(formData: FormData) {
   console.log("");
   console.log("");
   console.log("");
   console.log("inside submit choice server action");
-  console.log("formData:", event);
+
+  const choiceName = formData.keys().next().value;
+  const choiceValue = formData.values().next().value;
+  console.log("choiceName:", choiceName);
+  console.log("choiceValue:", choiceValue);
+
+  console.log("formAction");
+  console.log();
   console.log("");
   console.log("");
   console.log("");

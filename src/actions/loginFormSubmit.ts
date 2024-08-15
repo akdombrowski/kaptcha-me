@@ -9,10 +9,10 @@ import { setSecureServerSideKookie } from "@/utils/kookies";
 import createChallenges from "@/actions/createChallenges";
 import type { GenerateChallengesRequestParams } from "@/actions/customFunction";
 
-import dbClient, { updateChallenge } from "@/utils/db/supabase";
+import dbClient, { updateChallenge, updateSeshID } from "@/utils/db/supabase";
 import supabse from "@supabase/supabase-js";
-import { encrypt, sha512, compareHash } from "@/utils/db/encrypt";
-import { aesDecrypt } from "@/utils/db/encrypt";
+import { encrypt, sha512, compareHash, createSeshID } from "@/utils/encrypt";
+import { aesDecrypt } from "@/utils/encrypt";
 
 export default async function loginFormSubmit(formData: FormData) {
   const db = dbClient();
@@ -26,7 +26,7 @@ export default async function loginFormSubmit(formData: FormData) {
   console.log("==============================");
   console.log("");
 
-  const email = formData.get("email");
+  const email = formData.get("email")!;
   const password = formData.get("password");
   const difficulty = formData.get("difficulty")?.valueOf();
 
@@ -118,6 +118,14 @@ export default async function loginFormSubmit(formData: FormData) {
   console.log(code === decrypted);
   const hashed = sha512(encrypted);
 
+  console.log("");
+  console.log("");
+  formData.forEach((value, key) => console.log(`${key}: ${value}`));
+  console.log("");
+
+  const seshID = createSeshID({username: email.toString()})
+
+
   const { data, error } = await updateChallenge(db, email, new Date().toLocaleString("en-US"), hashed);
 
   console.log("db update challenge");
@@ -126,8 +134,18 @@ export default async function loginFormSubmit(formData: FormData) {
   console.log("error");
   console.log(error);
 
+  const {data: dataSesh, error: errorSesh} = await updateSeshID(db, email, new Date().toLocaleString(), seshID);
 
-
+    console.log("db update seshID");
+    console.log("data");
+    console.log(dataSesh);
+    console.log("error");
+    console.log(errorSesh);
+    const seshIDKookie = setSecureServerSideKookie(
+      kookies,
+      "seshID",
+      `${seshID}`,
+    );
 
   console.log();
   console.log("hashed");
@@ -142,10 +160,6 @@ export default async function loginFormSubmit(formData: FormData) {
   console.log("...");
   console.log("redirecting to /kaptchame");
   console.log("...");
-  console.log("");
-  console.log("");
-  formData.forEach((value, key) => console.log(`${key}: ${value}`));
-  console.log("");
   console.log("==============================");
   console.log("END loginformsubmit server action");
   console.log("==============================");

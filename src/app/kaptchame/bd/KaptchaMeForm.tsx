@@ -13,6 +13,8 @@ import Box from "@mui/material/Box";
 
 import type { IContainerSize } from "@/bd/BotDetection";
 import { Renderings } from "@/actions/customFunction";
+import loginFormSubmit from "@/actions/loginFormSubmit";
+import submitChoice from "@/actions/submitChoice";
 
 export interface IKaptchaMeFormProps {
   formID: string;
@@ -100,7 +102,7 @@ export default function KaptchaMeForm(props: IKaptchaMeFormProps) {
       height="100%"
       width="100%"
       component="form"
-      action={formAction}
+      action={submitChoice}
       name={formID}
     >
       {imgBtns ?? <></>}
