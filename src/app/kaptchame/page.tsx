@@ -20,6 +20,8 @@ export default async function KaptchaMePage() {
     imgSizeRacing: size,
     theme: "racing",
   };
+
+  //TODO:GRAB CHALLENGES FROM LOGINFORMSUBMIT.TS
   const challenges = await createChallenges(createChallengeParams);
   const renderings = challenges.renderings;
 

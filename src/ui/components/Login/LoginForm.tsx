@@ -19,23 +19,32 @@ import DifficultyRadioBtnGroup from "@/components/Login/DifficultyRadioBtnGroup"
 import DifficultySlider from "@/components/Login/DifficultySlider";
 
 import loginFormSubmit from "@/actions/loginFormSubmit";
+import createChallenges, {
+  GenerateChallengesRequestParams,
+} from "@/actions/customFunction";
+import { useRouter } from "next/navigation";
 
 const DEBUG = true;
 
 export default function LoginForm(props) {
   const theme = useTheme();
-
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const router = useRouter();
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    if (DEBUG) {
-      // !!! - CAREFUL - !!!
-      // THIS IS CLIENT SIDE CODE
-      console.log({
-        email: data.get("email"),
-        password: data.get("password"),
-      });
+    const numOptionsStr = data.get("numOptions")?.toString();
+    const imgSizeStr = data.get("imgSize")?.toString();
+    const numOptions = numOptionsStr ? Number.parseInt(numOptionsStr) : 0;
+    const imgSize = imgSizeStr ? Number.parseInt(imgSizeStr) : 0;
+    const theme = "racing";
+
+    const renderings = await loginFormSubmit(data);
+
+    if (window) {
+      window.sessionStorage.setItem("renderings", renderings);
     }
+
+    router.push("/kaptchame");
   };
 
   return (

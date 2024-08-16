@@ -4,64 +4,76 @@ import dbClient, {
   fetchChallenge,
   fetchUserBySeshID,
 } from "@/utils/db/supabase";
-import { aesDecrypt } from "@/utils/encrypt";
+import { encrypt, aesDecrypt, sha512 } from "@/utils/encrypt";
 import { cookies } from "next/headers";
 import { createSecretKey } from "crypto";
 
 // export default async function submitChoice(choice: FormEvent<HTMLButtonElement>) {
 export default async function submitChoice(formData: FormData) {
-  console.log("");
-  console.log("");
-  console.log("");
+  console.log("==============================");
   console.log("inside submit choice server action");
+  console.log("==============================");
+  console.log("");
 
   const choiceName = formData.keys().next().value;
   const choiceValue = formData.values().next().value;
-  console.log("choiceName:", choiceName);
-  console.log("choiceValue:", choiceValue);
-
-  console.log("formAction");
-  console.log();
+  // console.log("choiceName:", choiceName);
+  // console.log("");
+  console.log("chosen challenge:", choiceValue);
+  console.log("");
 
   const kookies = cookies();
   const seshID = kookies.get("seshID");
-  console.log("seshID:", seshID);
   console.log("seshID:", seshID?.value);
   console.log("");
   try {
     const challenge = await getChallengeBySeshID(seshID?.value);
-    console.log("");
-    console.log("challenge:", challenge);
+    console.log("fetch correct challenge:", challenge);
     console.log("");
 
-    const myKey = createSecretKey(process.env.PRIVATE_KEY!, "hex");
-    const decryptChall = await aesDecrypt(
-      choiceValue,
-      myKey,
-      Buffer.from(process.env.IV!, "hex"),
-    );
-    console.log("");
-    console.log("challenge === decryptedChoiceValue");
-    console.log("");
-    console.log(challenge, "===", decryptChall);
-    console.log("");
-    console.log(challenge === decryptChall);
-    console.log("");
-    console.log("");
-    if (challenge === choiceValue) {
+    const PRIVATE_KEY = process.env.PRIVATE_KEY!;
+    const IV = process.env.IV!;
+    const myKey = createSecretKey(PRIVATE_KEY, "hex");
+
+    try {
+
+
+      const { encrypted, aesKey, iv } = await encrypt(
+        choiceValue,
+        "utf8",
+        "hex",
+      );
+
+      const hashed = sha512(encrypted);
+      // const decryptChall = await aesDecrypt(
+      //   choiceValue,
+      //   myKey,
+      //   Buffer.from(IV, "hex"),
+      // );
       console.log("");
-      console.log("CORRECT CHOICE");
+      console.log("correct challenge === chosen challenge encrypted hashed");
       console.log("");
-    } else {
+      console.log(challenge, "\n\n===\n\n", hashed);
       console.log("");
-      console.log("***WRONG CHOICE");
+      console.log(challenge === hashed);
       console.log("");
+      console.log("");
+      if (challenge === hashed) {
+        console.log("");
+        console.log("CORRECT CHOICE");
+        console.log("");
+      } else {
+        console.log("");
+        console.log("***WRONG CHOICE");
+        console.log("");
+      }
+    } catch (error) {
+      throw new Error("decryption error", { cause: error });
     }
   } catch (err) {
-    console.error("error checking challenge", (err as Error).message);
+    console.error("error checking challenge", err as Error);
   }
-  console.log("");
-  console.log("");
+
   console.log("");
   return "returning from submitChoice server action, yes";
 }

@@ -66,37 +66,12 @@ export const encrypt = async (
   if (key && iv) {
     const myKey = createSecretKey(key, "hex");
     const myKeyExport = myKey.export().toString("hex");
-    console.log();
-    console.log();
-    console.log();
-    console.log("===============");
-    console.log("Start Encrypting");
-    console.log("===============");
-    console.log();
-    console.log();
-    console.log("myKey export:");
-    console.log(myKeyExport);
-    console.log();
-    console.log();
+
     const ivBuf = Buffer.from(iv, "hex");
     const ivHex = ivBuf.toString("hex");
-    console.log("ivHex:");
-    console.log(ivHex);
-    console.log();
-    console.log();
+
     const encrypted = await aesEncrypt(data, myKey, ivBuf);
-    console.log();
-    console.log();
-    console.log("encrypted:");
-    console.log(encrypted);
-    console.log();
-    console.log();
-    console.log("===============");
-    console.log("End Encrypting");
-    console.log("===============");
-    console.log();
-    console.log();
-    console.log();
+
 
     return { encrypted, aesKey: myKey, iv: ivBuf };
   } else {
