@@ -48,3 +48,13 @@ export const fetchSeshID = async (db, user) => {
     response: { data, error },
   };
 };
+
+export const fetchUserBySeshID = async (db, seshID) => {
+  const { data, error } = await db.from("sesh").select().eq("sesh_id", seshID);
+  return {
+    sesh: data.length
+      ? { user: data[0].user, createdAt: data[0].created_at }
+      : null,
+    response: { data, error },
+  };
+};
