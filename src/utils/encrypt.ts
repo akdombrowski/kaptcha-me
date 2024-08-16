@@ -15,12 +15,12 @@ const encAlg = "aes-256-cbc";
 const KEY = process.env.PRIVATE_KEY;
 const IV = process.env.IV;
 const SALT = process.env.SALT;
+const SALTY = process.env.SALTY;
 export interface EncryptedOutput {
   encrypted: string;
   aesKey: KeyObject;
   iv: Buffer;
 }
-
 
 export const createSeshID = (props: { username: string }) => {
   const {
@@ -28,13 +28,22 @@ export const createSeshID = (props: { username: string }) => {
     privateKey,
   }: { publicKey: KeyObject; privateKey: KeyObject } =
     generateKeyPairSync("ed25519");
+  // TODO: check whether locale going to cause a problem if the server is in another local when
+  // generating vs checking? Is that possible?
+  const createdAt = new Date().toLocaleString();
+  const dateHash = createHash("SHA3-512");
+  dateHash.update(SALTY + Buffer.from(createdAt).toString("hex"), "hex");
+  const createdAtHashed = dateHash.digest("hex");
 
-    const data = SALT + Buffer.from(props.username).toString("hex");
-    const hash = createHash("SHA3-512");
-    hash.update(data, "hex");
-    const hashed = hash.digest("hex");
+  const data = SALT + Buffer.from(props.username).toString("hex");
+  const hash = createHash("SHA3-512");
+  hash.update(data, "hex");
+  const hashed = hash.digest("hex");
+  const seshIDHash = createHash("SHA3-512");
+  seshIDHash.update(hashed + createdAtHashed, "hex");
+  const seshID = seshIDHash.digest("hex");
 
-    return hashed;
+  return { seshID, createdAt: createdAt };
 };
 
 export const encrypt = async (
@@ -43,7 +52,7 @@ export const encrypt = async (
   outEncoding?: Encoding,
 ): Promise<EncryptedOutput> => {
   let key: string | undefined = KEY;
-  let iv: string | undefined= IV;
+  let iv: string | undefined = IV;
   if (!key) {
     console.warn("didn't find key in environment variables");
     key = (await generateAesKey()).export().toString("hex");

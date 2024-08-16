@@ -42,7 +42,9 @@ export const fetchChallenge = async (db, user) => {
 export const fetchSeshID = async (db, user) => {
   const { data, error } = await db.from("sesh").select().eq("user", user);
   return {
-    seshID: data.length ? data[0].sesh_id : null,
+    sesh: data.length
+      ? { sessionID: data[0].sesh_id, createdAt: data[0].created_at }
+      : null,
     response: { data, error },
   };
 };

@@ -9,7 +9,12 @@ import { setSecureServerSideKookie } from "@/utils/kookies";
 import createChallenges from "@/actions/createChallenges";
 import type { GenerateChallengesRequestParams } from "@/actions/customFunction";
 
-import dbClient, { fetchChallenge, fetchSeshID, updateChallenge, updateSeshID } from "@/utils/db/supabase";
+import dbClient, {
+  fetchChallenge,
+  fetchSeshID,
+  updateChallenge,
+  updateSeshID,
+} from "@/utils/db/supabase";
 import supabse from "@supabase/supabase-js";
 import { encrypt, sha512, compareHash, createSeshID } from "@/utils/encrypt";
 import { aesDecrypt } from "@/utils/encrypt";
@@ -123,8 +128,6 @@ export default async function loginFormSubmit(formData: FormData) {
   formData.forEach((value, key) => console.log(`${key}: ${value}`));
   console.log("");
 
-  const seshID = createSeshID({ username: email.toString() });
-
   const { data, error } = await updateChallenge(
     db,
     email,
@@ -143,10 +146,11 @@ export default async function loginFormSubmit(formData: FormData) {
   console.log("START db session id update");
   console.log("------------------------------");
   console.log("");
+  const { seshID, createdAt } = createSeshID({ username: email.toString() });
   const { data: dataSesh, error: errorSesh } = await updateSeshID(
     db,
     email,
-    new Date().toLocaleString(),
+    createdAt,
     seshID,
   );
 
@@ -171,8 +175,9 @@ export default async function loginFormSubmit(formData: FormData) {
   console.log("START fetch challenge");
   console.log("------------------------------");
   console.log("");
-  const {challenge, response} = await fetchChallenge(db, email);
+  const { challenge, response } = await fetchChallenge(db, email);
   console.log("challenge:", challenge);
+  console.log("");
   console.log("response:", response);
   console.log("");
   console.log("------------------------------");
@@ -184,9 +189,12 @@ export default async function loginFormSubmit(formData: FormData) {
   console.log("START fetch session id");
   console.log("------------------------------");
   console.log("");
-  const {seshID: sessionID, response: sessionIDResponse} = await fetchSeshID(db, email);
-    console.log("sessionID:", sessionID);
-    console.log("sessionIDResponse:", sessionIDResponse);
+  const { sesh, response: sessionIDResponse } = await fetchSeshID(db, email);
+  console.log("sessionID:", sesh?.sessionID);
+  console.log("");
+  console.log("sessionID createdAt:", sesh?.createdAt);
+  console.log("");
+  console.log("sessionIDResponse:", sessionIDResponse);
   console.log("");
   console.log("------------------------------");
   console.log("END fetch session id");
