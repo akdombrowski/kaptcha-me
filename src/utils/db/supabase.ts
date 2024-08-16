@@ -14,9 +14,10 @@ export default function dbClient(): SupabaseClient {
 export const updateChallenge = async (db, user, created_at, challenge) => {
   const { data, error } = await db
     .from("challenge")
-    .update({ user, created_at, challenge })
+    .upsert({ user, created_at, challenge }, {ignoreDuplicates: false})
     .eq("user", user)
     .select();
+
 
   return { data, error };
 };
@@ -24,36 +25,9 @@ export const updateChallenge = async (db, user, created_at, challenge) => {
 export const updateSeshID = async (db, user, created_at, sesh_id) => {
   const { data, error } = await db
     .from("sesh")
-    .update({ user, created_at, sesh_id })
+    .update({ user, created_at, sesh_id }, {ignoreDuplicates: false})
     .eq("user", user)
     .select();
-
-
-  console.log("");
-  console.log("");
-  console.log("==============================");
-  console.log("IN UPDATE SESH ID");
-  console.log("update db result: ", data);
-  console.log("update db error: ", error);
-  console.log("");
-  const seshIDTable = await db.from("sesh").select("*");
-  console.log("seshID table:", seshIDTable);
-  console.log("");
-  console.log("");
-
-  console.log("***INSERT***");
-  const { d, e } = await db
-  .from('sesh')
-  .insert([
-    { user, created_at, sesh_id },
-  ])
-  .select()
-  console.log("update db result: ", d);
-  console.log("update db error: ", e);
-  console.log("");
-
-  console.log("==============================");
-  console.log("");
 
   return { data, error };
 };
