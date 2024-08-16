@@ -14,10 +14,9 @@ export default function dbClient(): SupabaseClient {
 export const updateChallenge = async (db, user, created_at, challenge) => {
   const { data, error } = await db
     .from("challenge")
-    .upsert({ user, created_at, challenge }, {ignoreDuplicates: false})
+    .upsert({ user, created_at, challenge }, { ignoreDuplicates: false })
     .eq("user", user)
     .select();
-
 
   return { data, error };
 };
@@ -25,9 +24,25 @@ export const updateChallenge = async (db, user, created_at, challenge) => {
 export const updateSeshID = async (db, user, created_at, sesh_id) => {
   const { data, error } = await db
     .from("sesh")
-    .update({ user, created_at, sesh_id }, {ignoreDuplicates: false})
+    .update({ user, created_at, sesh_id }, { ignoreDuplicates: false })
     .eq("user", user)
     .select();
 
   return { data, error };
+};
+
+export const fetchChallenge = async (db, user) => {
+  const { data, error } = await db.from("challenge").select().eq("user", user);
+  return {
+    challenge: data.length ? data[0].challenge : null,
+    response: { data, error },
+  };
+};
+
+export const fetchSeshID = async (db, user) => {
+  const { data, error } = await db.from("sesh").select().eq("user", user);
+  return {
+    seshID: data.length ? data[0].sesh_id : null,
+    response: { data, error },
+  };
 };
