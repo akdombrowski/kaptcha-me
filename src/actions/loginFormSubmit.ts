@@ -123,10 +123,14 @@ export default async function loginFormSubmit(formData: FormData) {
   formData.forEach((value, key) => console.log(`${key}: ${value}`));
   console.log("");
 
-  const seshID = createSeshID({username: email.toString()})
+  const seshID = createSeshID({ username: email.toString() });
 
-
-  const { data, error } = await updateChallenge(db, email, new Date().toLocaleString("en-US"), hashed);
+  const { data, error } = await updateChallenge(
+    db,
+    email,
+    new Date().toLocaleString("en-US"),
+    hashed,
+  );
 
   console.log("db update challenge");
   console.log("data");
@@ -134,18 +138,38 @@ export default async function loginFormSubmit(formData: FormData) {
   console.log("error");
   console.log(error);
 
-  const {data: dataSesh, error: errorSesh} = await updateSeshID(db, email, new Date().toLocaleString(), seshID);
+  console.log("");
+  console.log("------------------------------");
+  console.log("START db session id update");
+  console.log("------------------------------");
+  console.log("");
+  const { data: dataSesh, error: errorSesh } = await updateSeshID(
+    db,
+    email,
+    new Date().toLocaleString(),
+    seshID,
+  );
 
-    console.log("db update seshID");
-    console.log("data");
-    console.log(dataSesh);
-    console.log("error");
-    console.log(errorSesh);
-    const seshIDKookie = setSecureServerSideKookie(
-      kookies,
-      "seshID",
-      `${seshID}`,
-    );
+  console.log("db update seshID");
+  console.log("data");
+  console.log(dataSesh);
+  console.log("error");
+  console.log(errorSesh);
+  const seshIDKookie = setSecureServerSideKookie(
+    kookies,
+    "seshID",
+    `${seshID}`,
+  );
+
+  console.log("");
+  console.log("------------------------------");
+  console.log("db session id update END");
+  console.log("------------------------------");
+  console.log("");
+  console.log("");
+  console.log("______________________________");
+  console.log("------------------------------");
+  console.log("");
 
   console.log();
   console.log("hashed");
@@ -155,6 +179,10 @@ export default async function loginFormSubmit(formData: FormData) {
   console.log(compareHash(encrypted, hashed));
   console.log();
 
+  console.log("");
+  console.log("______________________________");
+  console.log("------------------------------");
+  console.log("");
   console.log("");
   console.log("");
   console.log("...");

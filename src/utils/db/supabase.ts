@@ -28,5 +28,32 @@ export const updateSeshID = async (db, user, created_at, sesh_id) => {
     .eq("user", user)
     .select();
 
+
+  console.log("");
+  console.log("");
+  console.log("==============================");
+  console.log("IN UPDATE SESH ID");
+  console.log("update db result: ", data);
+  console.log("update db error: ", error);
+  console.log("");
+  const seshIDTable = await db.from("sesh").select("*");
+  console.log("seshID table:", seshIDTable);
+  console.log("");
+  console.log("");
+
+  console.log("***INSERT***");
+  const { d, e } = await db
+  .from('sesh')
+  .insert([
+    { user, created_at, sesh_id },
+  ])
+  .select()
+  console.log("update db result: ", d);
+  console.log("update db error: ", e);
+  console.log("");
+
+  console.log("==============================");
+  console.log("");
+
   return { data, error };
 };
