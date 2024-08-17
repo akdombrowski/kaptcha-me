@@ -14,16 +14,5 @@ export default async function KaptchaMePage() {
   const options = numOptions ? Number.parseInt(numOptions.value) : 5;
   const size = imgSize ? Number.parseInt(imgSize.value) : 21;
 
-  const createChallengeParams: GenerateChallengesRequestParams = {
-    numOptions: options,
-    imgSize: size,
-    imgSizeRacing: size,
-    theme: "racing",
-  };
-
-  //TODO:GRAB CHALLENGES FROM LOGINFORMSUBMIT.TS
-  const challenges = await createChallenges(createChallengeParams);
-  const renderings = challenges.renderings;
-
-  return <DynamicBD renderings={renderings} imgSize={size} />;
+  return <DynamicBD imgSize={size} />;
 }

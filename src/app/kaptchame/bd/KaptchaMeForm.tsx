@@ -10,7 +10,6 @@ import MotionCharacterImgBtn from "@/components/motion/MotionCharacterImgBtn";
 // mui
 import Box from "@mui/material/Box";
 
-
 import type { IContainerSize } from "@/bd/BotDetection";
 import { Renderings } from "@/actions/customFunction";
 import loginFormSubmit from "@/actions/loginFormSubmit";
@@ -23,7 +22,6 @@ export interface IKaptchaMeFormProps {
   imgSize: number;
   containerSize: IContainerSize;
 }
-
 
 export default function KaptchaMeForm(props: IKaptchaMeFormProps) {
   const [imgBtns, setImgBtns] = useState<ReactNode | null>(null);
@@ -61,7 +59,7 @@ export default function KaptchaMeForm(props: IKaptchaMeFormProps) {
     const minDurMillis = 2000;
     const maxDurMillis = 30000;
     const maxAddRNDDurMillis = maxDurMillis - minDurMillis;
-    const numOptions = Object.values(renderings).length;
+    const numOptions = renderings ? Object.values(renderings).length : 10;
     let chil = new Array(numOptions);
 
     // delay for countdown
@@ -69,13 +67,14 @@ export default function KaptchaMeForm(props: IKaptchaMeFormProps) {
 
     for (let i = 0; i < chil.length; i++) {
       // This is the min. dur for a character to move across the screen
-      const duration = parseFloat(
-        Number(
-          (Math.random() * maxAddRNDDurMillis) / 2 +
+      const duration =
+        parseFloat(
+          Number(
             (Math.random() * maxAddRNDDurMillis) / 2 +
-            minDurMillis,
-        ).toPrecision(5),
-      )/1000;
+              (Math.random() * maxAddRNDDurMillis) / 2 +
+              minDurMillis,
+          ).toPrecision(5),
+        ) / 1000;
 
       const id = `optionBtn-${i}`;
       chil[i] = (

@@ -19,9 +19,6 @@ import DifficultyRadioBtnGroup from "@/components/Login/DifficultyRadioBtnGroup"
 import DifficultySlider from "@/components/Login/DifficultySlider";
 
 import loginFormSubmit from "@/actions/loginFormSubmit";
-import createChallenges, {
-  GenerateChallengesRequestParams,
-} from "@/actions/customFunction";
 import { useRouter } from "next/navigation";
 
 const DEBUG = true;
@@ -29,9 +26,7 @@ const DEBUG = true;
 export default function LoginForm(props) {
   const theme = useTheme();
   const router = useRouter();
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
+  const handleSubmit = async (data: FormData) => {
     const numOptionsStr = data.get("numOptions")?.toString();
     const imgSizeStr = data.get("imgSize")?.toString();
     const numOptions = numOptionsStr ? Number.parseInt(numOptionsStr) : 0;
@@ -41,7 +36,7 @@ export default function LoginForm(props) {
     const renderings = await loginFormSubmit(data);
 
     if (window) {
-      window.sessionStorage.setItem("renderings", renderings);
+      window.sessionStorage.setItem("renderings", JSON.stringify(renderings));
     }
 
     router.push("/kaptchame");
@@ -55,7 +50,7 @@ export default function LoginForm(props) {
       alignItems="stretch"
       component="form"
       // noValidate
-      action={loginFormSubmit}
+      action={handleSubmit}
       width="100%"
       // sx={{ backgroundColor: alpha("#000", 0.9), borderRadius: "10%" }}
     >

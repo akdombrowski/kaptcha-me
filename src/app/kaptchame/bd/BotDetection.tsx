@@ -43,19 +43,24 @@ export interface IContainerSize {
   height: number;
 }
 
-
-export default function BotDetection({
-  renderings,
-  imgSize,
-}: {
-  renderings: Renderings;
-  imgSize: number;
-}) {
+export default function BotDetection({ imgSize }: { imgSize: number }) {
   const themedBGContainerRef = useRef<typeof ThemedBGContainer | null>(null);
   const [containerSize, setContainerSize] = useState<IContainerSize>({
-    width: window.innerWidth ,
+    width: window.innerWidth,
     height: window.innerHeight,
   });
+  const [renderings, setRenderings] = useState<Renderings>({
+    0: { value: "", pos: 0, img: "" },
+  });
+  useEffect(() => {
+    if (window) {
+      const renderings = window.sessionStorage.getItem("renderings");
+
+      if (renderings) {
+        setRenderings(JSON.parse(renderings) as Renderings);
+      }
+    }
+  }, []);
 
   const goKartAspectRatio = 100 / 68;
   const numOptions = 15;
