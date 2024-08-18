@@ -1,9 +1,6 @@
 "use server";
 
-import crypto from "crypto";
-import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
 import { setSecureServerSideKookie } from "@/utils/kookies";
 import createChallenges from "@/actions/createChallenges";
 import dbClient, {
@@ -14,44 +11,29 @@ import dbClient, {
 } from "@/utils/db/supabase";
 import supabse from "@supabase/supabase-js";
 import { encrypt, sha512, compareHash, createSeshID } from "@/utils/encrypt";
-import { aesDecrypt } from "@/utils/encrypt";
-import type {
-  Challenges,
-  GenerateChallengesRequestParams,
-} from "@/actions/customFunction";
+import type { GenerateChallengesRequestParams } from "@/actions/customFunction";
 import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
-import type { SupabaseClient } from "@supabase/supabase-js";
-import { FormEvent } from "react";
+import { SupabaseClient } from "@supabase/supabase-js";
 
 const setKookies = async (props: {
+  kookieJar: ReadonlyRequestCookies;
   email: string;
   numOptions: number;
   imgSize: number;
   seshID: string;
 }) => {
   const { email, numOptions, imgSize, seshID } = props;
-  const kookies = cookies();
+  const { kookieJar } = props;
+  const kookieVals = { email, numOptions, imgSize, seshID };
 
   // Set cookie
-  const numOptsKookie = setSecureServerSideKookie(
-    kookies,
-    "numOptions",
-    `${numOptions}`,
-  );
-  const imgSizeKookie = setSecureServerSideKookie(
-    kookies,
-    "imgSize",
-    `${imgSize}`,
-  );
-
-  const seshIDKookie = setSecureServerSideKookie(
-    kookies,
-    "seshID",
-    `${seshID}`,
-  );
+  for (const [k, v] of Object.entries(kookieVals)) {
+    // Some of the values are numbers, so convert them to strings
+    setSecureServerSideKookie(kookieJar, k, String(v));
+  }
 };
 
-export const generateChallenges = async (props: {
+export const challenges = async (props: {
   kookies: ReadonlyRequestCookies;
   db: SupabaseClient;
   numOptions: number;
@@ -79,20 +61,16 @@ export const generateChallenges = async (props: {
   setSecureServerSideKookie(kookies, "renderings", JSON.stringify(renderings));
 
   const code = challenges.code;
-
-  const { encrypted, aesKey, iv } = await encrypt(
-    challenges.code,
-    "utf8",
-    "hex",
-  );
-  const decrypted = await aesDecrypt(encrypted, aesKey, iv);
-  const hashed = sha512(encrypted);
   console.log("unencrypted challenge code:");
   console.log(code);
   console.log();
+
+  const { encrypted } = await encrypt(challenges.code, "utf8", "hex");
   console.log("encrypted challenge code:");
   console.log(encrypted);
   console.log();
+
+  const hashed = sha512(encrypted);
   console.log("hashed");
   console.log(hashed);
 
@@ -123,6 +101,7 @@ export const generateChallenges = async (props: {
     new Date().toLocaleString("en-US"),
     hashed,
   );
+
   if (error) {
     console.log("db update challenge");
     console.log("data");
@@ -141,6 +120,82 @@ export const generateChallenges = async (props: {
   return challenges;
 };
 
+export const createSessionID = async (email: string, db: SupabaseClient) => {
+  const { seshID, createdAt } = createSeshID({ username: email });
+
+  try {
+    const { data: dataSesh, error: errorSesh } = await updateSeshID(
+      db,
+      email,
+      createdAt,
+      seshID,
+    );
+
+    if (errorSesh) {
+      console.log("");
+      console.log("------------------------------");
+      console.log("db session id update");
+      console.log("------------------------------");
+      console.log("");
+      console.log("db update seshID");
+      console.log("data");
+      console.log(dataSesh);
+      console.log("error");
+      console.log(errorSesh);
+      console.log("");
+      console.log("------------------------------");
+      console.log("db session id update");
+      console.log("------------------------------");
+      console.log("");
+    }
+
+    return seshID;
+  } catch (error) {
+    throw new Error("Session id error in login form submit", { cause: error });
+  }
+};
+
+export const getChallenge = async (db: SupabaseClient, email: string) => {
+  const { challenge, response } = await fetchChallenge(db, email);
+
+  if (!challenge) {
+    console.log("------------------------------");
+    console.log("START fetch challenge");
+    console.log("------------------------------");
+    console.log("");
+    console.log("challenge:", challenge);
+    console.log("");
+    console.log("response:", response);
+    console.log("");
+    console.log("------------------------------");
+    console.log("END fetch challenge");
+    console.log("------------------------------");
+    console.log("");
+  }
+
+  return { challenge, response };
+};
+
+export const getSeshID = async (db, email) => {
+  const { sesh, response: sessionIDResponse } = await fetchSeshID(db, email);
+
+  if (!sesh) {
+    console.log("");
+    console.log("------------------------------");
+    console.log("START fetch session id");
+    console.log("------------------------------");
+    console.log("");
+    console.log("sessionIDResponse:", sessionIDResponse);
+    console.log("");
+    console.log("------------------------------");
+    console.log("END fetch session id");
+    console.log("------------------------------");
+    console.log("");
+  }
+
+  return { sesh, sessionIDResponse };
+};
+
 export default async function loginFormSubmit(formData: FormData) {
   console.log("");
   console.log("==============================");
@@ -151,13 +206,71 @@ export default async function loginFormSubmit(formData: FormData) {
   const db = dbClient();
   const kookies = cookies();
 
-  const email = formData.get("email")!;
-  const password = formData.get("password");
+  const { difficulty, email } = getFormData(formData);
+
+  let { numOptions, imgSize } = gameSetup(difficulty, kookies);
+
+  let renderings = await genChallenges(kookies, db, numOptions, imgSize, email);
+
+  const seshID = await createSessionID(email.toString(), db);
+
+  await setKookies({ email: email.toString(), numOptions, imgSize, seshID });
+
+  getChallenge(db, email.toString());
+
+  getSeshID(db, email.toString());
+
+  console.log("");
+  console.log("==============================");
+  console.log("END loginformsubmit server action");
+  console.log("==============================");
+  console.log();
+
+  // redirect("/kaptchame");
+  return renderings;
+}
+
+async function genChallenges(
+  kookies: ReadonlyRequestCookies,
+  db: supabse.SupabaseClient<any, "public", any>,
+  numOptions: number,
+  imgSize: number,
+  email: string,
+) {
+  let renderings;
+  try {
+    const challs = await challenges({
+      kookies,
+      db,
+      numOptions,
+      imgSize,
+      theme: "racing",
+      email: email,
+    });
+
+    renderings = challs.renderings;
+  } catch (error) {
+    console.log("");
+    console.error("Failed to generate challenges", error);
+  }
+
+  return renderings;
+}
+
+function getFormData(formData: FormData) {
+  const email = formData.get("email")!.toString();
+  const password = formData.get("password")?.toString();
   const difficulty = formData.get("difficulty")?.valueOf();
   if (!email || !password || !difficulty) {
     formData.forEach((value, key) => console.log(`${key}: ${value} \n`));
   }
+  return { difficulty, email, password };
+}
 
+function gameSetup(
+  difficulty: string | Object | undefined,
+  kookies: ReadonlyRequestCookies,
+) {
   let numOptions = 10;
   let imgSize = 10;
   if (difficulty && typeof difficulty === "string") {
@@ -181,90 +294,5 @@ export default async function loginFormSubmit(formData: FormData) {
         break;
     }
   }
-
-  let renderings;
-  try {
-    const challenges = await generateChallenges({
-      kookies,
-      db,
-      numOptions,
-      imgSize,
-      theme: "racing",
-      email: email.toString(),
-    });
-
-    renderings = challenges.renderings;
-  } catch (error) {
-    console.error("Failed to generate challenges", error);
-  }
-
-  console.log("");
-  const { seshID, createdAt } = createSeshID({ username: email.toString() });
-  const { data: dataSesh, error: errorSesh } = await updateSeshID(
-    db,
-    email,
-    createdAt,
-    seshID,
-  );
-
-  if (errorSesh) {
-    console.log("");
-    console.log("------------------------------");
-    console.log("db session id update");
-    console.log("------------------------------");
-    console.log("");
-    console.log("db update seshID");
-    console.log("data");
-    console.log(dataSesh);
-    console.log("error");
-    console.log(errorSesh);
-    console.log("");
-    console.log("------------------------------");
-    console.log("db session id update");
-    console.log("------------------------------");
-    console.log("");
-  }
-
-  await setKookies({ email: email.toString(), numOptions, imgSize, seshID });
-  const { challenge, response } = await fetchChallenge(db, email);
-  if (!challenge) {
-    console.log("------------------------------");
-    console.log("START fetch challenge");
-    console.log("------------------------------");
-    console.log("");
-    console.log("challenge:", challenge);
-    console.log("");
-    console.log("response:", response);
-    console.log("");
-    console.log("------------------------------");
-    console.log("END fetch challenge");
-    console.log("------------------------------");
-    console.log("");
-  }
-  const { sesh, response: sessionIDResponse } = await fetchSeshID(db, email);
-  if (!sesh) {
-    console.log("");
-    console.log("------------------------------");
-    console.log("START fetch session id");
-    console.log("------------------------------");
-    console.log("");
-    console.log("sessionIDResponse:", sessionIDResponse);
-    console.log("");
-    console.log("------------------------------");
-    console.log("END fetch session id");
-    console.log("------------------------------");
-    console.log("");
-  }
-
-  console.log("");
-  console.log("...");
-  console.log("redirecting to /kaptchame");
-  console.log("...");
-  console.log("==============================");
-  console.log("END loginformsubmit server action");
-  console.log("==============================");
-  console.log();
-
-  // redirect("/kaptchame");
-  return renderings;
+  return { numOptions, imgSize };
 }

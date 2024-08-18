@@ -70,7 +70,7 @@ import type { KeyObject, KeyPairKeyObjectResult } from "node:crypto";
  */
 
 export const setSecureServerSideKookie = (
-  kookieStore: ReadonlyRequestCookies,
+  kookieJar: ReadonlyRequestCookies,
   key: string,
   value: string,
 ): ResponseCookies => {
@@ -79,7 +79,7 @@ export const setSecureServerSideKookie = (
     sameSite: "strict",
     httpOnly: true,
   };
-  const kookies = kookieStore.set(key, value, kookieOpts);
+  const kookies = kookieJar.set(key, value, kookieOpts);
 
   return kookies;
 };
