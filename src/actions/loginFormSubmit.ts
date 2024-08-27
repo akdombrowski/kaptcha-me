@@ -1,6 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { Tables } from "./../utils/db/schemaTypes";
 import { setSecureServerSideKookie } from "@/utils/kookies";
 import createChallenges from "@/actions/createChallenges";
 import dbClient, {
@@ -14,6 +15,7 @@ import { encrypt, sha512, compareHash, createSeshID } from "@/utils/encrypt";
 import type { GenerateChallengesRequestParams } from "@/actions/customFunction";
 import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { SupabaseClient } from "@supabase/supabase-js";
+import { Database } from "@/utils/db/schemaTypes";
 
 const setKookies = async (props: {
   kookieJar: ReadonlyRequestCookies;
@@ -95,21 +97,7 @@ export const challenges = async (props: {
     console.log();
   }
 
-  const { data, error } = await updateChallenge(
-    db,
-    email,
-    new Date().toLocaleString("en-US"),
-    hashed,
-  );
-
-  if (error) {
-    console.log("db update challenge");
-    console.log("data");
-    console.log(data);
-    console.log("error");
-    console.log(error);
-    throw new Error("error storing challenge in db", { cause: error });
-  }
+  await pushChallToDB(db, email, hashed);
 
   console.log("");
   console.log("==============================");
@@ -195,6 +183,35 @@ export const getSeshID = async (db, email) => {
 
   return { sesh, sessionIDResponse };
 };
+export const pushChallToDB = async (
+  db: supabse.SupabaseClient<any, "public", any>,
+  email: string,
+  hashed: string,
+): Promise<Database["public"]["Tables"]["challenge"]["Update"]> => {
+  const { data, error } = await updateChallenge(
+    db,
+    email,
+    new Date().toLocaleString("en-US"),
+    hashed,
+  );
+
+  if (error) {
+    console.log();
+    console.log("db update challenge");
+    console.log("data");
+    console.log(data);
+    console.log();
+    console.log("error msg:", error.message);
+    console.log();
+    console.log("error deets");
+    console.log(error.details);
+    console.log();
+    console.log("error hint:", error.hint, " ", "code:", error.code);
+    throw new Error("error storing challenge in db", { cause: error });
+  }
+
+  return data;
+};
 
 export default async function loginFormSubmit(formData: FormData) {
   console.log("");
@@ -204,17 +221,29 @@ export default async function loginFormSubmit(formData: FormData) {
   console.log("");
 
   const db = dbClient();
-  const kookies = cookies();
+  const kookieJar = cookies();
 
   const { difficulty, email } = getFormData(formData);
 
-  let { numOptions, imgSize } = gameSetup(difficulty, kookies);
+  let { numOptions, imgSize } = gameSetup(difficulty, kookieJar);
 
-  let renderings = await genChallenges(kookies, db, numOptions, imgSize, email);
+  let renderings = await genChallenges(
+    kookieJar,
+    db,
+    numOptions,
+    imgSize,
+    email,
+  );
 
   const seshID = await createSessionID(email.toString(), db);
 
-  await setKookies({ email: email.toString(), numOptions, imgSize, seshID });
+  await setKookies({
+    kookieJar,
+    email: email.toString(),
+    numOptions,
+    imgSize,
+    seshID,
+  });
 
   getChallenge(db, email.toString());
 

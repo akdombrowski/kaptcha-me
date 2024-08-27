@@ -52,6 +52,26 @@
       ],
     },
     {
+      "name": "launch server + browser",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "yarn dev",
+      "serverReadyAction": {
+        "pattern": "(http://127.0.0.1:3000)",
+        "uriFormat": "%s",
+        "action": "debugWithChrome"
+      },
+      "skipFiles": [
+        "${workspaceFolder}/node_modules/**/*.js",
+        "<node_internals>/**",
+      ],
+      "presentation": {
+        "hidden": false,
+        "order": 1,
+        "group": "1"
+      },
+    },
+    {
       "name": "full stack",
       "type": "node-terminal",
       "request": "launch",
@@ -67,7 +87,7 @@
       ],
       "presentation": {
         "hidden": false,
-        "order": 1,
+        "order": 2,
         "group": "1"
       },
     }
