@@ -35,89 +35,55 @@ const setKookies = async (props: {
   }
 };
 
-export const challenges = async (props: {
-  kookies: ReadonlyRequestCookies;
+const encryptToHex = async (value) => {
+  const { encrypted } = await encrypt(value, "utf8", "hex");
+
+  return encrypted;
+};
+
+const hash = async (input) => {
+  const hashed = sha512(input);
+  return hashed;
+};
+
+// validate expected hash can be generated
+const doesHashingEncryptedGiveExpectedHash = (valToBeHashed, hash) => {
+  const isHashDerived = compareHash(valToBeHashed, hash);
+  return isHashDerived;
+};
+
+// generate challenges, including renderings data
+const getChallenges = async (props: {
+  kookieJar: ReadonlyRequestCookies;
   db: SupabaseClient;
   numOptions: number;
   imgSize: number;
   theme?: string;
   email: string;
 }) => {
-  const { kookies, db, numOptions, imgSize, theme, email } = props;
-  const createChallengeParams: GenerateChallengesRequestParams = {
+  const { kookieJar, db, numOptions, imgSize, theme, email } = props;
+  const paramsToCreateChallenges: GenerateChallengesRequestParams = {
     numOptions,
     imgSize,
     imgSizeRacing: imgSize,
     theme: theme ?? "racing",
   };
 
-  // Includes the SECRET CODE, don't return that to the client
-  // just want renderings and themeSrc
+  // !WARNING
+  // Includes the *SECRET CODE*, don't return that to the client just want renderings and themeSrc
   // but need to figure out how to store the code
-  const challenges = await createChallenges(createChallengeParams);
-  const renderings = challenges.renderings;
-  console.log();
-  console.log("renderings stringified");
-  console.log(JSON.stringify(renderings));
-  console.log();
-  setSecureServerSideKookie(kookies, "renderings", JSON.stringify(renderings));
-
-  const code = challenges.code;
-  console.log("unencrypted challenge code:");
-  console.log(code);
-  console.log();
-
-  const { encrypted } = await encrypt(challenges.code, "utf8", "hex");
-  console.log("encrypted challenge code:");
-  console.log(encrypted);
-  console.log();
-
-  const hashed = sha512(encrypted);
-  console.log("hashed");
-  console.log(hashed);
-
-  if (!compareHash(encrypted, hashed)) {
-    console.log("");
-    console.log("==============================");
-    console.log("START loginformsubmit -> generateChallenges ");
-    console.log("==============================");
-    console.log("");
-    console.log();
-    console.log("unencrypted challenge code:");
-    console.log(code);
-    console.log();
-    console.log("encrypted challenge code:");
-    console.log(encrypted);
-    console.log("");
-    console.log();
-    console.log("hashed");
-    console.log(hashed);
-    console.log();
-    console.log("compare hash");
-    console.log();
-  }
-
-  await pushChallToDB(db, email, hashed);
-
-  console.log("");
-  console.log("==============================");
-  console.log("END loginformsubmit -> generateChallenges ");
-  console.log("==============================");
-  console.log("");
+  const challenges = await createChallenges(paramsToCreateChallenges);
 
   return challenges;
 };
 
 export const createSessionID = async (email: string, db: SupabaseClient) => {
+  // create a unique session ID token
   const { seshID, createdAt } = createSeshID({ username: email });
 
   try {
-    const { data: dataSesh, error: errorSesh } = await updateSeshID(
-      db,
-      email,
-      createdAt,
-      seshID,
-    );
+    // store session ID token in backend
+    const { data: dataSesh, error: errorSesh } = await updateSeshID(db, email, createdAt, seshID);
 
     if (errorSesh) {
       console.log("");
@@ -143,45 +109,39 @@ export const createSessionID = async (email: string, db: SupabaseClient) => {
   }
 };
 
-export const getChallenge = async (db: SupabaseClient, email: string) => {
+export const getChallengeFromDB = async (db: SupabaseClient, email: string) => {
   const { challenge, response } = await fetchChallenge(db, email);
 
   if (!challenge) {
-    console.log("------------------------------");
-    console.log("START fetch challenge");
-    console.log("------------------------------");
+    console.log("failed to retrieve challenge from backend");
     console.log("");
-    console.log("challenge:", challenge);
+    console.log("backend response:");
+    console.log(response);
+    throw new Error("failed to retrieve challenge from backend", { cause: { response } });
+  }
+
+  if (!response) {
+    console.log("Missing response (but got a challenge) from challenge fetch request");
     console.log("");
-    console.log("response:", response);
-    console.log("");
-    console.log("------------------------------");
-    console.log("END fetch challenge");
-    console.log("------------------------------");
-    console.log("");
+    console.log("challenge:");
+    console.log(challenge);
   }
 
   return { challenge, response };
 };
 
 export const getSeshID = async (db, email) => {
-  const { sesh, response: sessionIDResponse } = await fetchSeshID(db, email);
+  const { sesh, response } = await fetchSeshID(db, email);
 
   if (!sesh) {
     console.log("");
-    console.log("------------------------------");
-    console.log("START fetch session id");
-    console.log("------------------------------");
+    console.log("response:");
+    console.log(response);
     console.log("");
-    console.log("sessionIDResponse:", sessionIDResponse);
-    console.log("");
-    console.log("------------------------------");
-    console.log("END fetch session id");
-    console.log("------------------------------");
-    console.log("");
+    throw new Error("Failed to retrieve session ID token", { cause: { response } });
   }
 
-  return { sesh, sessionIDResponse };
+  return { sesh, response };
 };
 export const pushChallToDB = async (
   db: supabse.SupabaseClient<any, "public", any>,
@@ -225,19 +185,55 @@ export default async function loginFormSubmit(formData: FormData) {
 
   const { difficulty, email } = getFormData(formData);
 
-  let { numOptions, imgSize } = gameSetup(difficulty, kookieJar);
+  let { numOptions, imgSize } = parseGameDifficultySetting(difficulty, kookieJar);
 
-  let renderings = await genChallenges(
-    kookieJar,
+  const challenges = await getChallenges({
+    kookieJar: kookieJar,
     db,
     numOptions,
     imgSize,
-    email,
-  );
+    theme: "racing",
+    email: email,
+  });
+  const renderings = challenges.renderings;
 
+  const code = challenges.code;
+
+  // store renderings in a server side cookie
+  setSecureServerSideKookie(kookieJar, "renderings", JSON.stringify(renderings));
+
+  // encrypt then hash the "correct" challenge code
+  const encrypted = await encryptToHex(code);
+  const hashedEncrypted = await hash(encrypted);
+
+  // test if can reproducing the same hash from the encrypted code is repeatable
+  const isHashExpected = doesHashingEncryptedGiveExpectedHash(encrypted, hashedEncrypted);
+  if (!isHashExpected) {
+    console.log("");
+    console.log("hashing encrypted value gives different hash than expected");
+    console.log("");
+    console.log();
+    console.log("unencrypted challenge code:");
+    console.log(code);
+    console.log();
+    console.log("encrypted challenge code:");
+    console.log(encrypted);
+    console.log("");
+    console.log();
+    console.log("hashed");
+    console.log(hashedEncrypted);
+    console.log();
+    console.log();
+  }
+
+  // store challenge in backend
+  const storeChallRes = await pushChallToDB(db, email, hashedEncrypted);
+
+  // create a unique session ID token
   const seshID = await createSessionID(email.toString(), db);
 
-  await setKookies({
+  // set server side cookies
+  const setCookieResult = await setKookies({
     kookieJar,
     email: email.toString(),
     numOptions,
@@ -245,8 +241,10 @@ export default async function loginFormSubmit(formData: FormData) {
     seshID,
   });
 
-  getChallenge(db, email.toString());
+  // fetch challenge from backend
+  const challenge = getChallengeFromDB(db, email.toString());
 
+  // fetch session ID token via email from backend
   getSeshID(db, email.toString());
 
   console.log("");
@@ -256,33 +254,7 @@ export default async function loginFormSubmit(formData: FormData) {
   console.log();
 
   // redirect("/kaptchame");
-  return renderings;
-}
-
-async function genChallenges(
-  kookies: ReadonlyRequestCookies,
-  db: supabse.SupabaseClient<any, "public", any>,
-  numOptions: number,
-  imgSize: number,
-  email: string,
-) {
-  let renderings;
-  try {
-    const challs = await challenges({
-      kookies,
-      db,
-      numOptions,
-      imgSize,
-      theme: "racing",
-      email: email,
-    });
-
-    renderings = challs.renderings;
-  } catch (error) {
-    console.log("");
-    console.error("Failed to generate challenges", error);
-  }
-
+  // return the renderings object which includes positions, challenges, and images data
   return renderings;
 }
 
@@ -291,19 +263,23 @@ function getFormData(formData: FormData) {
   const password = formData.get("password")?.toString();
   const difficulty = formData.get("difficulty")?.valueOf();
   if (!email || !password || !difficulty) {
+    console.error("missing one of email, password, difficulty from submitted form");
     formData.forEach((value, key) => console.log(`${key}: ${value} \n`));
   }
   return { difficulty, email, password };
 }
 
-function gameSetup(
+function parseGameDifficultySetting(
   difficulty: string | Object | undefined,
   kookies: ReadonlyRequestCookies,
 ) {
   let numOptions = 10;
   let imgSize = 10;
   if (difficulty && typeof difficulty === "string") {
+    // store difficulty in server side cookie
     setSecureServerSideKookie(kookies, "difficulty", `${difficulty}`);
+
+    // convert frontend difficulty value to params needed for generating challenges
     switch (Number.parseInt(difficulty)) {
       case 0:
         numOptions = 3;
@@ -322,6 +298,8 @@ function gameSetup(
         imgSize = 25;
         break;
     }
+    return { numOptions, imgSize };
+  } else {
+    throw new Error("didn't receive a difficulty");
   }
-  return { numOptions, imgSize };
 }
