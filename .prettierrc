@@ -4,5 +4,6 @@
   "arrowParens": "always",
   "semi": true,
   "trailingComma": "all",
-  "singleQuote": false
+  "singleQuote": false,
+  "printWidth": 100
 }

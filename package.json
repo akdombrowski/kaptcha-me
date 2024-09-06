@@ -29,8 +29,8 @@
     "@vercel/speed-insights": "^1.0.12",
     "framer-motion": "11.5.4",
     "next": "^14.2.8",
-    "react": "19.0.0-rc-85acf2d195-20240711",
-    "react-dom": "19.0.0-rc-85acf2d195-20240711"
+    "react": "19.0.0-rc-a03254bc-20240905",
+    "react-dom": "19.0.0-rc-a03254bc-20240905"
   },
   "devDependencies": {
     "@types/node": "22.5.4",
@@ -38,12 +38,12 @@
     "client-only": "0.0.1",
     "dotenv-cli": "^7.4.2",
     "eslint": "^9.9.1",
-    "prettier": "^3.3.3",
+    "prettier": "3.3.3",
     "prettier-eslint": "^16.3.0",
     "server-only": "0.0.1",
     "supabase": "1.191.3",
     "typescript": "^5.5.4",
     "vercel": "^37.4.0"
   },
-  "packageManager": "yarn@4.3.1"
+  "packageManager": "yarn@4.4.1"
 }
