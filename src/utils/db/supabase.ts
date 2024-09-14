@@ -7,7 +7,7 @@ export default function dbClient(): SupabaseClient {
   if (url && key) {
     return createClient<Database>(url, key);
   } else {
-    throw new Error("not authorized");
+    throw new Error("failed to create supabase client. Are you authorized to do so?");
   }
 }
 

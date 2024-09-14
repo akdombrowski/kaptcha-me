@@ -52,6 +52,7 @@ export default function BotDetection({ imgSize }: { imgSize: number }) {
   const [renderings, setRenderings] = useState<Renderings>({
     0: { value: "", pos: 0, img: "" },
   });
+
   useEffect(() => {
     if (window) {
       const renderings = window.sessionStorage.getItem("renderings");
@@ -97,9 +98,7 @@ export default function BotDetection({ imgSize }: { imgSize: number }) {
 
   useEffect(() => {
     if (themedBGContainerRef.current) {
-      resizeObserver.observe(
-        themedBGContainerRef.current as unknown as Element,
-      );
+      resizeObserver.observe(themedBGContainerRef.current as unknown as Element);
 
       return () => resizeObserver.disconnect();
     }

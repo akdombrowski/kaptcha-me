@@ -10,7 +10,7 @@ import { createSecretKey } from "crypto";
 
 // export default async function submitChoice(choice: FormEvent<HTMLButtonElement>) {
 export default async function submitChoice(formData: FormData) {
-  console.log("==============================");
+  console.log("\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
   console.log("inside submit choice server action");
   console.log("==============================");
   console.log("");

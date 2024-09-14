@@ -86,20 +86,19 @@ export const createSessionID = async (email: string, db: SupabaseClient) => {
     const { data: dataSesh, error: errorSesh } = await updateSeshID(db, email, createdAt, seshID);
 
     if (errorSesh) {
-      console.log("");
-      console.log("------------------------------");
+      console.log("\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
       console.log("db session id update");
-      console.log("------------------------------");
-      console.log("");
-      console.log("db update seshID");
-      console.log("data");
+      console.log("------------------------------\n");
+      console.log("db update seshID\n");
+      console.log("data:");
       console.log(dataSesh);
       console.log("error");
       console.log(errorSesh);
-      console.log("");
+      console.log();
       console.log("------------------------------");
       console.log("db session id update");
       console.log("------------------------------");
+      console.log("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
       console.log("");
     }
 
@@ -156,8 +155,7 @@ export const pushChallToDB = async (
   );
 
   if (error) {
-    console.log();
-    console.log("db update challenge");
+    console.log("\ndb update challenge\n");
     console.log("data");
     console.log(data);
     console.log();
@@ -174,11 +172,9 @@ export const pushChallToDB = async (
 };
 
 export default async function loginFormSubmit(formData: FormData) {
-  console.log("");
-  console.log("==============================");
+  console.log("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
   console.log("START loginformsubmit server action");
-  console.log("==============================");
-  console.log("");
+  console.log();
 
   const db = dbClient();
   const kookieJar = cookies();
@@ -211,19 +207,16 @@ export default async function loginFormSubmit(formData: FormData) {
   if (!isHashExpected) {
     console.log("");
     console.log("hashing encrypted value gives different hash than expected");
-    console.log("");
-    console.log();
+    console.log("\n");
     console.log("unencrypted challenge code:");
     console.log(code);
     console.log();
     console.log("encrypted challenge code:");
     console.log(encrypted);
-    console.log("");
-    console.log();
+    console.log("\n");
     console.log("hashed");
     console.log(hashedEncrypted);
-    console.log();
-    console.log();
+    console.log("\n");
   }
 
   // store challenge in backend
@@ -247,11 +240,9 @@ export default async function loginFormSubmit(formData: FormData) {
   // fetch session ID token via email from backend
   getSeshID(db, email.toString());
 
-  console.log("");
   console.log("==============================");
   console.log("END loginformsubmit server action");
-  console.log("==============================");
-  console.log();
+  console.log("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n\n");
 
   // redirect("/kaptchame");
   // return the renderings object which includes positions, challenges, and images data

@@ -19,6 +19,7 @@ export async function middleware(request: NextRequest) {
   // console.log("==============================");
   console.log("END middleware");
   console.log("==============================");
+  console.log("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
   // console.log("");
   // console.log("");
   console.log("");

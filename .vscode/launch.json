@@ -57,9 +57,21 @@
       "request": "launch",
       "command": "yarn dev",
       "serverReadyAction": {
-        "pattern": "(http://127.0.0.1:3000)",
-        "uriFormat": "%s",
-        "action": "debugWithChrome"
+        // "pattern": ".+, url: (https?://.+)",
+        // "pattern": "
+        //   ▲ Next.js 14.2.8
+        //   - Local:        http://127.0.0.1:3000
+        //   - Network:      http://127.0.0.1:3000
+        //   - Environments: .env.development.local
+        //   - Experiments (use with caution):
+        //     · typedRoutes
+        //  ✓ Starting...
+        //  ✓ Ready in 2.1s",
+        "pattern": ".*- Local:\\s+ https?://127.0.0.1:([0-9]+).*",
+        "uriFormat": "http://127.0.0.1:%s",
+        "action": "debugWithChrome",
+        "killOnServerStop": true,
+        "webRoot": "${workspaceFolder}/src/app"
       },
       "skipFiles": [
         "${workspaceFolder}/node_modules/**/*.js",
@@ -70,27 +82,8 @@
         "order": 1,
         "group": "1"
       },
+      "cascadeTerminateToConfigurations": []
     },
-    {
-      "name": "full stack",
-      "type": "node-terminal",
-      "request": "launch",
-      "command": "yarn dev",
-      "serverReadyAction": {
-        "pattern": ".+, url: (https?://.+)",
-        "uriFormat": "%s",
-        "action": "debugWithChrome"
-      },
-      "skipFiles": [
-        "${workspaceFolder}/node_modules/**/*.js",
-        "<node_internals>/**",
-      ],
-      "presentation": {
-        "hidden": false,
-        "order": 2,
-        "group": "1"
-      },
-    }
   ],
   "compounds": [
     {
