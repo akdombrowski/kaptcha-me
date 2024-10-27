@@ -84,6 +84,28 @@
       },
       "cascadeTerminateToConfigurations": []
     },
+    {
+      "name": "yarn dev",
+      "request": "launch",
+      "runtimeArgs": [
+        "dev",
+      ],
+      "runtimeExecutable": "yarn",
+      "skipFiles": [
+        "<node_internals>/**",
+        ".yarn/**",
+        ".vercel/**"
+      ],
+      "type": "node",
+      "console": "integratedTerminal",
+      "serverReadyAction": {
+        "action": "debugWithChrome",
+        "pattern": "  - Local:\\s+(http://[0-9]+.[0-9]+.[0-9]+.[0-9]+:[0-9]+)",
+        "uriFormat": "%s",
+        "webRoot": "${workspaceFolder}/.next/server",
+        "killOnServerStop": true
+      }
+    },
   ],
   "compounds": [
     {
