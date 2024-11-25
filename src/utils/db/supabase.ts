@@ -1,10 +1,15 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { Database } from "@/utils/db/schemaTypes";
 
-const url = process.env.DB_URL;
-const key = process.env.DB_ANON_KEY;
-export default function dbClient(): SupabaseClient {
-  if (url && key) {
+const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+export default function dbClient(
+  dbURL?: string,
+  dbKey?: string,
+): SupabaseClient {
+  if (dbURL && dbKey) {
+    return createClient<Database>(dbURL, dbKey);
+  } else if (url && key) {
     return createClient<Database>(url, key);
   } else {
     throw new Error("not authorized");

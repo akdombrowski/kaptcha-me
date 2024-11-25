@@ -1,7 +1,7 @@
 "use client";
 import "client-only";
 
-import Grid from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Grid2";
 import LoginForm from "@/ui/components/Login/LoginForm";
 import Container from "@mui/material/Container";
 import getBGImg from "@/utils/getBGImg";
