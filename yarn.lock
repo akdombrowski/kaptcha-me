@@ -4548,14 +4548,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:19.0.0-rc-85acf2d195-20240711":
-  version: 19.0.0-rc-85acf2d195-20240711
-  resolution: "react-dom@npm:19.0.0-rc-85acf2d195-20240711"
+"react-dom@npm:19.0.0-rc-7670501b-20241124":
+  version: 19.0.0-rc-7670501b-20241124
+  resolution: "react-dom@npm:19.0.0-rc-7670501b-20241124"
   dependencies:
-    scheduler: "npm:0.25.0-rc-85acf2d195-20240711"
+    scheduler: "npm:0.25.0-rc-7670501b-20241124"
   peerDependencies:
-    react: 19.0.0-rc-85acf2d195-20240711
-  checksum: 10c0/d301f18a06c4ea9ed7e86ebf1815aa34afdd3dac631d5bdcc284505ce5ce9c3506fa5d089826fc3bdb241f4ef6e3220358e541bd675ed50df8bfcca824290a38
+    react: 19.0.0-rc-7670501b-20241124
+  checksum: 10c0/3f4dee3dea3c49708745bc3984d71eca2abf4bd0315c7959c8829d8cf7a7dcdce0a5f427a7c08bad8eba055074a57d66fdca5c5e1c53a7520b1b05980ac7484b
   languageName: node
   linkType: hard
 
@@ -4588,10 +4588,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:19.0.0-rc-85acf2d195-20240711":
-  version: 19.0.0-rc-85acf2d195-20240711
-  resolution: "react@npm:19.0.0-rc-85acf2d195-20240711"
-  checksum: 10c0/82fa613ebd161d0b706f0917a77487deecfb690cac732c0ffc69b2a7f632e43f03036fef3c9a7557725e0893509be357c02811ea9afeee98d0df33c42d908346
+"react@npm:19.0.0-rc-7670501b-20241124":
+  version: 19.0.0-rc-7670501b-20241124
+  resolution: "react@npm:19.0.0-rc-7670501b-20241124"
+  checksum: 10c0/1f3f37f38a04e1e807fbafeaabd78502001da32a1bee4560f4c93c0f1333b69747be7cb6090e4815ddfb0d3e8353bfe931c5e22ad1a56e2f4b33eb83e3cbd1bb
   languageName: node
   linkType: hard
 
@@ -4736,8 +4736,8 @@ __metadata:
     next: "npm:^15.0.3"
     prettier: "npm:^3.3.3"
     prettier-eslint: "npm:^16.3.0"
-    react: "npm:19.0.0-rc-85acf2d195-20240711"
-    react-dom: "npm:19.0.0-rc-85acf2d195-20240711"
+    react: "npm:19.0.0-rc-7670501b-20241124"
+    react-dom: "npm:19.0.0-rc-7670501b-20241124"
     server-only: "npm:0.0.1"
     supabase: "npm:1.223.10"
     typescript: "npm:^5.7.2"
@@ -4768,10 +4768,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"scheduler@npm:0.25.0-rc-85acf2d195-20240711":
-  version: 0.25.0-rc-85acf2d195-20240711
-  resolution: "scheduler@npm:0.25.0-rc-85acf2d195-20240711"
-  checksum: 10c0/0d50bf23451a11a7ec729a8f84496817a38a46ee6691afd3551206ded9f854ca3707d3120fbeb105e084d581bb1a0aa94d270fe48b13ac5581201d0ff6f3188c
+"scheduler@npm:0.25.0-rc-7670501b-20241124":
+  version: 0.25.0-rc-7670501b-20241124
+  resolution: "scheduler@npm:0.25.0-rc-7670501b-20241124"
+  checksum: 10c0/e3c1a190e264b3829d0630b6013185d6cf1714a6560cc2816b727e054929e4b70ca81dd1afed3d38a400d82f25dfe5830e927e06dc58e09f9008d3eb5fe6d8f8
   languageName: node
   linkType: hard
 

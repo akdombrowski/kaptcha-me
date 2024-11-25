@@ -5,12 +5,11 @@ import { cookies } from "next/headers";
 
 import dynamic from "next/dynamic";
 
-const DynamicBD = dynamic(() => import("@/kaptchame/bd/BotDetection"), {
-  ssr: false,
-});
+const DynamicBD = dynamic(() => import("@/kaptchame/bd/BotDetection"));
 export default async function KaptchaMePage() {
-  const numOptions = cookies().get("numOptions");
-  const imgSize = cookies().get("imgSize");
+  const kookies = await cookies();
+  const numOptions = kookies.get("numOptions");
+  const imgSize = kookies.get("imgSize");
   const options = numOptions ? Number.parseInt(numOptions.value) : 5;
   const size = imgSize ? Number.parseInt(imgSize.value) : 21;
 

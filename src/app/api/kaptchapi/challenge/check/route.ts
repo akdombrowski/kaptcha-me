@@ -5,8 +5,7 @@
 
 import "server-only";
 // good practise to add `server-only` preemptively.
-
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest, NextResponse } from "next/server";
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import GetChallenges from "../readChallenges/route";
@@ -33,15 +32,16 @@ export const checkChallenge = async (formData: FormData) => {
   // revalidate cache
 };
 
-export async function GET(request: NextRequest) {
+export default async function GET(req: NextRequest) {
   console.log("");
   console.log("Inside GET on kaptchapi/challenge/check route handler");
   console.log("");
   console.log("request");
-  console.log(request.url);
+  console.log(req.url);
 
   // TODO: redirect to the page being protected by the katpchame bot detection
-  return NextResponse.json("good", { status: 200 });
+  // return new Response.json("good", { status: 200 });
+  return Response.json("good");
 }
 
 export async function POST(request: NextRequest) {
@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
   const wasChallengeSubmitted = submittedFormData.has("challenge");
   if (!wasChallengeSubmitted) {
     console.log("no challenge submitted");
-    return NextResponse.error();
+    return Response.error();
   }
   const challenge = submittedFormData.get("challenge");
   console.log("");
@@ -114,6 +114,6 @@ export async function POST(request: NextRequest) {
   console.log("");
 
   // TODO: redirect to the page being protected by the katpchame bot detection
-  return NextResponse.redirect(kaptchameURL);
+  return Response.redirect(kaptchameURL);
   // return NextResponse.json("good", { status: 200 });
 }
