@@ -2,7 +2,12 @@ import dbClient from "@/utils/db/supabase";
 import { createClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 
-export async function GET() {
+export async function GET(req, res) {
+  if (
+    req.headers.get("Authorization") !== `Bearer ${process.env.CRON_SECRET}`
+  ) {
+    return res.status(401).end("Unauthorized");
+  }
   // const supabase = dbClient(
   //   process.env.NEXT_PUBLIC_SUPABASE_URL as string,
   //   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string,
