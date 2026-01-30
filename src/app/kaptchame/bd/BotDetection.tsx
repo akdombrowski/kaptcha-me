@@ -44,21 +44,24 @@ export interface IContainerSize {
 }
 
 export default function BotDetection({ imgSize }: { imgSize: number }) {
-  const themedBGContainerRef = useRef<typeof ThemedBGContainer | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const [containerSize, setContainerSize] = useState<IContainerSize>({
-    width: window.innerWidth,
-    height: window.innerHeight,
+    width: 1920,
+    height: 1080,
   });
   const [renderings, setRenderings] = useState<Renderings>({
     0: { value: "", pos: 0, img: "" },
   });
-  useEffect(() => {
-    if (window) {
-      const renderings = window.sessionStorage.getItem("renderings");
 
-      if (renderings) {
-        setRenderings(JSON.parse(renderings) as Renderings);
-      }
+  useEffect(() => {
+    const stored = window.sessionStorage.getItem("renderings");
+    if (!stored) return;
+
+    try {
+      setRenderings(JSON.parse(stored));
+    } catch {
+      // Corrupt storage → fail closed
+      window.sessionStorage.removeItem("renderings");
     }
   }, []);
 
@@ -66,49 +69,26 @@ export default function BotDetection({ imgSize }: { imgSize: number }) {
   const numOptions = 15;
   const formID = "formWrapperForBtns";
 
-  const createResizeObserver = () => {
-    return new ResizeObserver((entries: ResizeObserverEntry[]) => {
-      let width, height;
-      for (const entry of entries) {
-        // borderBoxSize is newer and preferred but may not be supported on all
-        // browsers like the older contentRect is likely to be
-        if (entry.borderBoxSize) {
-          width = entry.borderBoxSize[0].inlineSize;
-          height = entry.borderBoxSize[0].blockSize;
-        } else {
-          width = entry.contentRect.width;
-          height = entry.contentRect.height;
-        }
-      }
-      setContainerSize({ width, height });
-    });
-  };
-
-  const resizeObserver = createResizeObserver();
-
   useEffect(() => {
-    if (window) {
+    if (!containerRef.current) return;
+
+    const observer = new ResizeObserver(([entry]) => {
+      const box = entry.borderBoxSize?.[0];
+
       setContainerSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
+        width: box?.inlineSize ?? entry.contentRect.width,
+        height: box?.blockSize ?? entry.contentRect.height,
       });
-    }
-  }, [window]);
+    });
 
-  useEffect(() => {
-    if (themedBGContainerRef.current) {
-      resizeObserver.observe(
-        themedBGContainerRef.current as unknown as Element,
-      );
-
-      return () => resizeObserver.disconnect();
-    }
-  }, [themedBGContainerRef]);
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <ThemedBGContainer
       themeSrc={"https://i.postimg.cc/DzjCwcwW/race-Track.webp"}
-      ref={themedBGContainerRef}
+      ref={containerRef}
       containerSize={containerSize}
     >
       <KaptchaMeForm

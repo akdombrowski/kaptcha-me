@@ -98,11 +98,10 @@ export default function KaptchaMeForm(props: IKaptchaMeFormProps) {
 
   return (
     <Box
-      height="100%"
-      width="100%"
       component="form"
-      action={submitChoice}
+      action={formAction}
       name={formID}
+      sx={{ height: "100%", width: "100%" }}
     >
       {imgBtns ?? <></>}
     </Box>

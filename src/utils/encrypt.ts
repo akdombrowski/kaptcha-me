@@ -32,10 +32,10 @@ export const createSeshID = (props: { username: string }) => {
   // generating vs checking? Is that possible?
   const createdAt = new Date().toLocaleString();
   const dateHash = createHash("SHA3-512");
-  dateHash.update(SALTY + Buffer.from(createdAt).toString("hex"), "hex");
+  dateHash.update(Buffer.from(SALTY + createdAt).toString("hex"));
   const createdAtHashed = dateHash.digest("hex");
 
-  const data = SALT + Buffer.from(props.username).toString("hex");
+  const data = Buffer.from(SALT + props.username).toString("hex");
   const hash = createHash("SHA3-512");
   hash.update(data, "hex");
   const hashed = hash.digest("hex");
@@ -71,7 +71,6 @@ export const encrypt = async (
     const ivHex = ivBuf.toString("hex");
 
     const encrypted = await aesEncrypt(data, myKey, ivBuf);
-
 
     return { encrypted, aesKey: myKey, iv: ivBuf };
   } else {

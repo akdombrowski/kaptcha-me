@@ -4,8 +4,8 @@ import {
   ResponseCookies,
 } from "next/dist/compiled/@edge-runtime/cookies";
 import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
+import { cookies } from "next/headers";
 import crypto from "node:crypto";
-import type { KeyObject, KeyPairKeyObjectResult } from "node:crypto";
 
 // console.log();
 // console.log();
@@ -69,20 +69,26 @@ import type { KeyObject, KeyPairKeyObjectResult } from "node:crypto";
  * ]
  */
 
-export const setSecureServerSideKookie = (
-  kookieJar: ReadonlyRequestCookies,
+export const setSecureServerSideKookie = async (
   key: string,
   value: string,
-): ResponseCookies => {
+): Promise<ResponseCookies> => {
   const kookieOpts: Partial<ResponseCookie> = {
     secure: true,
     sameSite: "strict",
     httpOnly: true,
   };
-  const kookies = kookieJar.set(key, value, kookieOpts);
+  const koo = await cookies();
+  const kookies = koo.set(key, value, kookieOpts);
 
   return kookies;
 };
 
-
-export const setSeshIDKookie = () => {};
+export const setSeshIDKookie = async (seshID) => {
+  const kookies = await cookies();
+  kookies.set("seshID", seshID, {
+    secure: true,
+    sameSite: "strict",
+    httpOnly: true,
+  });
+};

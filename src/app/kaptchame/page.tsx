@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 import dynamic from "next/dynamic";
 
 const DynamicBD = dynamic(() => import("@/kaptchame/bd/BotDetection"));
+
 export default async function KaptchaMePage() {
   const kookies = await cookies();
   const numOptions = kookies.get("numOptions");

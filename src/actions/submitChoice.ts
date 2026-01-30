@@ -16,14 +16,14 @@ export default async function submitChoice(formData: FormData) {
   console.log("");
 
   const choiceName = formData.keys().next().value;
-  const choiceValue = formData.values().next().value;
+  const choiceValue = formData.values().next().value as string;
   // console.log("choiceName:", choiceName);
   // console.log("");
   console.log("chosen challenge:", choiceValue);
   console.log("");
 
   const kookies = cookies();
-  const seshID = kookies.get("seshID");
+  const seshID = (await kookies).get("seshID");
   console.log("seshID:", seshID?.value);
   console.log("");
   try {

@@ -9,5 +9,6 @@
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "cSpell.words": [
     "kaptcha"
-  ]
+  ],
+  "snyk.advanced.autoSelectOrganization": true
 }
