@@ -17,6 +17,8 @@ import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension
 import { SupabaseClient } from "@supabase/supabase-js";
 import { Database } from "@/utils/db/schemaTypes";
 
+import redis from "@/utils/db/upstash";
+
 const setKookies = async (kookieVals: {
   email: string;
   numOptions: number;
@@ -90,8 +92,9 @@ export const challenges = async (props: {
     console.log("compare hash");
     console.log();
   }
+  const seshID = await createSeshID({ username: email });
 
-  setSecureServerSideKookie("code", encrypted);
+  setSecureServerSideKookie(`${seshID}-code`, hashed);
 
   // await pushChallToDB(db, email, hashed);
 
@@ -139,8 +142,9 @@ export const createSessionID = async (email: string, db: SupabaseClient) => {
   }
 };
 
-export const getChallenge = async (db: SupabaseClient, email: string) => {
-  const { challenge, response } = await fetchChallenge(db, email);
+export const getChallenge = async (seshID: string, email: string) => {
+  // const { challenge, response } = await fetchChallenge(db, email);
+  const challenge = await redis.get(`${seshID}-challenge`);
 
   if (!challenge) {
     console.log("------------------------------");
@@ -149,7 +153,6 @@ export const getChallenge = async (db: SupabaseClient, email: string) => {
     console.log("");
     console.log("challenge:", challenge);
     console.log("");
-    console.log("response:", response);
     console.log("");
     console.log("------------------------------");
     console.log("END fetch challenge");
@@ -157,7 +160,7 @@ export const getChallenge = async (db: SupabaseClient, email: string) => {
     console.log("");
   }
 
-  return { challenge, response };
+  return challenge;
 };
 
 export const getSeshID = async (db, email) => {
