@@ -166,6 +166,8 @@ export const getChallenge = async (seshID: string, email: string) => {
 export const getSeshID = async (db, email) => {
   const { sesh, response: sessionIDResponse } = await fetchSeshID(db, email);
 
+  const seshID = await redis.get(`${email}-seshID`);
+
   if (!sesh) {
     console.log("");
     console.log("------------------------------");
